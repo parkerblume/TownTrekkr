@@ -8,8 +8,11 @@
     "metro-config": "^0.80.0"
   },
   "scripts": {
+    "install-main": "yarn --ignore-scripts && lerna exec --scope=web-app -- yarn install",
+    "install-expo": "yarn --ignore-scripts && lerna exec --scope=expo-app -- yarn install",
     "web": "lerna --scope=web-app run start --stream --",
-    "expo": "lerna --scope=ExpoApp run start --stream --",
+    "expo": "lerna --scope=expo-app run start",
+    "server": "lerna --scope=shared run start",
     "postinstall": "cd ./packages/expo-app && expo-yarn-workspaces postinstall"
   },
   "workspaces": {

@@ -6,6 +6,13 @@ module.exports = function (env, argv) {
         // Disable Node.js polyfills for the browser environment
         entry: './__generated__/AppEntry.js',
         node: false,
+        // fix react-native issues expo relies on       
+        resolve: {
+            alias: {
+                'react-native': path.resolve(__dirname, 'node_modules', 'react-native')
+            },
+            extensions: ['.ts', '.tsx', '.js', '.jsx'],
+        },
         module: {
             // rules for expo web app handling these file types (not working)
             rules: [
@@ -15,8 +22,21 @@ module.exports = function (env, argv) {
                     use: {
                         loader: 'babel-loader',
                         options: {
-                            presets: ['@babel/preset-env', '@babel/preset-react']
+                            presets: ['@babel/preset-env', '@babel/preset-react'],
+                            plugins: ['@babel/plugin-transform-flow-strip-types']
                         }
+                    }
+                },
+                {
+                    test: /\.(js|jsx)$/,
+                    exclude: /node_modules/,
+                    use: 'flow-loader'
+                },
+                {
+                    test: /\.(ts|tsx)$/,
+                    exclude: /node_modules/,
+                    use: {
+                        loader: 'ts-loader'
                     }
                 },
                 {
@@ -34,12 +54,8 @@ module.exports = function (env, argv) {
                     test: /\.svg$/,
                     use: ['@svgr/webpack'],
                 },
-                {
-                    test: /\.css$/,
-                    use: ['style-loader', 'css-loader'],
-                },
             ]
-        }
+        },
     };
 };
 
