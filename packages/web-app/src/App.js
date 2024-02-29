@@ -4,11 +4,9 @@ import './App.css';
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-	      <Button variant="outlined">Hello world</Button>
-      </header>
-    </div>
+	  <div className="w-screen h-screen bg-webPrimary border-4 border-webBackground ">
+
+	  </div>
   );
 }
 
