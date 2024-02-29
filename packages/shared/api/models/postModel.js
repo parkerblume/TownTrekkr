@@ -7,7 +7,7 @@ const postSchema = new Schema({
         required: true,
         unique: true
     },
-    poster_id : {
+    user_id : {
         type: String,
         required: true,
     },
@@ -28,5 +28,14 @@ const postSchema = new Schema({
         default: 0
     }
 })
+
+// Static create post method
+postSchema.statics.createpost = async function(imagePath, user_id, coordinateX, coordinateY) {
+
+    const post = await this.create({ imagePath, user_id, coordinateX, coordinateY })
+
+    return post
+
+}
 
 module.exports = mongoose.model('Post', postSchema)
