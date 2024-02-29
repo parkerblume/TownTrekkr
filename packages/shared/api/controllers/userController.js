@@ -1,7 +1,35 @@
-// Implement register, login, etc here (like we've seen in MERN lab for Express API)
-exports.register = async (req, res) => {
-    // register code, such as getting username, password, etc.
-};
+const User = require('../models/userModel')
 
-// These would get exported to the routes.js
 
+// Login user
+const loginUser = async (req, res) => {
+    const {email, password} = req.body
+    
+    try {
+        const user = await User.login(email, password)
+
+        res.status(200).json({email})
+    }
+    catch (error) {
+        res.status(400).json({error: error.message})
+    }
+}
+
+// Signup user
+const signupUser = async (req, res) => {
+    const {email, password} = req.body
+
+    try {
+        const user = await User.signup(email, password)
+
+        res.status(200).json({email})
+    }
+    catch (error) {
+        res.status(400).json({error: error.message})
+    }
+}
+
+module.exports = {
+    loginUser,
+    signupUser
+}
