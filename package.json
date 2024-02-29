@@ -5,6 +5,7 @@
     "lerna": "^8.1.2"
   },
   "dependencies": {
+    "bcrypt": "^5.1.1",
     "metro-config": "^0.80.0"
   },
   "scripts": {
@@ -19,7 +20,11 @@
     "packages": [
       "packages/*"
     ],
-    "nohoist": ["**/react-native", "**/react-native/**", 
-        "**/expo", "**/expo/**"]
+    "nohoist": [
+      "**/react-native",
+      "**/react-native/**",
+      "**/expo",
+      "**/expo/**"
+    ]
   }
 }
