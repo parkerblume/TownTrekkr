@@ -12,6 +12,19 @@ const userSchema = new Schema({
         type: String,
         required: true
     },
+    username : {
+        type: String,
+        required: true,
+        unique: true
+    },
+    userPost : [
+    {
+        post: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Post',
+        }
+    }
+    ],
     // List of posts already played and respective score
     playedPosts : [
     {
@@ -30,7 +43,7 @@ const userSchema = new Schema({
 })
 
 // Static login method
-userSchema.statics.login = async function(email, password) {
+userSchema.statics.login = async function(email, password, username) {
     const user = await this.findOne({ email })
 
     if (!user) {
@@ -48,12 +61,18 @@ userSchema.statics.login = async function(email, password) {
 
 
 // Static signup method
-userSchema.statics.signup = async function(email, password) {
+userSchema.statics.signup = async function(email, password, username) {
 
-    const exists = await this.findOne({ email })
+    const emailExists = await this.findOne({ email })
 
-    if (exists) {
+    if (emailExists) {
         throw Error("Email already in use")
+    }
+
+    const usernameExists = await this.findOne({ username })
+
+    if (usernameExists) {
+        throw Error("Username already in use")
     }
 
     const salt = await bcrypt.genSalt(10)
