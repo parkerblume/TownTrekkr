@@ -18,11 +18,11 @@ module.exports = {
     },
     extend: {
       colors: {
-	      'webBackground': '#6D4C3D',
-	      'webSecondary': '#727D71',
-	      'webTertiary': '#DCC9B6',
-	      'webAccent': '#A39171',
+	      'webBackground': '#DCC9B6',
 	      'webPrimary': '#ABC4AB',
+	      'webSecondary': '#6D4C3D',
+	      'webTertiary': '#727D71',
+	      'webAccent': '#A39171',
 	      border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
