@@ -27,7 +27,7 @@ const postSchema = new Schema({
         type: Number,
         default: 0
     }
-})
+}, {timestamps: true})
 
 // Static create post method
 postSchema.statics.createpost = async function(imagePath, user_id, coordinateX, coordinateY) {
@@ -36,6 +36,24 @@ postSchema.statics.createpost = async function(imagePath, user_id, coordinateX, 
 
     return post
 
+}
+
+// Static get post method
+postSchema.statics.getpost = async function (post_id) {
+    const post = await this.findById(post_id)
+
+    if (!post) {
+        throw Error("No such post")
+    }
+
+    return post
+}
+
+// Static get posts method
+postSchema.statics.getposts = async function () {
+    const posts = await this.find({})
+
+    return posts
 }
 
 module.exports = mongoose.model('Post', postSchema)

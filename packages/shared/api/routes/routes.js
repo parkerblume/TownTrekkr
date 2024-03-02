@@ -21,4 +21,10 @@ router.post('/signup', UserController.signupUser)
 // create post route
 router.post('/createpost', PostController.createPost)
 
+// get post route
+router.get('/getpost', PostController.getPost)
+
+// get posts route
+router.get('/getposts', PostController.getPosts)
+
 module.exports = router;
