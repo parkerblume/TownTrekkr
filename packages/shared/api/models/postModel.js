@@ -11,6 +11,10 @@ const postSchema = new Schema({
         type: String,
         required: true,
     },
+    town : {
+        type: String,
+        required: true
+    },
     coordinateX : {
         type: Number,
         required: true
@@ -30,9 +34,9 @@ const postSchema = new Schema({
 }, {timestamps: true})
 
 // Static create post method
-postSchema.statics.createpost = async function(imagePath, user_id, coordinateX, coordinateY) {
+postSchema.statics.createpost = async function(imagePath, user_id, town, coordinateX, coordinateY) {
 
-    const post = await this.create({ imagePath, user_id, coordinateX, coordinateY })
+    const post = await this.create({ imagePath, user_id, town, coordinateX, coordinateY })
 
     return post
 
@@ -54,6 +58,14 @@ postSchema.statics.getposts = async function () {
     const posts = await this.find({})
 
     return posts
+}
+
+postSchema.statics.deletepost = async function (post_id) {
+    const post = await this.findOneAndDelete({_id: post_id})
+
+    if (!post) throw Error("No such post")
+
+    return post
 }
 
 module.exports = mongoose.model('Post', postSchema)

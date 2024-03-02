@@ -27,4 +27,7 @@ router.get('/getpost', PostController.getPost)
 // get posts route
 router.get('/getposts', PostController.getPosts)
 
+// delete post route
+router.delete('/deletepost', PostController.deletePost)
+
 module.exports = router;
