@@ -7,7 +7,8 @@
   "dependencies": {
     "bcrypt": "^5.1.1",
     "dotenv": "^16.4.5",
-    "metro-config": "^0.80.0"
+    "metro-config": "^0.80.0",
+    "multer": "^1.4.5-lts.1"
   },
   "scripts": {
     "install-main": "yarn --ignore-scripts && lerna exec --scope=web-app -- yarn install",
