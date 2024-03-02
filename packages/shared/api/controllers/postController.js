@@ -6,7 +6,7 @@ const createPost = async (req, res) => {
     try {
         const post = await Post.createpost( imagePath, user_id, coordinateX, coordinateY)
 
-        res.status(200).json({ email })
+        res.status(200).json({ imagePath })
     }
     catch (error) {
         res.status(400).json({error: error.message})
