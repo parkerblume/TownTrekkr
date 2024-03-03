@@ -1,7 +1,7 @@
 // FileUploadComponent.js
 import React, { useState } from 'react';
 
-const FileUploadComponent = () => {
+const PostUploadComponent = () => {
   const [message, setMessage] = useState('');
 
   const handleFormSubmit = async (event) => {
@@ -39,4 +39,4 @@ const FileUploadComponent = () => {
   );
 };
 
-export default FileUploadComponent;
+export default PostUploadComponent;
