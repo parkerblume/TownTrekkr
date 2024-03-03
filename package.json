@@ -6,6 +6,7 @@
   },
   "dependencies": {
     "bcrypt": "^5.1.1",
+    "cors": "^2.8.5",
     "dotenv": "^16.4.5",
     "metro-config": "^0.80.0",
     "multer": "^1.4.5-lts.1"
