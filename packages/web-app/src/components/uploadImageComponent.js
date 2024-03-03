@@ -10,7 +10,8 @@ const FileUploadComponent = () => {
     const formData = new FormData(event.target);
 
     try {
-      const response = await fetch('http://localhost:5000/upload', {
+      console.log(process.env.REACT_APP_API_URL)
+      const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/upload`, { // if local use https://localhost/
         method: 'POST',
         body: formData,
       });
