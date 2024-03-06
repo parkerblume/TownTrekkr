@@ -17,14 +17,6 @@ const userSchema = new Schema({
         required: true,
         unique: true
     },
-    userPost : [
-    {
-        post: {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: 'Post',
-        }
-    }
-    ],
     // List of posts already played and respective score
     playedPosts : [
     {
@@ -43,17 +35,17 @@ const userSchema = new Schema({
 })
 
 // Static login method
-userSchema.statics.login = async function(email, password, username) {
+userSchema.statics.login = async function(email, password) {
     const user = await this.findOne({ email })
 
     if (!user) {
-        throw Error("Incorrect email")
+        throw Error("Incorrect email or password")
     }
 
     const match = await bcrypt.compare(password, user.password)
 
     if (!match) {
-        throw Error("Incorrect password")
+        throw Error("Incorrect email or password")
     }
 
     return user
