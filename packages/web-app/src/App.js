@@ -1,4 +1,4 @@
-import Leaflet from './components/Leaflet'
+import Leaflet from './components/leaflet'
 import './App.css';
 
 function App() {
