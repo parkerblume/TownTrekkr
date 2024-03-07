@@ -11,3 +11,10 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+/* leaftlet sizing */
+.leaflet-container {
+  height: 75vh;
+  width: 75vh;
+  margin: 0 auto;
+}
