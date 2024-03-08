@@ -4,10 +4,6 @@ const router = express.Router();
 const UserController = require('../controllers/userController');
 const PostController = require('../controllers/postController');
 
-router.get('/', function (req, res) {
-	res.send('Hello World')
-	// This should call api endpoint that gets cards/photos
-})
 // // Route for user registration (sign up)
 // router.post('/register', UserController.register);
 
