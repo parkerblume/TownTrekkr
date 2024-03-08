@@ -14,6 +14,9 @@ mongoose.connect(process.env.MONGO_URL)
 
 app.set('port', PORT);
 
+// Incoming json
+app.use(express.json());
+
 // Routes -> defined in shared
 app.use('/', require('./api/routes/routes.js'));
 
@@ -26,9 +29,6 @@ if (process.env.NODE_ENV === 'production')
 	res.sendFile(path.resolve(__dirname, 'frontend', 'build', 'index.html'));
 	});
 }
-
-// Incoming json
-app.use(express.json());
 
 
 // Start the server
