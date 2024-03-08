@@ -14,6 +14,12 @@ mongoose.connect(process.env.MONGO_URL)
 
 app.set('port', PORT);
 
+// Incoming json
+app.use(express.json());
+
+// Routes -> defined in shared
+app.use('/', require('./api/routes/routes.js'));
+
 if (process.env.NODE_ENV === 'production')
 {
 	// Set static folder
@@ -24,11 +30,6 @@ if (process.env.NODE_ENV === 'production')
 	});
 }
 
-// Incoming json
-app.use(express.json());
-
-// Routes -> defined in shared
-app.use('/', require('./api/routes/routes.js'));
 
 // Start the server
 app.listen(PORT, () => {
