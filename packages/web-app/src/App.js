@@ -4,6 +4,8 @@ import ToggleButton from '@mui/material/ToggleButton';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 import './App.css';
 import {useState} from "react";
+import LoginForm from './pages/LoginPage'; // Import the LoginForm component
+import RegisterForm from './pages/RegisterPage'; // Import the RegisterForm component
 
 
 const theme = createTheme({
@@ -73,12 +75,18 @@ function App() {
 						</ToggleButtonGroup>
 					</ThemeProvider>
 				</div>
-				<div className="flex flex-row">
-					<div className="w-1/2 h-96 bg-webPrimary rounded-tl-3xl"></div>
-					<div className="w-1/2 h-96 bg-webPrimary rounded-tr-3xl"></div>
-
+				<div id="forms" className="flex flex-row w-full p-4">
+					{alignment === 'Login' ? (
+						<LoginForm/>
+					) : (
+						<RegisterForm/>
+					)}
+					<div className="w-1/2 bg-webPrimary m-5">
+						<img src="../public/logo512.png" alt="Description" className="w-full h-full object-cover"/>
+					</div>
 				</div>
 			</div>
+
 		</div>
 	);
 }
