@@ -2,11 +2,12 @@ import React, { useState } from "react";
 import { MapContainer, TileLayer, Marker, useMapEvents } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import { Icon } from "leaflet";
+import { colors } from '../styles/commonStyles';
 
 const markerIcon = new Icon({
-    iconUrl: require("../icons/Marker.png"),
-    iconSize: [38, 38] // size of the icon
-  });
+  iconUrl: require("../icons/Marker.png"),
+  iconSize: [38, 38]
+});
 
 const Leaflet = () => {
   const [markerPosition, setMarkerPosition] = useState([28.6023, -81.2003]);
@@ -22,7 +23,7 @@ const Leaflet = () => {
   };
 
   const AddMarkerToMap = () => {
-    const map = useMapEvents({
+    useMapEvents({
       click: handleMapClick,
     });
 
@@ -37,11 +38,12 @@ const Leaflet = () => {
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
         <AddMarkerToMap />
-        <Marker position={markerPosition} icon={markerIcon}>
-        </Marker>
+        <Marker position={markerPosition} icon={markerIcon} />
       </MapContainer>
 
-      <button onClick={handleGuessClick}>Guess Coordinates</button>
+      <button style={{ backgroundColor: colors.buttonPrimary, color: colors.tan }} onClick={handleGuessClick}>
+        Guess Coordinates
+      </button>
 
       {guessedCoordinates && (
         <div>
