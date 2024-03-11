@@ -12,7 +12,7 @@ function RegisterForm() {
 		const username = event.target.username.value; // Adjust this according to your requirements
 
 		try {
-			const response = await fetch('https://www.towntrekkr.com/api/signup', {
+			const response = await fetch('https://www.towntrekkr.com/signup', {
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/json',
