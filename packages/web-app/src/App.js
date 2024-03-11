@@ -2,6 +2,8 @@ import * as React from 'react';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import ToggleButton from '@mui/material/ToggleButton';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
+import React from 'react';
+import HomePage from './pages/HomePage';
 import './App.css';
 import {useState} from "react";
 import LoginForm from './pages/LoginPage'; // Import the LoginForm component
@@ -17,7 +19,7 @@ function App() {
 		<BrowserRouter>
 			<Routes>
 				<Route path="/" element={<AccountPage />} />
-				<Route path="/tempHomePage" element={<TempHomePage />} />
+				<Route path="/HomePage" element={<HomePage />} />
 			</Routes>
 		</BrowserRouter>
 	);
