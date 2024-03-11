@@ -1,9 +1,16 @@
 import * as React from "react";
+import { useNavigate } from "react-router-dom";
 
 function LoginForm() {
+	const navigate = useNavigate();
+
+	const handleSubmit = (event) => {
+		event.preventDefault();
+		navigate('/tempHomePage'); // Redirect to TempHomePage
+	};
+
 	return (
-		// Add your login form fields here
-		<form className="w-1/2">
+		<form className="w-1/2" onSubmit={handleSubmit}>
 			<div className="mb-6">
 				<label htmlFor="email" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Email address</label>
 				<input type="email" id="email"

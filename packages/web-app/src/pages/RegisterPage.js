@@ -1,8 +1,16 @@
 import * as React from "react";
+import { useNavigate } from "react-router-dom";
 
 function RegisterForm() {
+	const navigate = useNavigate();
+
+	const handleSubmit = (event) => {
+		event.preventDefault();
+		navigate('/tempHomePage'); // Redirect to TempHomePage
+	};
+
 	return (
-		<form className="w-1/2">
+	<form className="w-1/2" onSubmit={handleSubmit}>
 			<div className="grid gap-6 mb-6 md:grid-cols-2">
 				<div>
 					<label htmlFor="first_name" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">First
