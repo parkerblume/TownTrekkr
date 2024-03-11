@@ -3,10 +3,8 @@ import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
 import ToggleButton from "@mui/material/ToggleButton";
 import LoginForm from "./LoginPage";
 import RegisterForm from "./RegisterPage";
-import myImage from "../5176230.png";
 import * as React from "react";
 import {useState} from "react";
-import { useNavigate } from "react-router-dom";
 
 const theme = createTheme({
 	palette: {
@@ -82,9 +80,7 @@ function AccountPage() {
 					) : (
 						<RegisterForm/>
 					)}
-					<div className="w-1/2 p-5 m-5">
-						<img src={myImage} alt="Description of the image"/>
-					</div>
+					<div className="w-1/2 p-5 m-5"></div>
 				</div>
 			</div>
 		</div>
