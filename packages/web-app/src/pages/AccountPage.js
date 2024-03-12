@@ -41,7 +41,6 @@ const theme = createTheme({
 	},
 });
 
-
 function AccountPage() {
 	const [alignment, setAlignment] = useState('Login'); // Default to one option being selected
 
@@ -53,34 +52,38 @@ function AccountPage() {
 	};
 
 	return (
-		<div className="h-screen w-screen bg-webBackground">
+		<div className="flex flex-col min-h-screen w-screen bg-webBackground">
 			<header className="h-14 w-full p-2 py-3 bg-webTertiary">
 				<h1 className="text-4xl font-bold text-webPrimary">Town Trekker</h1>
 			</header>
 			<header className="h-12 w-full p-2 pl-7 bg-webSecondary">
 				<h2 className="text-2xl font-bold text-webTertiary">idk what to put here</h2>
 			</header>
-		<div className="m-12 flex flex-col items-center justify-start rounded-3xl pb-52 opacity-75 bg-webTertiary">
-			<div className="mt-6">
-				<ThemeProvider theme={theme}>
-					<ToggleButtonGroup
-						value={alignment}
-						exclusive
-						onChange={handleChange}
-						aria-label="Platform"
-					>
-						<ToggleButton value="Login">Login</ToggleButton>
-						<ToggleButton value="Register">Register</ToggleButton>
+			<div className="flex-grow m-12 flex flex-col items-center justify-start rounded-3xl pb-52 opacity-75 bg-webTertiary">
+				<div className="mt-6">
+					<ThemeProvider theme={theme}>
+						<ToggleButtonGroup
+							value={alignment}
+							exclusive
+							onChange={handleChange}
+							aria-label="Platform"
+						>
+							<ToggleButton value="Login">Login</ToggleButton>
+							<ToggleButton value="Register">Register</ToggleButton>
 						</ToggleButtonGroup>
 					</ThemeProvider>
 				</div>
-				<div id="forms" className="flex flex-row w-full p-4">
+				<div id="forms" className="flex w-full flex-row p-4">
 					{alignment === 'Login' ? (
 						<LoginForm/>
 					) : (
 						<RegisterForm/>
 					)}
-					<div className="w-1/2 p-5 m-5"></div>
+					<div className="m-5 w-1/2 p-5 bg-webPrimary">
+						<h1 className="text-3xl font-bold text-webSecondary">Welcome to Town Trekker</h1>
+						<p className="text-lg text-webSecondary">This is a platform for people to share images of their community and
+							allow others to guess the locations!</p>
+					</div>
 				</div>
 			</div>
 		</div>
