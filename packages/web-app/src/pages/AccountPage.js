@@ -6,6 +6,7 @@ import RegisterForm from "./RegisterPage";
 import * as React from "react";
 import {useState} from "react";
 
+
 const theme = createTheme({
 	palette: {
 		selectForm: {
@@ -69,7 +70,7 @@ function AccountPage() {
 							aria-label="Platform"
 						>
 							<ToggleButton value="Login">Login</ToggleButton>
-							<ToggleButton value="Register">Register</ToggleButton>
+							<ToggleButton value="Register">Signup</ToggleButton>
 						</ToggleButtonGroup>
 					</ThemeProvider>
 				</div>
