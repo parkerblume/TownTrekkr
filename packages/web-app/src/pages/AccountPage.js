@@ -53,14 +53,14 @@ function AccountPage() {
 	};
 
 	return (
-		<div className="flex flex-col min-h-screen w-screen bg-webBackground">
+		<div className="flex flex-col min-h-screen w-screen bg-custom-bg">
 			<header className="h-14 w-full p-2 py-3 bg-webTertiary">
 				<h1 className="text-4xl font-bold text-webPrimary">Town Trekker</h1>
 			</header>
 			<header className="h-12 w-full p-2 pl-7 bg-webSecondary">
 				<h2 className="text-2xl font-bold text-webTertiary">idk what to put here</h2>
 			</header>
-			<div className="flex-grow m-12 flex flex-col items-center justify-start rounded-3xl pb-52 opacity-75 bg-webTertiary">
+			<div className="m-12 flex flex-grow flex-col items-center justify-start rounded-3xl pb-12 opacity-90 bg-webTertiary">
 				<div className="mt-6">
 					<ThemeProvider theme={theme}>
 						<ToggleButtonGroup
@@ -74,18 +74,20 @@ function AccountPage() {
 						</ToggleButtonGroup>
 					</ThemeProvider>
 				</div>
-				<div id="forms" className="flex w-full flex-row p-4">
-					{alignment === 'Login' ? (
-						<LoginForm/>
-					) : (
-						<RegisterForm/>
-					)}
-					<div className="m-5 w-1/2 p-5 bg-webPrimary">
-						<h1 className="text-3xl font-bold text-webSecondary">Welcome to Town Trekker</h1>
-						<p className="text-lg text-webSecondary">This is a platform for people to share images of their community and
-							allow others to guess the locations!</p>
+				<div id="forms" className="flex w-full">
+					<div className="w-1/2 p-4 pt-20"> {/* Adjusted width to 50% */}
+						{alignment === 'Login' ? (
+							<LoginForm/>
+						) : (
+							<RegisterForm/>
+						)}
+					</div>
+					<div className="w-3/5 flex justify-center items-center">
+						<img src="../earth.png" alt="earth" style={{transform: 'scale(0.75)'}}/>
 					</div>
 				</div>
+
+
 			</div>
 		</div>
 	);

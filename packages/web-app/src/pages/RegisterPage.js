@@ -92,7 +92,7 @@ function RegisterForm() {
 
 	return (
 		<ThemeProvider theme={theme}>
-			<form className="w-1/2" onSubmit={handleSubmit}>
+			<form className="ml-6 w-5/6 bg-webAccent p-10" onSubmit={handleSubmit}>
 				{/* Username Field */}
 				<div className="mb-6">
 					<label htmlFor="username" className="mb-2 block text-sm font-medium text-gray-900 dark:text-white">Username</label>
