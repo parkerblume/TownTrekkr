@@ -21,12 +21,12 @@ const theme = createTheme({
 			styleOverrides: {
 				root: {
 					// Default state
-					backgroundColor: 'ABC4AB', // or any default color
 					color: '#242105', // assuming default text color
 					opacity: 1.0, // Default opacity
 					borderRadius: '20px',
 					border: '3px solid #abc4ab',
 					fontWeight: 'bold',
+					width: '50%', // Set each button to take up 50% of the width
 					'&:hover': {
 						backgroundColor: '#969c8c', // Light color for hover state
 					},
@@ -60,7 +60,7 @@ function AccountPage() {
 			<header className="h-12 w-full p-2 pl-7 bg-webSecondary">
 				<h2 className="text-2xl font-bold text-webTertiary">idk what to put here</h2>
 			</header>
-			<div className="m-12 flex flex-grow flex-col items-center justify-start rounded-3xl pb-12 opacity-90 bg-webTertiary">
+			<div className="m-12 flex flex-grow flex-col items-center justify-start rounded-3xl pb-12 bg-opacity-75 bg-webTertiary">
 				<div className="mt-6">
 					<ThemeProvider theme={theme}>
 						<ToggleButtonGroup
@@ -70,7 +70,7 @@ function AccountPage() {
 							aria-label="Platform"
 						>
 							<ToggleButton value="Login">Login</ToggleButton>
-							<ToggleButton value="Register">Signup</ToggleButton>
+							<ToggleButton value="Register">Register</ToggleButton>
 						</ToggleButtonGroup>
 					</ThemeProvider>
 				</div>
