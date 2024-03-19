@@ -16,7 +16,7 @@
     "web": "lerna --scope=web-app run start --stream --",
     "build-web": "lerna --scope=web-app run build",
     "expo": "lerna --scope=expo-app run start",
-    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false yarn install && yarn build-web && yarn install --production=false"
+    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false yarn install && yarn build-web"
   },
   "workspaces": {
     "packages": [
