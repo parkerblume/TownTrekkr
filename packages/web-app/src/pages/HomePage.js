@@ -4,19 +4,25 @@ import ImageDisplay from '../components/ImageDisplay';
 import NavigationBar from '../components/NavigationBar';
 import { colors } from '../styles/commonStyles';
 
+
 const HomePage = () => {
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', height: '100vh', backgroundColor: colors.background }}>
-      <NavigationBar /> {}
-      <div style={{ display: 'flex', flex: 1 }}>
-        <div style={{ width: '50%', height: '100%' }}>
-          <ImageDisplay />
-        </div>
-        <div style={{ width: '50%', height: '100%' }}>
-          <Leaflet />
-        </div>
-      </div>
-    </div>
+	  <div className="flex flex-col min-h-screen w-screen bg-webPrimary">
+		  <NavigationBar/>
+		  <div className="flex flex-col flex-grow">
+			  <div className="flex flex-row justify-center flex-grow">
+				  <div className="w-1/2 flex flex-col">
+					  <ImageDisplay/>
+					  <div>hello</div>
+				  </div>
+				  <div className="w-1/2 flex flex-col rounded-4xl pt-4 flex-grow">
+					  <Leaflet/>
+				  </div>
+			  </div>
+		  </div>
+	  </div>
+
+
   );
 };
 

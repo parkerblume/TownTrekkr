@@ -5,6 +5,7 @@ import LoginForm from "./LoginPage";
 import RegisterForm from "./RegisterPage";
 import * as React from "react";
 import {useState} from "react";
+import NavigationBar from "../components/NavigationBar";
 
 
 const theme = createTheme({
@@ -54,9 +55,7 @@ function AccountPage() {
 
 	return (
 		<div className="flex flex-col min-h-screen w-screen bg-custom-bg">
-			<header className="h-14 w-full p-2 py-3 bg-webTertiary">
-				<h1 className="text-4xl font-bold text-webPrimary">Town Trekker</h1>
-			</header>
+			<NavigationBar />
 			<header className="h-12 w-full p-2 pl-7 bg-webSecondary">
 				<h2 className="text-2xl font-bold text-webTertiary">idk what to put here</h2>
 			</header>
