@@ -1,5 +1,5 @@
 {
-  "name": "@town-trekkr/shared",
+  "name": "server",
   "version": "1.0.0",
   "private": true,
   "description": "Nodemon Server",
@@ -12,7 +12,6 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "cors": "^2.8.5",
     "express": "^4.18.2",
     "mongoose": "^8.2.0"
   }
