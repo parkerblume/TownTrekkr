@@ -12,11 +12,10 @@
   "scripts": {
     "install-main": "yarn --ignore-scripts && lerna exec --scope=web-app -- yarn install",
     "install-expo": "yarn --ignore-scripts && lerna exec --scope=expo-app -- yarn install",
-    "start": "cd packages/shared && npm run start",
+    "start": "lerna run start --scope=@town-trekkr/shared --stream",
     "web": "lerna --scope=web-app run start --stream --",
     "build-web": "lerna --scope=web-app run build",
     "expo": "lerna --scope=expo-app run start",
-    "postinstall": "cd ./packages/expo-app && expo-yarn-workspaces postinstall",
     "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false yarn install && yarn build-web"
   },
   "workspaces": {
@@ -27,7 +26,9 @@
       "**/react-native",
       "**/react-native/**",
       "**/expo",
-      "**/expo/**"
+      "**/expo/**",
+      "**/cors",
+      "**/cors/**"
     ]
   }
 }
