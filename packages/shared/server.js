@@ -1,4 +1,5 @@
 const path = require('path');
+const cors = require('cors');
 const PORT = process.env.PORT || 5000;
 const express = require('express');
 const app = express();
@@ -13,6 +14,7 @@ client.connect();*/
 mongoose.connect(process.env.MONGO_URL)
 
 app.set('port', PORT);
+app.use(cors());
 
 // Incoming json
 app.use(express.json());
