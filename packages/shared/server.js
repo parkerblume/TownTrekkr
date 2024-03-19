@@ -19,6 +19,7 @@ app.use(express.json());
 
 // Routes -> defined in shared
 app.use('/', require('./api/routes/routes.js'));
+require('./api/middleware/upload.js')(app);
 
 if (process.env.NODE_ENV === 'production')
 {

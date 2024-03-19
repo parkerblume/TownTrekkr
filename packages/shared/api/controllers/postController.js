@@ -4,6 +4,7 @@ const createPost = async (req, res) => {
     const { imagePath, user_id, town, coordinateX, coordinateY } = req.body
 
     try {
+        
         const post = await Post.createpost( imagePath, user_id, town, coordinateX, coordinateY)
 
 
