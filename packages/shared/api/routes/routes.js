@@ -5,6 +5,8 @@ const router = express.Router();
 const UserController = require('../controllers/userController');
 const PostController = require('../controllers/postController');
 const TownController = require('../controllers/townController');
+const View = require('../middleware/view')
+
 
 // Set up Multer storage
 const storage = multer.memoryStorage();
@@ -30,6 +32,9 @@ router.get('/getpost', PostController.getPost)
 
 // get posts route
 router.get('/getposts', PostController.getPosts)
+
+// get image
+router.get('/getimage', View.getImage)
 
 // delete post route
 router.delete('/deletepost', PostController.deletePost)
