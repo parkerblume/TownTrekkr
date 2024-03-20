@@ -46,20 +46,21 @@ const Leaflet = () => {
 			  <AddMarkerToMap/>
 			  <Marker position={markerPosition} icon={markerIcon}/>
 		  </MapContainer>
+		  <div className="flex flex-row gap-4 items-center">
+			  <button className="relative min-w-fit bg-webSecondary text-webPrimary w-1/2 p-2 m-5 rounded-3xl" onClick={handleGuessClick}>
+				  <div className="relative min-w-fit bg-webAccent text-white font-bold p-11 rounded-2xl text-3xl">
+					  Guess Coordinates
+				  </div>
+			  </button>
 
-		  <button className="relative min-w-fit bg-webSecondary text-webPrimary w-1/4 p-2 m-5 rounded-3xl" onClick={handleGuessClick}>
-			  <div className="relative min-w-fit bg-webAccent text-white font-bold p-5 px-16 rounded-2xl" >
-				  Guess Coordinates
-			  </div>
-		  </button>
-
-		  {guessedCoordinates && (
-			  <div>
-				  <h3>Guessed Coordinates:</h3>
-				  <p>Latitude: {guessedCoordinates[0]}</p>
-				  <p>Longitude: {guessedCoordinates[1]}</p>
-			  </div>
-		  )}
+			  {guessedCoordinates && (
+				  <div className="text-xl">
+					  <h3>Guessed Coordinates:</h3>
+					  <p>Latitude: {guessedCoordinates[0]}</p>
+					  <p>Longitude: {guessedCoordinates[1]}</p>
+				  </div>
+			  )}
+		  </div>
 	  </div>
   );
 };

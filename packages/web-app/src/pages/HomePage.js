@@ -13,7 +13,6 @@ const HomePage = () => {
 			  <div className="flex flex-row justify-center flex-grow">
 				  <div className="w-1/2 flex flex-col">
 					  <ImageDisplay/>
-					  <div>hello</div>
 				  </div>
 				  <div className="w-1/2 flex flex-col rounded-4xl pt-4 flex-grow">
 					  <Leaflet/>

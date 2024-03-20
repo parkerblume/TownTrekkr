@@ -1,14 +1,13 @@
 import React from 'react';
 
 const ImageDisplay = () => {
-  return (
-    // <img src={`${process.env.PUBLIC_URL}/images/placeholder.jpg`} alt="Placeholder" style={{ width: '100%', height: '100%' }} />
-	  <div className="m-5 border-2 bg-white">Image Display
-		  <div className="rounded-4xl overflow-hidden">
-			  <img src="https://www.w3schools.com/w3images/lights.jpg" alt="Placeholder" style={{width: '100%', height: '100%'}}/>
-		  </div>
-	  </div>
-  );
+	return (
+		<div className="m-10 border-2 border-black rounded-2xl bg-white h-full ml-28 mr-14 mb-24 overflow-hidden">
+			<div className="rounded-4xl h-full">
+				<img src="/running.jpg" alt="Placeholder" className="w-auto h-full object-cover mx-auto"/>
+			</div>
+		</div>
+	);
 };
 
 export default ImageDisplay;
