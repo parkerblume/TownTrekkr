@@ -1,11 +1,15 @@
+const { handleUpload } = require('../middleware/upload')
 const Post = require('../models/postModel')
 
 const createPost = async (req, res) => {
-    const { imagePath, user_id, town, coordinateX, coordinateY } = req.body
+    const { user_id, town, coordinateX, coordinateY } = req.body
 
     try {
+        console.log(req.file)
+        const fileId = await handleUpload(req, null, req.file)
+        console.log(fileId)
         
-        const post = await Post.createpost( imagePath, user_id, town, coordinateX, coordinateY)
+        const post = await Post.createpost( fileId, user_id, town, coordinateX, coordinateY)
 
 
 

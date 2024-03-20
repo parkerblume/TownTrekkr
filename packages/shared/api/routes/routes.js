@@ -1,9 +1,14 @@
 const express = require('express');
+const multer = require('multer');
 const router = express.Router();
 
 const UserController = require('../controllers/userController');
 const PostController = require('../controllers/postController');
 const TownController = require('../controllers/townController');
+
+// Set up Multer storage
+const storage = multer.memoryStorage();
+const upload = multer({ storage });
 
 // // Route for user registration (sign up)
 // router.post('/register', UserController.register);
@@ -15,7 +20,7 @@ router.post('/login', UserController.loginUser)
 router.post('/signup', UserController.signupUser)
 
 // create post route
-router.post('/createpost', PostController.createPost)
+router.post('/createpost', upload.single('image'), PostController.createPost)
 
 // create town route
 router.post('/createtown', TownController.createTown)
