@@ -2,34 +2,15 @@ const multer = require('multer');
 const { GridFSBucket, ObjectId } = require('mongodb');
 
 // Create GridFSBucket
-let gfsBucket = null;
+let gfsBucket;
 
-module.exports = function (app) {
-    console.log(gfsBucket)
-    app.use((req, res, next) => {
-        console.log('f')
-        if (gfsBucket === null) {
-            
-            const conn = require('mongoose').connection;
-            gfsBucket = new GridFSBucket(conn.db, {
-                bucketName: 'uploads'
-            });
-            console.log('s')
-        }
-        next();
-    });
-
-    // Set up Multer storage
-    const storage = multer.memoryStorage();
-    const upload = multer({ storage });
-
-    // Endpoint for image upload
-    app.post('/upload', upload.single('image'), handleUpload);
-};
 
 function handleUpload(req, res, file) {
     if (!gfsBucket) {
-        throw new Error('GridFSBucket is not initialized');
+        const conn = require('mongoose').connection;
+        gfsBucket = new GridFSBucket(conn.db, {
+            bucketName: 'uploads'
+        });
     }
 
     if (!file) {

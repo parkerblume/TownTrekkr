@@ -21,7 +21,6 @@ app.use(express.json());
 // Routes -> defined in shared'
 app.use('/', require('./api/routes/routes.js'));
 
-upload(app);
 
 
 if (process.env.NODE_ENV === 'production')
@@ -38,4 +37,7 @@ if (process.env.NODE_ENV === 'production')
 // Start the server
 app.listen(PORT, () => {
 	console.log(`Server is running on port ${PORT}`);
-});
+})
+
+
+//upload(app)
