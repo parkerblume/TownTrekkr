@@ -92,7 +92,7 @@ function RegisterForm() {
 
 	return (
 		<ThemeProvider theme={theme}>
-			<form className="ml-6 w-5/6 bg-webAccent p-10" onSubmit={handleSubmit}>
+			<form className="ml-6 w-5/6 p-10 bg-webAccent" onSubmit={handleSubmit}>
 				{/* Username Field */}
 				<div className="mb-6">
 					<label htmlFor="username" className="mb-2 block text-sm font-medium text-gray-900 dark:text-white">Username</label>
@@ -107,7 +107,7 @@ function RegisterForm() {
 					<label htmlFor="email" className="mb-2 block text-sm font-medium text-gray-900 dark:text-white">Email address</label>
 					<Tooltip title={tooltipError.email} open={Boolean(tooltipError.email)} placement="top" arrow>
 						<input name="email" id="email"
-						       className="block w-full rounded-lg border border-gray-300 bg-gray-50 text-sm text-gray-900 p-2.5 focus:border-blue-500 focus:ring-blue-500 dark:placeholder-gray-400 dark:border-gray-600 dark:bg-gray-700 dark:text:white dark:focus:border-blue-500 dark:focus:ring-blue-500"
+						       className="block w-full rounded-lg border border-gray-300 bg-gray-50 text-sm text-gray-900 p-2.5 focus:border-blue-500 focus:ring-blue-500 dark:text:white dark:placeholder-gray-400 dark:border-gray-600 dark:bg-gray-700 dark:focus:border-blue-500 dark:focus:ring-blue-500"
 						       placeholder="john.doe@company.com"/>
 					</Tooltip>
 				</div>

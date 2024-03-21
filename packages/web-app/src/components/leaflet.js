@@ -32,12 +32,12 @@ const Leaflet = () => {
   };
 
   return (
-	  <div className="flex flex-col items-center m-5">
+	  <div className="m-5 mr-12 flex flex-col items-center">
 		  <MapContainer
 			  center={[28.6023, -81.2003]}
 			  zoom={15}
 			  style={{ width: '100%'}} /* Ensure the map has a defined size */
-			  className="flex border-2 border-black rounded-2xl map-container " /* Add 'map-container' class */
+			  className="flex rounded-2xl border-2 border-black map-container" /* Add 'map-container' class */
 		  >
 			  <TileLayer
 				  attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
@@ -46,9 +46,9 @@ const Leaflet = () => {
 			  <AddMarkerToMap/>
 			  <Marker position={markerPosition} icon={markerIcon}/>
 		  </MapContainer>
-		  <div className="flex flex-row gap-4 items-center">
-			  <button className="relative min-w-fit bg-webSecondary text-webPrimary w-1/2 p-2 m-5 rounded-3xl" onClick={handleGuessClick}>
-				  <div className="relative min-w-fit bg-webAccent text-white font-bold p-11 rounded-2xl text-3xl">
+		  <div className="flex flex-row items-center gap-4">
+			  <button className="relative m-5 w-1/2 min-w-fit rounded-3xl p-2 bg-webSecondary text-webPrimary" onClick={handleGuessClick}>
+				  <div className="relative min-w-fit rounded-2xl p-11 text-3xl font-bold text-white bg-webAccent">
 					  Guess Coordinates
 				  </div>
 			  </button>

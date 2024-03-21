@@ -54,12 +54,12 @@ function AccountPage() {
 	};
 
 	return (
-		<div className="flex flex-col min-h-screen w-screen bg-custom-bg">
+		<div className="flex min-h-screen w-screen flex-col bg-custom-bg">
 			<NavigationBar />
 			<header className="h-12 w-full p-2 pl-7 bg-webSecondary">
 				<h2 className="text-2xl font-bold text-webTertiary">idk what to put here</h2>
 			</header>
-			<div className="m-12 flex flex-grow flex-col items-center justify-start rounded-3xl pb-12 bg-opacity-75 bg-webTertiary">
+			<div className="m-12 flex flex-grow flex-col items-center justify-start rounded-3xl bg-opacity-75 pb-12 bg-webTertiary">
 				<div className="mt-6">
 					<ThemeProvider theme={theme}>
 						<ToggleButtonGroup
@@ -81,7 +81,7 @@ function AccountPage() {
 							<RegisterForm/>
 						)}
 					</div>
-					<div className="w-3/5 flex justify-center items-center">
+					<div className="flex w-3/5 items-center justify-center">
 						<img src="../earth.png" alt="earth" style={{transform: 'scale(0.75)'}}/>
 					</div>
 				</div>
