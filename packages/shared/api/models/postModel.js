@@ -2,7 +2,7 @@ const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 
 const postSchema = new Schema({
-    imagePath : {
+    fileId : {
         type: String,
         required: true,
         unique: true
@@ -34,9 +34,9 @@ const postSchema = new Schema({
 }, {timestamps: true})
 
 // Static create post method
-postSchema.statics.createpost = async function(imagePath, user_id, town, coordinateX, coordinateY) {
+postSchema.statics.createpost = async function(fileId, user_id, town, coordinateX, coordinateY) {
 
-    const post = await this.create({ imagePath, user_id, town, coordinateX, coordinateY })
+    const post = await this.create({ fileId, user_id, town, coordinateX, coordinateY })
 
     return post
 
