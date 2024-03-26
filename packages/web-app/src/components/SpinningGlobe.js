@@ -1,9 +1,14 @@
-import React, { useRef, useEffect } from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 import * as THREE from 'three';
-import { OBJLoader } from 'three/examples/jsm/loaders/OBJLoader';
+import { FBXLoader } from 'three/examples/jsm/loaders/FBXLoader';
 
 const SpinningGlobe = () => {
   const mountRef = useRef(null);
+  const [isDragging, setIsDragging] = useState(false);
+  const [previousMousePosition, setPreviousMousePosition] = useState({ x: 0, y: 0 });
+  const rotationSpeed = useRef({ x: 0, y: 0 }); // Changed from useState to useRef
+
+  const globeRef = useRef(null);
 
   useEffect(() => {
     const width = mountRef.current.clientWidth;
@@ -11,10 +16,11 @@ const SpinningGlobe = () => {
 
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(75, width / height, 0.1, 1000);
-    camera.position.set(0, 0, 5);
+    camera.position.set(0, 0, 200);
 
     const renderer = new THREE.WebGLRenderer();
     renderer.setSize(width, height);
+    renderer.setClearColor(0xDCC9B6, 1);
     mountRef.current.appendChild(renderer.domElement);
 
     const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
@@ -24,21 +30,13 @@ const SpinningGlobe = () => {
     directionalLight.position.set(0, 1, 1);
     scene.add(directionalLight);
 
-    const objLoader = new OBJLoader();
-    objLoader.load(
-      '/models/globe.obj',
+    const fbxLoader = new FBXLoader();
+    fbxLoader.load(
+      '/models/globe.fbx',
       (object) => {
-        object.scale.set(0.5, 0.5, 0.5); // Adjust scale as needed
         scene.add(object);
-
-        const animate = () => {
-          if (!mountRef.current) return; // Stop animation if component has unmounted
-          requestAnimationFrame(animate);
-          object.rotation.y += 0.01; // Adjust rotation speed as needed
-          renderer.render(scene, camera);
-        };
-
-        animate();
+        object.scale.set(1, 1, 1);
+        globeRef.current = object;
       },
       (xhr) => {
         console.log((xhr.loaded / xhr.total) * 100 + '% loaded');
@@ -48,14 +46,68 @@ const SpinningGlobe = () => {
       }
     );
 
-    return () => {
-      if (mountRef.current) {
-        mountRef.current.removeChild(renderer.domElement);
+    const animate = () => {
+      requestAnimationFrame(animate);
+      if (globeRef.current) {
+        globeRef.current.rotation.y += rotationSpeed.current.y;
+        globeRef.current.rotation.x += rotationSpeed.current.x;
       }
+      
+      renderer.render(scene, camera);
+    };
+
+    animate();
+
+    return () => {
+      mountRef.current.removeChild(renderer.domElement);
     };
   }, []);
+
+  useEffect(() => {
+    const handleMouseDown = (event) => {
+      setIsDragging(true);
+      setPreviousMousePosition({ x: event.clientX, y: event.clientY });
+    };
+
+    const handleMouseMove = (event) => {
+      if (isDragging && globeRef.current) {
+        const deltaMove = {
+          x: event.clientX - previousMousePosition.x,
+          y: event.clientY - previousMousePosition.y,
+        };
+    
+        const rotationFactor = 0.0005; // Adjust this value for sensitivity
+        rotationSpeed.current = {
+          y: deltaMove.x * rotationFactor,
+          x: -deltaMove.y * rotationFactor
+        };
+    
+        globeRef.current.rotation.y += rotationSpeed.current.y;
+        globeRef.current.rotation.x += rotationSpeed.current.x;
+    
+        setPreviousMousePosition({ x: event.clientX, y: event.clientY });
+      }
+    };
+    
+
+    const handleMouseUp = () => {
+      setIsDragging(false);
+    };
+
+    document.addEventListener('mousedown', handleMouseDown);
+    document.addEventListener('mousemove', handleMouseMove);
+    document.addEventListener('mouseup', handleMouseUp);
+
+    return () => {
+      document.removeEventListener('mousedown', handleMouseDown);
+      document.removeEventListener('mousemove', handleMouseMove);
+      document.removeEventListener('mouseup', handleMouseUp);
+    };
+  }, [isDragging, previousMousePosition]);
 
   return <div ref={mountRef} style={{ width: '100%', height: '100%' }} />;
 };
 
 export default SpinningGlobe;
+
+
