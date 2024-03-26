@@ -11,7 +11,7 @@ function AccountPage() {
   return (
     <div className="h-screen w-screen bg-webBackground flex flex-col items-center">
       <header className="w-full p-2 py-3 bg-webTertiary">
-        <h1 className="text-4xl font-bold text-webPrimary">Town Trekker</h1>
+        <h1 className="text-4xl font-bold text-webPrimary">Town Trekkr</h1>
       </header>
       <header className="w-full p-2 pl-7 bg-webSecondary">
         <h2 className="text-2xl font-bold text-webTertiary">A Geography Guessing Game About Your Town!</h2>
@@ -32,4 +32,5 @@ function AccountPage() {
 }
 
 export default AccountPage;
+
 
