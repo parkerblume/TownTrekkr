@@ -21,6 +21,8 @@ router.post('/login', UserController.loginUser)
 // signup route
 router.post('/signup', UserController.signupUser)
 
+router.post('/makeguess', UserController.makeGuess)
+
 // create post route
 router.post('/createpost', upload.single('image'), PostController.createPost)
 

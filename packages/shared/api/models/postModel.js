@@ -23,6 +23,10 @@ const postSchema = new Schema({
         type: Number,
         required: true
     },
+    name : {
+        type: String,
+        require: true
+    },
     likes : {
         type: Number,
         default: 0
