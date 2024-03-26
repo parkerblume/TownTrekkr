@@ -6,7 +6,8 @@ const SpinningGlobe = () => {
   const mountRef = useRef(null);
   const [isDragging, setIsDragging] = useState(false);
   const [previousMousePosition, setPreviousMousePosition] = useState({ x: 0, y: 0 });
-  const rotationSpeed = useRef({ x: 0, y: 0 }); // Changed from useState to useRef
+  const rotationSpeed = useRef({ x: 0.0005, y: 0.0005 });
+  //rotationSpeed.current.x = rotationSpeed.current.y = 0.0003;
 
   const globeRef = useRef(null);
 
@@ -51,6 +52,9 @@ const SpinningGlobe = () => {
       if (globeRef.current) {
         globeRef.current.rotation.y += rotationSpeed.current.y;
         globeRef.current.rotation.x += rotationSpeed.current.x;
+        console.log(rotationSpeed.current);
+        if (rotationSpeed.current.x > 0.0005 || rotationSpeed.current.x < -0.0005) rotationSpeed.current.x = rotationSpeed.current.x * 0.9975;
+        if (rotationSpeed.current.y > 0.0005 || rotationSpeed.current.y < -0.0005) rotationSpeed.current.y = rotationSpeed.current.y * 0.9975;
       }
       
       renderer.render(scene, camera);
@@ -76,10 +80,10 @@ const SpinningGlobe = () => {
           y: event.clientY - previousMousePosition.y,
         };
     
-        const rotationFactor = 0.0005; // Adjust this value for sensitivity
+        const rotationFactor = 0.0003; // Adjust this value for sensitivity
         rotationSpeed.current = {
           y: deltaMove.x * rotationFactor,
-          x: -deltaMove.y * rotationFactor
+          x: deltaMove.y * rotationFactor
         };
     
         globeRef.current.rotation.y += rotationSpeed.current.y;
