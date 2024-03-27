@@ -21,6 +21,7 @@ router.post('/login', UserController.loginUser)
 // signup route
 router.post('/signup', UserController.signupUser)
 
+// make guess
 router.post('/makeguess', UserController.makeGuess)
 
 // create post route
@@ -37,6 +38,9 @@ router.get('/getposts', PostController.getPosts)
 
 // get image
 router.get('/getimage', View.getImage)
+
+// get guesses
+router.post('/getguesses', UserController.getGuesses)
 
 // delete post route
 router.delete('/deletepost', PostController.deletePost)

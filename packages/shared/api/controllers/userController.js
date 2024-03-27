@@ -47,8 +47,22 @@ const makeGuess = async (req, res) => {
     }
 }
 
+const getGuesses = async (req, res) => {
+    const {userid} = req.body
+    
+    try {
+        const guesses = await User.getguesses(userid)
+
+        res.status(200).json({guesses})
+    }
+    catch (error) {
+        res.status(400).json({error: error.message})
+    }
+}
+
 module.exports = {
     loginUser,
     signupUser,
-    makeGuess
+    makeGuess,
+    getGuesses
 }
