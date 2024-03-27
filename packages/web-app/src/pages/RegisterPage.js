@@ -92,10 +92,10 @@ function RegisterForm() {
 
 	return (
 		<ThemeProvider theme={theme}>
-			<form className="ml-6 w-5/6 p-10 bg-webAccent" onSubmit={handleSubmit}>
+			<form className="ml-6 w-5/6 min-h-fit p-10 bg-stone-600 shadow-2xl rounded-2xl" onSubmit={handleSubmit}>
 				{/* Username Field */}
 				<div className="mb-6">
-					<label htmlFor="username" className="mb-2 block text-sm font-medium text-gray-900 dark:text-white">Username</label>
+					<label htmlFor="username" className="mb-2 block text-sm font-medium text-white">Username</label>
 					<Tooltip title={tooltipError.username} open={Boolean(tooltipError.username)} placement="top" arrow>
 						<input name="username" id="username"
 						       className="block w-full rounded-lg border border-gray-300 bg-gray-50 text-sm text-gray-900 p-2.5 focus:border-blue-500 focus:ring-blue-500 dark:text:white dark:placeholder-gray-400 dark:border-gray-600 dark:bg-gray-700 dark:focus:border-blue-500 dark:focus:ring-blue-500"
@@ -104,7 +104,7 @@ function RegisterForm() {
 				</div>
 				{/* Email Field */}
 				<div className="mb-6">
-					<label htmlFor="email" className="mb-2 block text-sm font-medium text-gray-900 dark:text-white">Email address</label>
+					<label htmlFor="email" className="mb-2 block text-sm font-medium text-white">Email address</label>
 					<Tooltip title={tooltipError.email} open={Boolean(tooltipError.email)} placement="top" arrow>
 						<input name="email" id="email"
 						       className="block w-full rounded-lg border border-gray-300 bg-gray-50 text-sm text-gray-900 p-2.5 focus:border-blue-500 focus:ring-blue-500 dark:text:white dark:placeholder-gray-400 dark:border-gray-600 dark:bg-gray-700 dark:focus:border-blue-500 dark:focus:ring-blue-500"
@@ -113,7 +113,7 @@ function RegisterForm() {
 				</div>
 				{/* Password Field */}
 				<div className="mb-6">
-					<label htmlFor="password" className="mb-2 block text-sm font-medium text-gray-900 dark:text-white">Password</label>
+					<label htmlFor="password" className="mb-2 block text-sm font-medium text-white">Password</label>
 					<Tooltip title={tooltipError.password} open={Boolean(tooltipError.password)} placement="top" arrow>
 						<input name="password" id="password"
 						       className="block w-full rounded-lg border border-gray-300 bg-gray-50 text-sm text-gray-900 p-2.5 focus:border-blue-500 focus:ring-blue-500 dark:text:white dark:placeholder-gray-400 dark:border-gray-600 dark:bg-gray-700 dark:focus:border-blue-500 dark:focus:ring-blue-500"
