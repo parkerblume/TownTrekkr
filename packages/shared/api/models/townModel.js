@@ -29,6 +29,12 @@ const townSchema = new Schema({
     ]
 })
 
+townSchema.statics.getTowns = async function () {
+    const towns = await this.find({})
+
+    return towns
+}
+
 townSchema.statics.createTown = async function(name, description, topLeftCoord, botRightCoord)
 {
     // const nameExists = await this.findOne({ name })

@@ -1,6 +1,18 @@
 const Town = require('../models/townModel')
 // const userModel = require('../models/userModel')
 
+// get towns
+const getTowns = async (req, res) => {
+    try {
+        const towns = await Town.getTowns()
+
+        res.status(200).json(towns)
+    }
+    catch (error) {
+        res.status(400).json({error: error.message})
+    }
+}
+
 // creating a town
 const createTown = async (req, res) => 
 {
@@ -41,6 +53,7 @@ const addUser = async (req, res) =>
 
 module.exports = 
 {
+    getTowns,
     createTown,
     addUser
 }

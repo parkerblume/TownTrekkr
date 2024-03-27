@@ -30,6 +30,9 @@ router.post('/rate', PostController.ratePost)
 // create post route
 router.post('/createpost', upload.single('image'), PostController.createPost)
 
+// get towns route
+router.get('/gettowns', TownController.getTowns)
+
 // create town route
 router.post('/createtown', TownController.createTown)
 
