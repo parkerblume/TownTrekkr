@@ -99,7 +99,7 @@ userSchema.statics.saveguess = async function(userid, postid, score, hasliked) {
 
         await user.save()
 
-        return user
+        return user.playedPosts
     } catch (error) {
         throw Error(error.message)
     }

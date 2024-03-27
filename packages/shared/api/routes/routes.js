@@ -24,6 +24,9 @@ router.post('/signup', UserController.signupUser)
 // make guess
 router.post('/makeguess', UserController.makeGuess)
 
+// Rate post route
+router.post('/rate', PostController.ratePost)
+
 // create post route
 router.post('/createpost', upload.single('image'), PostController.createPost)
 
