@@ -33,6 +33,9 @@ router.post('/createpost', upload.single('image'), PostController.createPost)
 // create town route
 router.post('/createtown', TownController.createTown)
 
+// add user to town route
+router.post('/adduser', TownController.addUser)
+
 // get post route
 router.get('/getpost', PostController.getPost)
 

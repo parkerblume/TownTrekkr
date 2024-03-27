@@ -19,31 +19,28 @@ const createTown = async (req, res) =>
 }
 
 // registering a user as a member of a town
-// const registerUser = async (req, res) =>
-// {
-//     const {name, email} = req.body
+const addUser = async (req, res) =>
+{
+    const {town_id, user_id} = req.body
 
-//     try
-//     {
-//         const town = await Town.registerUser( name, email )
+    try
+    {
+        const town = await Town.addUser(town_id, user_id)
 
-//         const user = await userModel.findOne({ email })
-//         const userId = user._id
+        res.status(200).json({message: "User added to town" + town.name})
 
-//         res.status(200).json({ town, userId})
+    }
+    catch (error)
+    {
+        res.status(400).json({error: error.message})
+    }
 
-//     }
-//     catch (error)
-//     {
-//         res.status(400).json({error: error.message})
-//     }
-
-// }
+}
 
 
 
 module.exports = 
 {
     createTown,
-    // registerUser
+    addUser
 }
