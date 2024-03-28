@@ -2,7 +2,7 @@ const Town = require('../models/townModel')
 // const userModel = require('../models/userModel')
 
 // get town
-const getTown = async (req, res) => {
+const getTowns = async (req, res) => {
     try {
         const userId = req.query.userId;
 

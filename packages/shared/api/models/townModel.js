@@ -37,7 +37,7 @@ const townSchema = new Schema({
     ]
 })
 
-townSchema.statics.getTown = async function (userId) {
+townSchema.statics.getTowns = async function (userId) {
     let towns;
     if (userId)
     {
@@ -47,7 +47,7 @@ townSchema.statics.getTown = async function (userId) {
     {
         towns = await this.find({});
     }
-    
+
     return towns
 }
 
