@@ -26,6 +26,11 @@ const createTown = async (req, res) =>
         const parsedTopLeftCoord = JSON.parse(topLeftCoord);
         const parsedBotRightCoord = JSON.parse(botRightCoord);
 
+        console.log(topLeftCoord);
+        console.log(botRightCoord);
+        console.log(parsedTopLeftCoord);
+        console.log(parsedBotRightCoord);
+
         const town = await Town.createTown(name, description, parsedTopLeftCoord, parsedBotRightCoord);
 
         // Add the user who creates the town as a user immediately
