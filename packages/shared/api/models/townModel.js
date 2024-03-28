@@ -60,7 +60,7 @@ townSchema.statics.createTown = async function(name, description, topLeftCoord, 
 
     // Could maybe do a check to see if the bounds are close enough to an existing town
     // But idk how to do that and I don't think it's entirely necessary for our scope
-
+    console.log(topLeftCoord, botRightCoord);
     const town = await this.create({ 
         name, 
         description, 
