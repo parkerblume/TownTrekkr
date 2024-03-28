@@ -19,6 +19,9 @@ const getTowns = async (req, res) => {
 const createTown = async (req, res) => 
 {
     const { name, description, topLeftCoord, botRightCoord, creatingUser_id } = req.body
+    console.log("body: ", req.body);
+    console.log("topLeft: ", topLeftCoord);
+    console.log("botRight: ", botRightCoord);
 
     try
     {
