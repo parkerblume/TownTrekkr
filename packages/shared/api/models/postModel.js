@@ -1,5 +1,6 @@
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema
+const User = require('./userModel')
 
 const postSchema = new Schema({
     fileId : {
@@ -22,6 +23,10 @@ const postSchema = new Schema({
     coordinateY : {
         type: Number,
         required: true
+    },
+    name : {
+        type: String,
+        require: true
     },
     likes : {
         type: Number,
@@ -66,6 +71,27 @@ postSchema.statics.deletepost = async function (post_id) {
     if (!post) throw Error("No such post")
 
     return post
+}
+
+postSchema.statics.rate = async function (post_id, user_id, rating) {
+    try {
+        const user = await User.findById(user_id)
+        const postIndex = user.playedPosts.findIndex(postEntry => postEntry.post.toString() === post_id.toString())
+        if (user.playedPosts[postIndex].hasLiked == true) throw Error("User already liked post")
+        else user.playedPosts[postIndex].hasLiked = true
+
+        await user.save()
+
+        const post = await this.findById(post_id)
+        if (parseInt(rating) === 1) post.likes ++
+        else post.dislikes ++
+
+        await post.save()
+
+    }
+    catch (error) {
+        throw Error(error.message)
+    }
 }
 
 module.exports = mongoose.model('Post', postSchema)
