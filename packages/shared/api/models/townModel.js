@@ -7,13 +7,21 @@ const townSchema = new Schema({
         required: true,
         unique: true
     },
-    topLeftCoord : {
+    topLeftLaf: {
         type: Number,
         required: true
     },
-    botRightCoord : {
+    topLeftLong: {
         type: Number,
         required: true
+    },
+    botRightLat: {
+        type: Number,
+        required: true
+    },
+    botRightLong: {
+        type: Number,
+        required: true,
     },
     description : {
         type: String
@@ -45,7 +53,14 @@ townSchema.statics.createTown = async function(name, description, topLeftCoord, 
     // Could maybe do a check to see if the bounds are close enough to an existing town
     // But idk how to do that and I don't think it's entirely necessary for our scope
 
-    const town = await this.create({ name, description, topLeftCoord, botRightCoord })
+    const town = await this.create({ 
+        name, 
+        description, 
+        topLeftLat: topLeftCoord.latitude,
+        topLeftLong: topLeftCoord.longitude,
+        botRightLat: botRightCoord.latitude,
+        botRightLong: botRightCoord.longitude
+    });
 
     return town
 }
