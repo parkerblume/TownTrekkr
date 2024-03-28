@@ -36,3 +36,20 @@
     transform: rotate(360deg);
   }
 }
+
+/* Animation duration variable */
+:root {
+    --transition-duration: 0.5s;
+}
+
+.toggle-animate {
+    transition: transform var(--transition-duration) ease-in-out;
+}
+
+.form-slide-right {
+    transform: translateX(100%);
+}
+
+.image-slide-left {
+    transform: translateX(-100%)
+}
