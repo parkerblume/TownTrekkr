@@ -27,15 +27,11 @@ const createTown = async (req, res) =>
     {
         // parse the string back into an object
         console.log("We're trying to parse...");
-        const parsedTopLeftCoord = JSON.parse(topLeftCoord);
-        const parsedBotRightCoord = JSON.parse(botRightCoord);
 
         console.log(topLeftCoord);
         console.log(botRightCoord);
-        console.log(parsedTopLeftCoord);
-        console.log(parsedBotRightCoord);
 
-        const town = await Town.createTown(name, description, parsedTopLeftCoord, parsedBotRightCoord);
+        const town = await Town.createTown(name, description, topLeftCoord, botRightCoord);
 
         // Add the user who creates the town as a user immediately
         town.addUser(town._id, creatingUser_id)
