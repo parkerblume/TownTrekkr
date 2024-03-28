@@ -30,8 +30,8 @@ router.post('/rate', PostController.ratePost)
 // create post route
 router.post('/createpost', upload.single('image'), PostController.createPost)
 
-// get towns route
-router.get('/gettowns', TownController.getTowns)
+// get town route
+router.get('/gettowns', TownController.getTown)
 
 // create town route
 router.post('/createtown', TownController.createTown)
@@ -54,5 +54,7 @@ router.post('/getguesses', UserController.getGuesses)
 // delete post route
 router.delete('/deletepost', PostController.deletePost)
 
+// delete town route
+router.delete('/deletetown', TownController.deleteTown)
 
 module.exports = router;
