@@ -6,7 +6,7 @@ const getTowns = async (req, res) => {
     try {
         const userId = req.query.userId;
 
-        const towns = await Town.getTown(userId);
+        const towns = await Town.getTowns(userId);
 
         res.status(200).json(towns)
     }
@@ -75,7 +75,7 @@ const addUser = async (req, res) =>
 
 module.exports = 
 {
-    getTown,
+    getTowns,
     createTown,
     deleteTown,
     addUser
