@@ -38,6 +38,15 @@ const townSchema = new Schema({
     ]
 })
 
+townSchema.statics.getTown = async function (townId) {
+    console.log(townId)
+    const town = await this.findById(townId)
+
+    if (!town) throw Error("Town does not exist with this id")
+
+    return town
+}
+
 townSchema.statics.getTowns = async function (userId) {
     let towns;
     if (userId)
