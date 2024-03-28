@@ -51,7 +51,7 @@ const SpinningGlobe = () => {
       if (globeRef.current) {
         globeRef.current.rotation.y += rotationSpeed.current.y;
         globeRef.current.rotation.x += rotationSpeed.current.x;
-        console.log(rotationSpeed.current);
+        //console.log(rotationSpeed.current);
         if (rotationSpeed.current.x > 0.0005 || rotationSpeed.current.x < -0.0005) rotationSpeed.current.x = rotationSpeed.current.x * 0.9975;
         if (rotationSpeed.current.y > 0.0005 || rotationSpeed.current.y < -0.0005) rotationSpeed.current.y = rotationSpeed.current.y * 0.9975;
       }
