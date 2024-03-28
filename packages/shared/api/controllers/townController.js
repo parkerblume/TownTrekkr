@@ -2,6 +2,20 @@ const Town = require('../models/townModel')
 // const userModel = require('../models/userModel')
 
 // get town
+const getTown = async (req, res) => {
+    try {
+        const { townId } = req.body
+
+        const town = await Town.getTown(townId)
+
+        res.status(200).json(town)
+    }
+    catch (error) {
+        res.status(400).json({error: error.message})
+    }
+}
+
+// get towns
 const getTowns = async (req, res) => {
     try {
         const userId = req.query.userId;
@@ -84,6 +98,7 @@ const addUser = async (req, res) =>
 
 module.exports = 
 {
+    getTown,
     getTowns,
     createTown,
     deleteTown,
