@@ -1,10 +1,10 @@
 const Town = require('../models/townModel')
 // const userModel = require('../models/userModel')
 
-// get towns
-const getTowns = async (req, res) => {
+// get town
+const getTown = async (req, res) => {
     try {
-        const towns = await Town.getTowns()
+        const towns = await Town.getTown()
 
         res.status(200).json(towns)
     }
@@ -16,13 +16,35 @@ const getTowns = async (req, res) => {
 // creating a town
 const createTown = async (req, res) => 
 {
-    const { name, description, topLeftCoord, botRightCoord } = req.body
+    const { name, description, topLeftCoord, botRightCoord, creatingUser_id } = req.body
 
     try
     {
         const town = await Town.createTown(name, description, topLeftCoord, botRightCoord)
 
+        // Add the user who creates the town as a user immediately
+        town.addUser(town._id, creatingUser_id)
+
         res.status(200).json({ town })
+    }
+    catch (error)
+    {
+        res.status(400).json({error: error.message})
+    }
+}
+
+// With every creation there must exist an equal deletion.
+// For every ying, there exists a yang
+// There cannot be a create function without a delete function
+// - John 1:14
+const deleteTown = async (req, res) =>
+{
+    const { town_id } = req.body
+
+    try
+    {
+        const town = await Town.deleteTown(town_id)
+        res.status(200).json(town)
     }
     catch (error)
     {
@@ -49,11 +71,10 @@ const addUser = async (req, res) =>
 
 }
 
-
-
 module.exports = 
 {
-    getTowns,
+    getTown,
     createTown,
+    deleteTown,
     addUser
 }
