@@ -4,7 +4,9 @@ const Town = require('../models/townModel')
 // get town
 const getTown = async (req, res) => {
     try {
-        const towns = await Town.getTown()
+        const userId = req.query.userId;
+
+        const towns = await Town.getTown(userId);
 
         res.status(200).json(towns)
     }
