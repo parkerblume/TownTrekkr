@@ -1,0 +1,24 @@
+/* Default scale */
+.map-container {
+    transform: scale(1);
+    transition: transform 0.3s ease-in-out; /* Smooth transition for scaling */
+}
+
+/* Scale down as the width decreases */
+@media (max-width: 1024px) {
+    .map-container {
+        transform: scale(0.9);
+    }
+}
+
+@media (max-width: 768px) {
+    .map-container {
+        transform: scale(0.8);
+    }
+}
+
+@media (max-width: 480px) {
+    .map-container {
+        transform: scale(0.7);
+    }
+}

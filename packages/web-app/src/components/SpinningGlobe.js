@@ -7,7 +7,6 @@ const SpinningGlobe = () => {
   const [isDragging, setIsDragging] = useState(false);
   const [previousMousePosition, setPreviousMousePosition] = useState({ x: 0, y: 0 });
   const rotationSpeed = useRef({ x: 0.0005, y: 0.0005 });
-  //rotationSpeed.current.x = rotationSpeed.current.y = 0.0003;
 
   const globeRef = useRef(null);
 
@@ -21,7 +20,7 @@ const SpinningGlobe = () => {
 
     const renderer = new THREE.WebGLRenderer();
     renderer.setSize(width, height);
-    renderer.setClearColor(0xDCC9B6, 1);
+    renderer.setClearColor(0x000000, 0);
     mountRef.current.appendChild(renderer.domElement);
 
     const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
