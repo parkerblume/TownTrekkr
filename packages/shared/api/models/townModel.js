@@ -7,13 +7,21 @@ const townSchema = new Schema({
         required: true,
         unique: true
     },
-    topLeftCoord : {
+    topLeftLat: {
         type: Number,
         required: true
     },
-    botRightCoord : {
+    topLeftLong: {
         type: Number,
         required: true
+    },
+    botRightLat: {
+        type: Number,
+        required: true
+    },
+    botRightLong: {
+        type: Number,
+        required: true,
     },
     description : {
         type: String
@@ -21,7 +29,7 @@ const townSchema = new Schema({
     // array of users who are members of the town
     townMembers : [
     {
-        userIds: {
+        userId: {
             type: mongoose.Schema.Types.ObjectId,
             ref: 'User'
         },
@@ -29,36 +37,67 @@ const townSchema = new Schema({
     ]
 })
 
+townSchema.statics.getTowns = async function (userId) {
+    let towns;
+    if (userId)
+    {
+        towns = await this.find({ 'townMembers.userId': userId });
+    }
+    else
+    {
+        towns = await this.find({});
+    }
+
+    return towns
+}
+
 townSchema.statics.createTown = async function(name, description, topLeftCoord, botRightCoord)
 {
-    // const nameExists = await this.findOne({ name })
+    const nameExists = await this.findOne({ name })
 
-    // if (nameExists) 
-    //     throw Error("Town with this name already exists")
-
+    if (nameExists) 
+        throw Error("Town with this name already exists")
 
     // Could maybe do a check to see if the bounds are close enough to an existing town
     // But idk how to do that and I don't think it's entirely necessary for our scope
-
-    const town = await this.create({ name, description, topLeftCoord, botRightCoord})
+    console.log(topLeftCoord, botRightCoord);
+    const town = await this.create({ 
+        name, 
+        description, 
+        topLeftLat: topLeftCoord.latitude,
+        topLeftLong: topLeftCoord.longitude,
+        botRightLat: botRightCoord.latitude,
+        botRightLong: botRightCoord.longitude
+    });
 
     return town
 }
 
-// townSchema.statics.registerUser = async function(name, id)
-// {
-//     const town = await this.findOne({ name })
+townSchema.statics.deleteTown = async function(town_id)
+{
+    const town = await this.findOneAndDelete({_id: town_id})
 
-//     if (!town)
-//         throw Error("Town does not exist")
+    if (!town) throw Error("Town does not exist")
 
-//     if (town.townMembers.findOne({ id }))
-//         throw Error("User is already registered to this town")
+    return town
+}
 
-//     town.townMembers.add(id)
+townSchema.statics.addUser = async function(town_id, user_id)
+{
+    const town = await this.findById(town_id)
 
-//     return town
-// }
+    if (!town)
+        throw Error("Town does not exist")
+
+    if (town.townMembers.find(member => member.userId.toString() === user_id.toString()))
+        throw Error("User is already registered to this town")
+
+    town.townMembers.push({userId: user_id})
+
+    await town.save()
+
+    return town
+}
 
 
 module.exports = mongoose.model('Town', townSchema)

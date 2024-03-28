@@ -34,7 +34,36 @@ const signupUser = async (req, res) => {
     }
 }
 
+const makeGuess = async (req, res) => {
+    const {userid, postid, score, hasliked} = req.body
+
+    try {
+        const guess = await User.saveguess(userid, postid, score, hasliked)
+
+        res.status(200).json({guess})
+    }
+    catch (error) {
+        res.status(400).json({error: error.message})
+    }
+}
+
+const getGuesses = async (req, res) => {
+    const {userid} = req.body
+    
+    try {
+        const guesses = await User.getguesses(userid)
+
+        res.status(200).json({guesses})
+    }
+    catch (error) {
+        res.status(400).json({error: error.message})
+    }
+}
+
+
 module.exports = {
     loginUser,
-    signupUser
+    signupUser,
+    makeGuess,
+    getGuesses
 }
