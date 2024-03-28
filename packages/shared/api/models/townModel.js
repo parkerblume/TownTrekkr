@@ -1,5 +1,6 @@
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema
+const User = require('./userModel')
 
 const townSchema = new Schema({
     name : {
@@ -36,6 +37,15 @@ const townSchema = new Schema({
     }
     ]
 })
+
+townSchema.statics.getTown = async function (townId) {
+    console.log(townId)
+    const town = await this.findById(townId)
+
+    if (!town) throw Error("Town does not exist with this id")
+
+    return town
+}
 
 townSchema.statics.getTowns = async function (userId) {
     let towns;
@@ -85,6 +95,10 @@ townSchema.statics.deleteTown = async function(town_id)
 townSchema.statics.addUser = async function(town_id, user_id)
 {
     const town = await this.findById(town_id)
+    const user = await User.findById(user_id)
+
+    if (!user)
+        throw Error("User does not exist")
 
     if (!town)
         throw Error("Town does not exist")
@@ -92,8 +106,10 @@ townSchema.statics.addUser = async function(town_id, user_id)
     if (town.townMembers.find(member => member.userId.toString() === user_id.toString()))
         throw Error("User is already registered to this town")
 
+    user.activeTowns.push({town_id: town_id})
     town.townMembers.push({userId: user_id})
 
+    await user.save()
     await town.save()
 
     return town
