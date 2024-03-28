@@ -10,8 +10,8 @@ Town Trekkr (insert description here)
 If you want to install all dependencies, just run `yarn`
 
 ## To Start Up
-* For Server, navigate to the packages/shared folder and run:  
-`npm run start`  
+* For Server, from the root directory run  
+`yarn start`  
 (I was not able to add a yarn quick command for this)
 * For Web App, from the root directory run  
 `yarn web`  

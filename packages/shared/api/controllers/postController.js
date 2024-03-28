@@ -56,9 +56,22 @@ const deletePost = async (req, res) => {
     }
 }
 
+const ratePost = async (req, res) => {
+    try {
+        const {post_id, user_id, rating} = req.body
+        await Post.rate(post_id, user_id, rating)
+
+        res.status(200).json({message: "Success"})
+    }
+    catch (error) {
+        res.status(400).json({error: error.message})
+    }
+}
+
 module.exports = {
     createPost,
     getPost,
     getPosts,
-    deletePost
+    deletePost,
+    ratePost
 }

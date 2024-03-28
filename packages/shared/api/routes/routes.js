@@ -21,11 +21,23 @@ router.post('/login', UserController.loginUser)
 // signup route
 router.post('/signup', UserController.signupUser)
 
+// make guess
+router.post('/makeguess', UserController.makeGuess)
+
+// Rate post route
+router.post('/rate', PostController.ratePost)
+
 // create post route
 router.post('/createpost', upload.single('image'), PostController.createPost)
 
+// get towns route
+router.get('/gettowns', TownController.getTowns)
+
 // create town route
 router.post('/createtown', TownController.createTown)
+
+// add user to town route
+router.post('/adduser', TownController.addUser)
 
 // get post route
 router.get('/getpost', PostController.getPost)
@@ -35,6 +47,9 @@ router.get('/getposts', PostController.getPosts)
 
 // get image
 router.get('/getimage', View.getImage)
+
+// get guesses
+router.post('/getguesses', UserController.getGuesses)
 
 // delete post route
 router.delete('/deletepost', PostController.deletePost)
