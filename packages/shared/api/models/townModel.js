@@ -37,16 +37,15 @@ townSchema.statics.getTowns = async function () {
 
 townSchema.statics.createTown = async function(name, description, topLeftCoord, botRightCoord)
 {
-    // const nameExists = await this.findOne({ name })
+    const nameExists = await this.findOne({ name })
 
-    // if (nameExists) 
-    //     throw Error("Town with this name already exists")
-
+    if (nameExists) 
+        throw Error("Town with this name already exists")
 
     // Could maybe do a check to see if the bounds are close enough to an existing town
     // But idk how to do that and I don't think it's entirely necessary for our scope
 
-    const town = await this.create({ name, description, topLeftCoord, botRightCoord})
+    const town = await this.create({ name, description, topLeftCoord, botRightCoord })
 
     return town
 }
