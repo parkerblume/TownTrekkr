@@ -48,7 +48,7 @@ const createTown = async (req, res) =>
         const town = await Town.createTown(name, description, topLeftCoord, botRightCoord);
 
         // Add the user who creates the town as a user immediately
-        town.addUser(town._id, creatingUser_id)
+        Town.addUser(town._id, creatingUser_id);
 
         res.status(200).json({ town })
     }
