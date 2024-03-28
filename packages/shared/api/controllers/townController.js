@@ -2,9 +2,11 @@ const Town = require('../models/townModel')
 // const userModel = require('../models/userModel')
 
 // get town
-const getTown = async (req, res) => {
+const getTowns = async (req, res) => {
     try {
-        const towns = await Town.getTown()
+        const userId = req.query.userId;
+
+        const towns = await Town.getTowns(userId);
 
         res.status(200).json(towns)
     }
@@ -17,10 +19,23 @@ const getTown = async (req, res) => {
 const createTown = async (req, res) => 
 {
     const { name, description, topLeftCoord, botRightCoord, creatingUser_id } = req.body
+    console.log("body: ", req.body);
+    console.log("topLeft: ", topLeftCoord);
+    console.log("botRight: ", botRightCoord);
 
     try
     {
-        const town = await Town.createTown(name, description, topLeftCoord, botRightCoord)
+        // parse the string back into an object
+        console.log("We're trying to parse...");
+        const parsedTopLeftCoord = JSON.parse(topLeftCoord);
+        const parsedBotRightCoord = JSON.parse(botRightCoord);
+
+        console.log(topLeftCoord);
+        console.log(botRightCoord);
+        console.log(parsedTopLeftCoord);
+        console.log(parsedBotRightCoord);
+
+        const town = await Town.createTown(name, description, parsedTopLeftCoord, parsedBotRightCoord);
 
         // Add the user who creates the town as a user immediately
         town.addUser(town._id, creatingUser_id)
@@ -73,7 +88,7 @@ const addUser = async (req, res) =>
 
 module.exports = 
 {
-    getTown,
+    getTowns,
     createTown,
     deleteTown,
     addUser
