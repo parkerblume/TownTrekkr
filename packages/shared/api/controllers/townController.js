@@ -26,6 +26,7 @@ const createTown = async (req, res) =>
     try
     {
         // parse the string back into an object
+        console.log("We're trying to parse...");
         const parsedTopLeftCoord = JSON.parse(topLeftCoord);
         const parsedBotRightCoord = JSON.parse(botRightCoord);
 
