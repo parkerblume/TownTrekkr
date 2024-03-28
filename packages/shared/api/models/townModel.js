@@ -37,7 +37,7 @@ const townSchema = new Schema({
     ]
 })
 
-townSchema.statics.getTowns = async function () {
+townSchema.statics.getTown = async function () {
     const towns = await this.find({})
 
     return towns
@@ -61,6 +61,15 @@ townSchema.statics.createTown = async function(name, description, topLeftCoord, 
         botRightLat: botRightCoord.latitude,
         botRightLong: botRightCoord.longitude
     });
+
+    return town
+}
+
+townSchema.statics.deleteTown = async function(town_id)
+{
+    const town = await this.findOneAndDelete({_id: town_id})
+
+    if (!town) throw Error("Town does not exist")
 
     return town
 }
