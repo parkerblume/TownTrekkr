@@ -7,7 +7,7 @@ const townSchema = new Schema({
         required: true,
         unique: true
     },
-    topLeftLaf: {
+    topLeftLat: {
         type: Number,
         required: true
     },
