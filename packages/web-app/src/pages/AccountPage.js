@@ -70,7 +70,6 @@ function AccountPage() {
 
 	return (
 		<div className="flex min-h-screen w-screen flex-col bg-custom-bg">
-			<NavigationBar />
 			<header className="h-12 w-full p-2 pl-7 bg-webSecondary">
 				<h2 className="text-2xl font-bold text-webTertiary">Your Page Header</h2>
 			</header>
