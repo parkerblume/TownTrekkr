@@ -5,7 +5,6 @@ import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
 import ToggleButton from "@mui/material/ToggleButton";
 import LoginForm from "./LoginPage";
 import RegisterForm from "./RegisterPage";
-import NavigationBar from "../components/NavigationBar";
 import classNames from 'classnames';
 import SpinningGlobe from "../components/SpinningGlobe";
 
