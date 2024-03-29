@@ -17,6 +17,10 @@ const userSchema = new Schema({
         required: true,
         unique: true
     },
+    verified : {
+        type: Boolean,
+        default: true
+    },
     // List of posts already played and respective score
     playedPosts : [
     {
@@ -29,6 +33,14 @@ const userSchema = new Schema({
         },
         hasLiked: {
             type: Boolean
+        }
+    }
+    ],
+    activeTowns : [
+    {
+        town_id: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Town'
         }
     }
     ]
@@ -75,6 +87,51 @@ userSchema.statics.signup = async function(email, password, username) {
     return user
 
 }
+
+userSchema.statics.saveguess = async function(userid, postid, score, hasliked) {
+    try {
+        const user = await this.findOne({ _id: userid })
+
+        if (!user) {
+            throw Error("No user")
+        }
+
+        // Check if there's already an entry with the same postid
+        const post = user.playedPosts.findIndex(postEntry => postEntry.post.toString() === postid.toString())
+
+        if (post > -1) {
+            throw Error("Post already guessed")
+        } else {
+            user.playedPosts.push({
+                post: postid,
+                score: score,
+                hasLiked: hasliked
+            });
+        }
+
+        await user.save()
+
+        return user.playedPosts
+    } catch (error) {
+        throw Error(error.message)
+    }
+}
+
+userSchema.statics.getguesses = async function(userid) {
+    try {
+        const user = await this.findOne({ _id: userid })
+
+        if (!user) {
+            throw Error("No user")
+        }
+
+        return user.playedPosts
+
+    } catch (error) {
+        throw Error(error.message)
+    }
+}
+
 
 
 module.exports = mongoose.model('User', userSchema)

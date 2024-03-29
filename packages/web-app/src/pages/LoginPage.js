@@ -43,27 +43,27 @@ function LoginForm() {
 		// If there's an error, stop form submission
 		if (hasError) return;
 
-		try {
-			const response = await fetch('https://www.towntrekkr.com/login', {
-				method: 'POST',
-				headers: {
-					'Content-Type': 'application/json',
-				},
-				body: JSON.stringify({ email, password }),
-			});
+        try {
+            const response = await fetch('https://www.towntrekkr.com/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ email, password }),
+            });
 
-			if (!response.ok) {
-				throw new Error('Login failed');
-			}
+            if (!response.ok) {
+                throw new Error('Login failed');
+            }
 
-			const data = await response.json();
-			console.log('Login successful:', data);
-			navigate('/HomePage'); // Redirect to HomePage on success
-		} catch (error) {
-			console.error('Error logging in:', error);
-			// Handle login failure (e.g., show an error message)
-		}
-	};
+            const data = await response.json();
+            console.log('Login successful:', data);
+            navigate('/HomePage'); // Redirect to HomePage on success
+        } catch (error) {
+            console.error('Error logging in:', error);
+            // Handle login failure (e.g., show an error message)
+        }
+    };
 
 	return (
 		<ThemeProvider theme={theme}>
@@ -93,3 +93,4 @@ function LoginForm() {
 }
 
 export default LoginForm;
+

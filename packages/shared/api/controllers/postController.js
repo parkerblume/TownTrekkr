@@ -1,10 +1,15 @@
+const { handleUpload } = require('../middleware/upload')
 const Post = require('../models/postModel')
 
 const createPost = async (req, res) => {
-    const { imagePath, user_id, town, coordinateX, coordinateY } = req.body
+    const { user_id, town, coordinateX, coordinateY } = req.body
 
     try {
-        const post = await Post.createpost( imagePath, user_id, town, coordinateX, coordinateY)
+        console.log(req.file)
+        const fileId = await handleUpload(req, null, req.file)
+        console.log(fileId)
+        
+        const post = await Post.createpost( fileId, user_id, town, coordinateX, coordinateY)
 
 
 
@@ -51,9 +56,22 @@ const deletePost = async (req, res) => {
     }
 }
 
+const ratePost = async (req, res) => {
+    try {
+        const {post_id, user_id, rating} = req.body
+        await Post.rate(post_id, user_id, rating)
+
+        res.status(200).json({message: "Success"})
+    }
+    catch (error) {
+        res.status(400).json({error: error.message})
+    }
+}
+
 module.exports = {
     createPost,
     getPost,
     getPosts,
-    deletePost
+    deletePost,
+    ratePost
 }

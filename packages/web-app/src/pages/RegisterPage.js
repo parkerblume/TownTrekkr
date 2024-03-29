@@ -71,9 +71,9 @@ function RegisterForm() {
 				body: JSON.stringify({ username, email, password }),
 			});
 
-			if (!response.ok) {
-				throw new Error('Signup failed');
-			}
+            if (!response.ok) {
+                throw new Error('Signup failed');
+            }
 
 			const data = await response.json();
 			console.log('Signup successful:', data);
