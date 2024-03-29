@@ -8,6 +8,12 @@ const townSchema = new Schema({
         required: true,
         unique: true
     },
+    description : {
+        type: String
+    },
+    creatingUsername : {
+        type: String
+    },
     topLeftLat: {
         type: Number,
         required: true
@@ -24,8 +30,8 @@ const townSchema = new Schema({
         type: Number,
         required: true,
     },
-    description : {
-        type: String
+    scoreMod : {
+        type: Number
     },
     // array of users who are members of the town
     townMembers : [
@@ -39,7 +45,6 @@ const townSchema = new Schema({
 })
 
 townSchema.statics.getTown = async function (townId) {
-    console.log(townId)
     const town = await this.findById(townId)
 
     if (!town) throw Error("Town does not exist with this id")
@@ -61,23 +66,29 @@ townSchema.statics.getTowns = async function (userId) {
     return towns
 }
 
-townSchema.statics.createTown = async function(name, description, topLeftCoord, botRightCoord)
+townSchema.statics.createTown = async function(name, description, topLeftCoord, botRightCoord, creatingUsername)
 {
     const nameExists = await this.findOne({ name })
+    const area = (topLeftCoord.latitude - botRightCoord.latitude) * 
+                (topLeftCoord.longitude - botRightCoord.longitude)
 
     if (nameExists) 
         throw Error("Town with this name already exists")
 
-    // Could maybe do a check to see if the bounds are close enough to an existing town
-    // But idk how to do that and I don't think it's entirely necessary for our scope
-    console.log(topLeftCoord, botRightCoord);
+    // No negative areas
+    if (area < 0)
+        area = area * (-1)
+
+    // console.log(topLeftCoord, botRightCoord);
     const town = await this.create({ 
         name, 
-        description, 
+        description,
+        creatingUsername, 
         topLeftLat: topLeftCoord.latitude,
         topLeftLong: topLeftCoord.longitude,
         botRightLat: botRightCoord.latitude,
-        botRightLong: botRightCoord.longitude
+        botRightLong: botRightCoord.longitude,
+        scoreMod: 1 + area  // We can fine tune the multiplier for balance later
     });
 
     return town

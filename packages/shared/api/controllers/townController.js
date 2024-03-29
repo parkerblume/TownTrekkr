@@ -1,5 +1,4 @@
 const Town = require('../models/townModel')
-// const userModel = require('../models/userModel')
 
 // get town
 const getTown = async (req, res) => {
@@ -32,20 +31,11 @@ const getTowns = async (req, res) => {
 // creating a town
 const createTown = async (req, res) => 
 {
-    const { name, description, topLeftCoord, botRightCoord, creatingUser_id } = req.body
-    console.log("body: ", req.body);
-    console.log("topLeft: ", topLeftCoord);
-    console.log("botRight: ", botRightCoord);
+    const { name, description, topLeftCoord, botRightCoord, creatingUser_id, creatingUsername } = req.body
 
     try
     {
-        // parse the string back into an object
-        console.log("We're trying to parse...");
-
-        console.log(topLeftCoord);
-        console.log(botRightCoord);
-
-        const town = await Town.createTown(name, description, topLeftCoord, botRightCoord);
+        const town = await Town.createTown(name, description, topLeftCoord, botRightCoord, creatingUsername);
 
         // Add the user who creates the town as a user immediately
         Town.addUser(town._id, creatingUser_id);

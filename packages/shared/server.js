@@ -6,10 +6,6 @@ const mongoose = require('mongoose')
 const upload = require('./api/middleware/upload');
 
 require('dotenv').config({ path: path.resolve(__dirname, '../.env') });
-/*const url = process.env.MONGODB_URL;
-const MongoClient = require('mongodb').MongoClient; 
-const client = new MongoClient(url);
-client.connect();*/
 
 mongoose.connect(process.env.MONGO_URL)
 
