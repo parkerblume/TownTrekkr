@@ -6,7 +6,8 @@ import ToggleButton from "@mui/material/ToggleButton";
 import LoginForm from "./LoginPage";
 import RegisterForm from "./RegisterPage";
 import NavigationBar from "../components/NavigationBar";
-import classNames from 'classnames'; // Assuming you've added `classnames` to your project
+import classNames from 'classnames';
+import SpinningGlobe from "../components/SpinningGlobe";
 
 
 const theme = createTheme({
@@ -44,10 +45,26 @@ const theme = createTheme({
 
 function AccountPage() {
 	const [alignment, setAlignment] = useState('Login');
+	const [currentForm, setCurrentForm] = useState('Login');
+	const [isFormAnimating, setIsFormAnimating] = useState(false);
+	const [isImageAnimating, setIsImageAnimating] = useState(false);
 
 	const handleChange = (event, newAlignment) => {
-		if (newAlignment !== null) {
+		if (newAlignment !== null && newAlignment !== alignment) {
+			setIsFormAnimating(true);
+			setIsImageAnimating(true); // Start image animation
 			setAlignment(newAlignment);
+
+			// Wait for 500ms to swap the form (for the form animation)
+			setTimeout(() => {
+				setCurrentForm(newAlignment);
+				setIsFormAnimating(false);
+			}, 300); // Form animation duration
+
+			// Use a different timeout for the image opacity animation if needed
+			setTimeout(() => {
+				setIsImageAnimating(false); // End image animation
+			}, 600); // Adjust this duration for the image opacity animation
 		}
 	};
 
@@ -57,7 +74,7 @@ function AccountPage() {
 			<header className="h-12 w-full p-2 pl-7 bg-webSecondary">
 				<h2 className="text-2xl font-bold text-webTertiary">Your Page Header</h2>
 			</header>
-			<div className="m-12 flex flex-grow items-center justify-center rounded-3xl bg-opacity-75 bg-webTertiary">
+			<div className="m-12 flex flex-grow items-center justify-center rounded-3xl bg-opacity-70 bg-webTertiary backdrop-blur-sm">
 				<div className="flex w-full justify-between">
 					<div className={classNames("w-1/2 flex flex-col items-center justify-start pt-32", {
 						'toggle-animate': true,
@@ -76,21 +93,24 @@ function AccountPage() {
 								<ToggleButton value="Register" style={{width: '120px'}}>Register</ToggleButton>
 							</ToggleButtonGroup>
 						</ThemeProvider>
-						<div className="w-full flex justify-center "> {/* Adjusted for centering form */}
-							{alignment === 'Login' ? (
+						<div className="w-full flex justify-center">
+							{currentForm === 'Login' ? (
 								<LoginForm/>
 							) : (
 								<RegisterForm/>
 							)}
 						</div>
 					</div>
-					<div className={classNames("w-1/2 flex justify-center items-center bg-white bg-opacity-15 shadow-2xl m-2 rounded-2xl", {
+					<div className={classNames("w-1/2 flex justify-center items-center shadow-2xl m-2 rounded-2xl image-opacity", {
 						'toggle-animate': true,
 						'image-slide-left': alignment === 'Register',
 						'image-slide-right': alignment === 'Login',
+						'opacity-animate': isImageAnimating, // This class should only be added when animating
 					})}>
-						<img src="../earth.png" alt="earth" style={{transform: 'scale(0.75)'}}/>
+						<SpinningGlobe />
 					</div>
+
+
 				</div>
 			</div>
 		</div>
