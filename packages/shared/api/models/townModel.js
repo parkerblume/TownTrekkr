@@ -8,6 +8,12 @@ const townSchema = new Schema({
         required: true,
         unique: true
     },
+    description : {
+        type: String
+    },
+    creatingUsername : {
+        type: String
+    },
     topLeftLat: {
         type: Number,
         required: true
@@ -24,9 +30,6 @@ const townSchema = new Schema({
         type: Number,
         required: true,
     },
-    description : {
-        type: String
-    },
     scoreMod : {
         type: Number
     },
@@ -42,7 +45,6 @@ const townSchema = new Schema({
 })
 
 townSchema.statics.getTown = async function (townId) {
-    console.log(townId)
     const town = await this.findById(townId)
 
     if (!town) throw Error("Town does not exist with this id")
@@ -64,7 +66,7 @@ townSchema.statics.getTowns = async function (userId) {
     return towns
 }
 
-townSchema.statics.createTown = async function(name, description, topLeftCoord, botRightCoord)
+townSchema.statics.createTown = async function(name, description, topLeftCoord, botRightCoord, creatingUsername)
 {
     const nameExists = await this.findOne({ name })
     const area = (topLeftCoord.latitude - botRightCoord.latitude) * 
@@ -80,7 +82,8 @@ townSchema.statics.createTown = async function(name, description, topLeftCoord, 
     // console.log(topLeftCoord, botRightCoord);
     const town = await this.create({ 
         name, 
-        description, 
+        description,
+        creatingUsername, 
         topLeftLat: topLeftCoord.latitude,
         topLeftLong: topLeftCoord.longitude,
         botRightLat: botRightCoord.latitude,
