@@ -11,47 +11,41 @@ const markerIcon = new L.Icon({
 	iconAnchor: [19, 38]
 });
 
-const Leaflet = () => {
+const AddTownLeaflet = ({ setGuessedCoordinates }) => {
 	const [markerPositions, setMarkerPositions] = useState([]);
 	const [rectangleBounds, setRectangleBounds] = useState(null);
-	const [guessedCoordinates, setGuessedCoordinates] = useState(null);
 
-	// Update the position of a marker and subsequently the rectangle bounds
+	useEffect(() => {
+		if (markerPositions.length === 2) {
+			const newBounds = [markerPositions[0], markerPositions[1]];
+			setRectangleBounds(newBounds);
+			setGuessedCoordinates(newBounds);
+		}
+	}, [markerPositions, setGuessedCoordinates]);
+
+	const handleMapClick = (e) => {
+		const { lat, lng } = e.latlng;
+		const newPositions = markerPositions.length === 2 ? [[lat, lng]] : [...markerPositions, [lat, lng]];
+		setMarkerPositions(newPositions);
+	};
+
 	const updateMarkerPosition = (index, newPosition) => {
 		const updatedPositions = [...markerPositions];
 		updatedPositions[index] = newPosition;
 		setMarkerPositions(updatedPositions);
-	};
-
-	// Update rectangle bounds when markerPositions changes
-	useEffect(() => {
-		if (markerPositions.length === 2) {
-			setRectangleBounds([markerPositions[0], markerPositions[1]]);
-		}
-	}, [markerPositions]);
-
-	// Handle clicks on the map to add markers
-	const handleMapClick = (e) => {
-		const { lat, lng } = e.latlng;
-		if (markerPositions.length < 2) {
-			setMarkerPositions([...markerPositions, [lat, lng]]);
-		} else {
-			setMarkerPositions([[lat, lng]]);
+		// Update rectangle bounds and guessedCoordinates as markers are moved
+		if (updatedPositions.length === 2) {
+			setRectangleBounds([updatedPositions[0], updatedPositions[1]]);
+			setGuessedCoordinates([updatedPositions[0], updatedPositions[1]]);
 		}
 	};
 
-	// Component to enable clicking on the map to place markers
 	const AddMarkerToClick = () => {
 		useMapEvents({
 			click: handleMapClick,
 		});
 
 		return null;
-	};
-
-	// Handle "guess" action
-	const handleGuessClick = () => {
-		setGuessedCoordinates(rectangleBounds);
 	};
 
 	return (
@@ -88,22 +82,11 @@ const Leaflet = () => {
 						fillColor="#EAD7C7"
 						fillOpacity={0.4}
 						opacity={0.9}
-
 					/>
 				)}
 			</MapContainer>
-			{/*<div className="flex flex-row items-center gap-4 mt-4">*/}
-			{/*	<GuessButton handleGuessClick={handleGuessClick} />*/}
-			{/*	{guessedCoordinates && (*/}
-			{/*		<div className="text-xl">*/}
-			{/*			<h3>Guessed Coordinates:</h3>*/}
-			{/*			<p>Corner 1 - Latitude: {guessedCoordinates[0][0].toFixed(4)}, Longitude: {guessedCoordinates[0][1].toFixed(4)}</p>*/}
-			{/*			<p>Corner 2 - Latitude: {guessedCoordinates[1][0].toFixed(4)}, Longitude: {guessedCoordinates[1][1].toFixed(4)}</p>*/}
-			{/*		</div>*/}
-			{/*	)}*/}
-			{/*</div>*/}
 		</div>
 	);
 };
 
-export default Leaflet;
+export default AddTownLeaflet;
