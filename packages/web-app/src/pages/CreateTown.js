@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import AddTownLeaflet from "../components/AddTownLeaflet";
+// import TownController from "server/api/controllers/townController";
 
 const CreateTown = () => {
 	const [guessedCoordinates, setGuessedCoordinates] = useState(null);
@@ -8,7 +9,25 @@ const CreateTown = () => {
 
 	const handleSubmit = (e) => {
 		e.preventDefault();
-		console.log(townName, townDescription, guessedCoordinates);
+
+		if (!townName || !townDescription) {
+			alert('Please fill in town information before submitting.');
+			return; // Stop the submission
+		}
+		// Assuming guessedCoordinates[0] is topLeft and guessedCoordinates[1] is botRight
+		const coordinatesModel = {
+			topLeftCoord: {
+				latitude: guessedCoordinates[0][0],
+				longitude: guessedCoordinates[0][1],
+			},
+			botRightCoord: {
+				latitude: guessedCoordinates[1][0],
+				longitude: guessedCoordinates[1][1],
+			},
+		};
+
+		console.log(townName, townDescription, coordinatesModel);
+		// TownController.createTown(townName, townDescription, coordinatesModel);
 	};
 
 	return (
@@ -21,8 +40,8 @@ const CreateTown = () => {
 					{guessedCoordinates && (
 						<div className="mb-4">
 							<h3>Guessed Coordinates:</h3>
-							<p>Corner 1 - Latitude: {guessedCoordinates[0][0].toFixed(4)}, Longitude: {guessedCoordinates[0][1].toFixed(4)}</p>
-							<p>Corner 2 - Latitude: {guessedCoordinates[1][0].toFixed(4)}, Longitude: {guessedCoordinates[1][1].toFixed(4)}</p>
+							<p>Top Left - Latitude: {guessedCoordinates[0][0].toFixed(4)}, Longitude: {guessedCoordinates[0][1].toFixed(4)}</p>
+							<p>Bottom Right - Latitude: {guessedCoordinates[1][0].toFixed(4)}, Longitude: {guessedCoordinates[1][1].toFixed(4)}</p>
 						</div>
 					)}
 					<form onSubmit={handleSubmit} className="max-w-xs">
@@ -42,11 +61,13 @@ const CreateTown = () => {
 							onChange={(e) => setTownDescription(e.target.value)}
 						/>
 						<button
-							className="w-full px-4 py-2 font-bold text-white bg-blue-500 rounded hover:bg-blue-700 focus:outline-none focus:shadow-outline"
+							className={`w-full px-4 py-2 font-bold text-white ${guessedCoordinates && guessedCoordinates.length === 2 ? 'bg-blue-500 hover:bg-blue-700' : 'bg-gray-500 cursor-not-allowed'}`}
 							type="submit"
+							disabled={!guessedCoordinates || guessedCoordinates.length < 2}
 						>
 							Submit
 						</button>
+
 					</form>
 				</div>
 				<div className="flex-1">
