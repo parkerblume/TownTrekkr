@@ -4,9 +4,8 @@ import { faThumbsUp, faThumbsDown } from '@fortawesome/free-solid-svg-icons';
 import Leaflet from '../components/leaflet';
 import ImageDisplay from '../components/ImageDisplay';
 import NavigationBar from '../components/NavigationBar';
-import { colors } from '../styles/commonStyles';
 
-const HomePage = () => {
+const GuessPage = () => {
 	const [likeDislike, setLikeDislike] = useState('neither'); // 'like', 'dislike', 'neither'
 
 	const handleLike = () => {
@@ -48,4 +47,4 @@ const HomePage = () => {
 	);
 };
 
-export default HomePage;
+export default GuessPage;
