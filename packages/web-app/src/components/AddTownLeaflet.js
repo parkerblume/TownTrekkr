@@ -49,11 +49,10 @@ const AddTownLeaflet = ({ setGuessedCoordinates }) => {
 	};
 
 	return (
-		<div className="m-5 mr-12 flex flex-col items-center">
 			<MapContainer
 				center={[28.6023, -81.2003]}
 				zoom={15}
-				style={{ width: '100%' }}
+				style={{ width: '100%', height: '90vh' }}
 				className="flex rounded-2xl border-2 border-black map-container"
 			>
 				<TileLayer
@@ -85,7 +84,6 @@ const AddTownLeaflet = ({ setGuessedCoordinates }) => {
 					/>
 				)}
 			</MapContainer>
-		</div>
 	);
 };
 
