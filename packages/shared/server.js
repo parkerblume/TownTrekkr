@@ -2,14 +2,26 @@ const path = require('path');
 const PORT = process.env.PORT || 5000;
 const express = require('express');
 const app = express();
+const mongoose = require('mongoose')
+const upload = require('./api/middleware/upload');
 
 require('dotenv').config({ path: path.resolve(__dirname, '../.env') });
-const url = process.env.MONGODB_URL;
+/*const url = process.env.MONGODB_URL;
 const MongoClient = require('mongodb').MongoClient; 
 const client = new MongoClient(url);
-client.connect();
+client.connect();*/
+
+mongoose.connect(process.env.MONGO_URL)
 
 app.set('port', PORT);
+
+// Incoming json
+app.use(express.json());
+
+// Routes -> defined in shared'
+app.use('/', require('./api/routes/routes.js'));
+
+
 
 if (process.env.NODE_ENV === 'production')
 {
@@ -21,13 +33,11 @@ if (process.env.NODE_ENV === 'production')
 	});
 }
 
-// Incoming json
-app.use(express.json());
-
-// Routes -> defined in shared
-app.use('/', require('./api/routes/routes.js'));
 
 // Start the server
 app.listen(PORT, () => {
 	console.log(`Server is running on port ${PORT}`);
-});
+})
+
+
+//upload(app)

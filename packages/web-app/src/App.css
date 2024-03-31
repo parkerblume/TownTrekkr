@@ -36,3 +36,50 @@
     transform: rotate(360deg);
   }
 }
+
+
+:root {
+    --transition-duration: .6s;
+}
+
+.toggle-animate {
+    transition: transform var(--transition-duration) ease-in-out;
+}
+
+.form-slide-left {
+    transform: translateX(0%);
+}
+
+.form-slide-right {
+    transform: translateX(100%);
+}
+
+.image-slide-left {
+    transform: translateX(-100%);
+}
+
+.image-slide-right {
+    transform: translateX(0%);
+}
+
+/* Assuming this class is applied to the image or its container */
+.image-opacity {
+    background-color: rgba(255, 255, 255, 0.15);
+}
+
+/* Animation */
+@keyframes opacityToggle {
+    0%, 100% {
+        background-color: rgba(255, 255, 255, 0.15);
+    }
+    50% {
+        background-color: rgb(199, 215, 199);
+    }
+}
+
+.opacity-animate {
+    animation: opacityToggle var(--transition-duration) ease-in-out forwards;
+
+}
+
+
