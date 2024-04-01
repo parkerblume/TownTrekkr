@@ -17,15 +17,19 @@ app.use(express.json());
 // Routes -> defined in shared'
 app.use('/', require('./api/routes/routes.js'));
 
+// Unsafe but doing this so js can stop complaining
+app.use((req, res, next) => {
+	res.setHeader("Content-Security-Policy", "default-src 'self' 'unsafe-inline' 'unsafe-eval' http: https: data:;");
+	next();
+});
 
 
 if (process.env.NODE_ENV === 'production')
 {
 	// Set static folder
 	app.use(express.static('../web-app/build'));
-	app.get('*', (req, res) =>
-	{
-	res.sendFile(path.resolve(__dirname, 'frontend', 'build', 'index.html'));
+	app.get('*', (req, res) =>{
+		res.sendFile(path.resolve(__dirname, 'frontend', 'build', 'index.html'));
 	});
 }
 
