@@ -14,10 +14,12 @@ const Leaflet = () => {
 	const [markerPosition, setMarkerPosition] = useState([28.6023, -81.2003]);
 	const [guessedCoordinates, setGuessedCoordinates] = useState(null);
 
+	const user = JSON.parse(localStorage.getItem('user'));
+
 	// Assuming these values are available in your component,
 	// replace them with actual data as needed.
-	const userid = "USER_ID_HERE";
-	const postid = "POST_ID_HERE";
+	const userid = user._id;
+	const postid = "123"; // This should be a unique identifier for the post.
 	const score = "5000"; // This should be a number or calculated based on some logic.
 	const hasliked = false; // Example value, replace with actual logic.
 

@@ -25,6 +25,8 @@ const ImageDisplay = () => {
 				const randomIndex = Math.floor(Math.random() * posts.length);
 				const randomPost = posts[randomIndex];
 				setImageUrl(randomPost.imageUrl);
+				// save to local storage
+				localStorage.setItem('imageUrl', randomPost.imageUrl);
 			}
 		};
 

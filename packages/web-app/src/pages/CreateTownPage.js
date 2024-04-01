@@ -22,7 +22,7 @@ const CreateTownPage = () => {
 
 		if (!townName || !townDescription || !guessedCoordinates || guessedCoordinates.length < 2) {
 			alert('Please complete all fields and select a full set of coordinates before submitting.');
-			return; // Stop the submission
+			return;
 		}
 
 		const coordinatesModel = {
@@ -44,6 +44,7 @@ const CreateTownPage = () => {
 			topLeftCoord: coordinatesModel.topLeftCoord,
 			botRightCoord: coordinatesModel.botRightCoord,
 			creatingUser_id: user._id,
+			creatingUsername: user.name,
 		};
 
 		try {
@@ -63,7 +64,7 @@ const CreateTownPage = () => {
 			const result = await response.json();
 			console.log('Town created successfully:', result);
 			alert('Town created successfully!');
-			// Reset form or redirect user as needed
+
 		} catch (error) {
 			console.error('Failed to create town:', error);
 			alert('Failed to create town. Please try again.');

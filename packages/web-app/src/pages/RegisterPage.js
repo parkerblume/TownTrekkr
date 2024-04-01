@@ -75,7 +75,7 @@ function RegisterForm() {
 				console.error('Signup failed');
 				return;
 			}
-
+			//Doesnt fill local storage
 			const data = await response.json(); // The response from your login/signup route
 			if (data && data.user) {
 				localStorage.setItem('user', JSON.stringify({
