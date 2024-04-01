@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import AddTownLeaflet from "../components/AddTownLeaflet";
 
-const CreateTown = () => {
+const CreateTownPage = () => {
 	const [guessedCoordinates, setGuessedCoordinates] = useState(null);
 	const [townName, setTownName] = useState('');
 	const [townDescription, setTownDescription] = useState('');
@@ -43,7 +43,7 @@ const CreateTown = () => {
 			description: townDescription,
 			topLeftCoord: coordinatesModel.topLeftCoord,
 			botRightCoord: coordinatesModel.botRightCoord,
-			creatingUser_id: user._id, // This should be replaced with the actual logic to obtain the creating user's ID
+			creatingUser_id: user._id,
 		};
 
 		try {
@@ -134,4 +134,4 @@ const CreateTown = () => {
 	);
 };
 
-export default CreateTown;
+export default CreateTownPage;
