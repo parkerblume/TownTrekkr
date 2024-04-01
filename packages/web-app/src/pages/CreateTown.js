@@ -84,40 +84,45 @@ const CreateTown = () => {
 				Show User Name
 			</button>
 			{userName && <p>User Name: {userName}</p>}
-			<div className="flex flex-row items-start justify-center gap-4">
-				<div className="flex-1 bg-webBackground h-screen p-4">
-					{guessedCoordinates && (
-						<div className="mb-4">
-							<h3>Guessed Coordinates:</h3>
-							<p>Top Left - Latitude: {guessedCoordinates[0][0].toFixed(4)}, Longitude: {guessedCoordinates[0][1].toFixed(4)}</p>
-							<p>Bottom Right - Latitude: {guessedCoordinates[1][0].toFixed(4)}, Longitude: {guessedCoordinates[1][1].toFixed(4)}</p>
-						</div>
-					)}
-					<form onSubmit={handleSubmit} className="max-w-xs">
-						<input
-							className="mb-4 w-full px-3 py-2 leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
-							id="town-name"
-							type="text"
-							placeholder="Town Name"
-							value={townName}
-							onChange={(e) => setTownName(e.target.value)}
-						/>
-						<textarea
-							className="mb-4 w-full px-3 py-2 leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
-							id="town-description"
-							placeholder="Town Description"
-							value={townDescription}
-							onChange={(e) => setTownDescription(e.target.value)}
-						/>
-						<button
-							className={`w-full px-4 py-2 font-bold text-white ${guessedCoordinates && guessedCoordinates.length === 2 ? 'bg-blue-500 hover:bg-blue-700' : 'bg-gray-500 cursor-not-allowed'}`}
-							type="submit"
-							disabled={!guessedCoordinates || guessedCoordinates.length < 2}
-						>
-							Submit
-						</button>
-					</form>
+			<div className="flex flex-row items-stretch justify-center gap-4">
+				<div className="flex-1 bg-webBackground p-4 flex flex-col justify-center items-center rounded-2xl border-2 border-black">
+					<div className="w-full text-center ">
+						<form onSubmit={handleSubmit} className="p-32 bg-webTertiary rounded-2xl ">
+							<h2 className="text-3xl font-bold pb-8 m-4">Town Information</h2>
+							<input
+								className="mb-8 w-full px-3 py-2 leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
+								id="town-name"
+								type="text"
+								placeholder="Town Name"
+								value={townName}
+								onChange={(e) => setTownName(e.target.value)}
+							/>
+							<textarea
+								className="mb-8 w-full px-3 py-2 leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
+								id="town-description"
+								placeholder="Town Description"
+								value={townDescription}
+								onChange={(e) => setTownDescription(e.target.value)}
+							/>
+							<button
+								className={`w-full px-4 py-2 font-bold text-white ${guessedCoordinates && guessedCoordinates.length === 2 ? 'bg-blue-500 hover:bg-blue-700' : 'bg-gray-500 cursor-not-allowed'}`}
+								type="submit"
+								disabled={!guessedCoordinates || guessedCoordinates.length < 2}
+							>
+								Submit
+							</button>
+						</form>
+						{guessedCoordinates && (
+							<div className="mb-4">
+								<h3>Guessed Coordinates:</h3>
+								<p>Top Left - Latitude: {guessedCoordinates[0][0].toFixed(4)}, Longitude: {guessedCoordinates[0][1].toFixed(4)}</p>
+								<p>Bottom Right - Latitude: {guessedCoordinates[1][0].toFixed(4)},
+									Longitude: {guessedCoordinates[1][1].toFixed(4)}</p>
+							</div>
+						)}
+					</div>
 				</div>
+
 				<div className="flex-1">
 					<AddTownLeaflet
 						guessedCoordinates={guessedCoordinates}
