@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import { MapContainer, TileLayer, Marker, useMapEvents } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import { Icon } from "leaflet";
-import { colors } from '../styles/commonStyles';
 import '../styles/Leaflet.css';
+import GuessButton from './GuessButton';
 
 const markerIcon = new Icon({
   iconUrl: require("../icons/Marker.png"),
@@ -47,11 +47,7 @@ const Leaflet = () => {
 			  <Marker position={markerPosition} icon={markerIcon}/>
 		  </MapContainer>
 		  <div className="flex flex-row items-center gap-4">
-			  <button className="relative m-5 w-1/2 min-w-fit rounded-3xl p-2 bg-webSecondary text-webPrimary" onClick={handleGuessClick}>
-				  <div className="relative min-w-fit rounded-2xl p-11 text-3xl font-bold text-white bg-webAccent">
-					  Guess Coordinates
-				  </div>
-			  </button>
+			  <GuessButton handleGuessClick={handleGuessClick} /> {/* Use the GuessButton component */}
 
 			  {guessedCoordinates && (
 				  <div className="text-xl">

@@ -56,7 +56,7 @@ function HomePage() {
             <Button
               variant="contained"
               color="primary"
-              onClick={() => handleNavigate('/towns')}
+              onClick={() => handleNavigate('/CreateTown')}
               sx={{
                 height: '60vh',
                 width: '25vw',
@@ -73,7 +73,7 @@ function HomePage() {
             <Button
               variant="contained"
               color="primary"
-              onClick={() => handleNavigate('/play')}
+              onClick={() => handleNavigate('/GuessPage')}
               sx={{
                 height: '60vh',
                 width: '25vw',

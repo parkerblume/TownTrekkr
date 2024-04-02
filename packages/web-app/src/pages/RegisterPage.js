@@ -71,12 +71,20 @@ function RegisterForm() {
 				body: JSON.stringify({ username, email, password }),
 			});
 
-            if (!response.ok) {
-                throw new Error('Signup failed');
-            }
+			if (!response.ok) {
+				console.error('Signup failed');
+				return;
+			}
 
-			const data = await response.json();
-			console.log('Signup successful:', data);
+			const data = await response.json(); // The response from your login/signup route
+			if (data && data.user) {
+				localStorage.setItem('user', JSON.stringify({
+					id: data.user._id, // Assuming the user object has an _id property
+					name: data.user.name, // Customize these fields based on your user object
+					email: data.user.email,
+				}));
+			}
+
 			navigate('/HomePage');
 		} catch (error) {
 			console.error('Error signing up:', error);
