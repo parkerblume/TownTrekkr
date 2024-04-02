@@ -17,6 +17,10 @@ const userSchema = new Schema({
         required: true,
         unique: true
     },
+    verified : {
+        type: Boolean,
+        default: true
+    },
     // List of posts already played and respective score
     playedPosts : [
     {
@@ -29,6 +33,14 @@ const userSchema = new Schema({
         },
         hasLiked: {
             type: Boolean
+        }
+    }
+    ],
+    activeTowns : [
+    {
+        town_id: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Town'
         }
     }
     ]
