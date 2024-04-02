@@ -44,7 +44,7 @@ function LoginForm() {
 		if (hasError) return;
 
         try {
-            const response = await fetch('/login', {
+            const response = await fetch('https://www.towntrekkr.com/login', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -52,21 +52,12 @@ function LoginForm() {
                 body: JSON.stringify({ email, password }),
             });
 
-	        if (!response.ok) {
-		        console.error('Login failed');
-		        return;
-	        }
+            if (!response.ok) {
+                throw new Error('Login failed');
+            }
 
             const data = await response.json();
             console.log('Login successful:', data);
-	        if (data && data.user) {
-		        localStorage.setItem('user', JSON.stringify({
-			        id: data.user._id, // Assuming the user object has an _id property
-			        name: data.user.name, // Customize these fields based on your user object
-			        email: data.user.email,
-		        }));
-	        }
-
             navigate('/HomePage'); // Redirect to HomePage on success
         } catch (error) {
             console.error('Error logging in:', error);
