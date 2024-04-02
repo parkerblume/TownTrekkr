@@ -68,10 +68,22 @@ const ratePost = async (req, res) => {
     }
 }
 
+const getPostsByTown = async (req, res) => {
+    try {
+        const { townId } = req.body;
+        const posts = await Post.getPostByTown(townId);
+
+        res.status(200).json(posts);
+    } catch (error) {
+        res.status(400).json({message: 'Error getting posts by town', error: error.message });
+    }
+}
+
 module.exports = {
     createPost,
     getPost,
     getPosts,
+    getPostsByTown,
     deletePost,
     ratePost
 }

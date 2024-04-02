@@ -47,6 +47,12 @@ postSchema.statics.createpost = async function(fileId, user_id, town, coordinate
 
 }
 
+postSchema.statics.getPostByTown = async function(townId)
+{
+    const posts = await this.find({ town: townId });
+    return posts;
+}
+
 // Static get post method
 postSchema.statics.getpost = async function (post_id) {
     const post = await this.findById(post_id)
