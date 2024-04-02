@@ -1,51 +1,97 @@
-import React, { useState } from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faThumbsUp, faThumbsDown } from '@fortawesome/free-solid-svg-icons';
-import Leaflet from '../components/leaflet';
-import ImageDisplay from '../components/ImageDisplay';
+import React from 'react';
+import { useNavigate } from "react-router-dom";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
+import Button from "@mui/material/Button";
 import NavigationBar from '../components/NavigationBar';
-import { colors } from '../styles/commonStyles';
 
-const HomePage = () => {
-	const [likeDislike, setLikeDislike] = useState('neither'); // 'like', 'dislike', 'neither'
+const theme = createTheme({
+  palette: {
+    primary: {
+      main: '#ABC4AB',
+      contrastText: '#DCC9B6',
+    },
+  },
+  components: {
+    MuiButton: {
+      styleOverrides: {
+        root: {
+          fontSize: '90px',
+          textShadow: '2px 2px 0 #000, -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000',
+        },
+      },
+    },
+  },
+});
 
-	const handleLike = () => {
-		setLikeDislike(likeDislike !== 'like' ? 'like' : 'neither');
-	};
+function HomePage() {
+  const navigate = useNavigate();
 
-	const handleDislike = () => {
-		setLikeDislike(likeDislike !== 'dislike' ? 'dislike' : 'neither');
-	};
+  const handleNavigate = (path) => {
+    navigate(path);
+  };
 
-	return (
-		<div className="flex min-h-screen w-screen flex-col bg-webPrimary">
-			<NavigationBar />
-			<div className="flex flex-grow flex-col">
-				<div className="flex flex-grow flex-row justify-center">
-					<div className="mb-2 flex w-1/2 flex-col">
-						<ImageDisplay />
-						<div id="thumbs-up" className="mt-3 mr-20 mb-8 flex justify-end space-x-2">
-							<button
-								onClick={handleLike}
-								className={`p-2 rounded ${likeDislike === 'like' ? 'bg-green-500' : 'bg-gray-200'} w-12 h-12 flex items-center justify-center`}
-							>
-								<FontAwesomeIcon icon={faThumbsUp} color={likeDislike === 'like' ? 'white' : 'black'} size="lg" />
-							</button>
-							<button
-								onClick={handleDislike}
-								className={`p-2 rounded ${likeDislike === 'dislike' ? 'bg-red-500' : 'bg-gray-200'} w-12 h-12 flex items-center justify-center`}
-							>
-								<FontAwesomeIcon icon={faThumbsDown} color={likeDislike === 'dislike' ? 'white' : 'black'} size="lg" />
-							</button>
-						</div>
-					</div>
-					<div className="flex w-1/2 flex-grow flex-col pt-4 rounded-4xl">
-						<Leaflet />
-					</div>
-				</div>
-			</div>
-		</div>
-	);
-};
+  return (
+    <div className="flex min-h-screen flex-col bg-custom-bg">
+      <NavigationBar />
+      <div className="flex flex-grow items-center justify-center">
+        <ThemeProvider theme={theme}>
+          <div className="grid grid-cols-3 gap-4 w-full justify-items-center">
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={() => handleNavigate('/my-account')}
+              sx={{
+                height: '60vh',
+                width: '25vw',
+                backgroundImage: 'url(/images/house.jpg)',
+                backgroundSize: 'cover',
+                boxShadow: '5px 5px 15px rgba(0,0,0,0.6)',
+                '&:hover': {
+                  backgroundColor: 'rgba(0, 0, 0, 0.2)',
+                },
+              }}
+            >
+              Account
+            </Button>
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={() => handleNavigate('/towns')}
+              sx={{
+                height: '60vh',
+                width: '25vw',
+                backgroundImage: 'url(/images/town.jpg)',
+                backgroundSize: 'cover',
+                boxShadow: '5px 5px 15px rgba(0,0,0,0.6)',
+                '&:hover': {
+                  backgroundColor: 'rgba(0, 0, 0, 0.2)',
+                },
+              }}
+            >
+              Towns
+            </Button>
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={() => handleNavigate('/play')}
+              sx={{
+                height: '60vh',
+                width: '25vw',
+                backgroundImage: 'url(/images/map.jpg)',
+                backgroundSize: 'cover',
+                boxShadow: '5px 5px 15px rgba(0,0,0,0.6)',
+                '&:hover': {
+                  backgroundColor: 'rgba(0, 0, 0, 0.2)',
+                },
+              }}
+            >
+              Play
+            </Button>
+          </div>
+        </ThemeProvider>
+      </div>
+    </div>
+  );
+}
 
 export default HomePage;
