@@ -15,15 +15,15 @@ router.post('/rate', PostController.ratePost)
 router.post('/createpost', upload.single('image'), PostController.createPost)
 
 // get post route
-router.get('/getpost', PostController.getPost)
+router.post('/getpost', PostController.getPost)
 
 // get posts route
 router.get('/getposts', PostController.getPosts)
 
-router.get('/getpostsbytown', PostController.getPostsByTown);
+router.post('/getpostsbytown', PostController.getPostsByTown);
 
 // get image
-router.get('/getimage', View.getImage)
+router.post('/getimage', View.getImage)
 
 // delete post route
 router.delete('/deletepost', PostController.deletePost)
