@@ -48,7 +48,7 @@ const CreateTownPage = () => {
 		};
 
 		try {
-			const response = await fetch('/createtown', {
+			const response = await fetch('api/town/createtown', {
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/json',

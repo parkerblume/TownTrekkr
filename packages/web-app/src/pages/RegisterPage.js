@@ -63,7 +63,7 @@ function RegisterForm() {
 		if (hasError) return;
 
 		try {
-			const response = await fetch('https://www.towntrekkr.com/signup', {
+			const response = await fetch('/api/user/signup', {
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/json',
