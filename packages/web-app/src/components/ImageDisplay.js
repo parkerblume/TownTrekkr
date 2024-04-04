@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import '../styles/Spinner.css';
 
-const ImageDisplay = () => {
+const ImageDisplay = ({ trigger }) => {
 	const [imageUrl, setImageUrl] = useState('');
+	const [loading, setLoading] = useState(true);
 
 	useEffect(() => {
-		const fetchPosts = async () => {
+		async function fetchImage() {
+			setLoading(true);
 			try {
-				// Fetch the list of posts by town
 				const response = await fetch('api/posts/getpostsbytown', {
 					method: 'POST',
 					headers: {
@@ -17,17 +18,15 @@ const ImageDisplay = () => {
 				});
 				if (!response.ok) {
 					console.error('Failed to fetch posts');
+					setLoading(false);
 					return;
 				}
 
 				const posts = await response.json();
-
 				if (posts.length > 0) {
-					// Select a random post from the list
 					const randomIndex = Math.floor(Math.random() * posts.length);
 					const randomPost = posts[randomIndex];
 
-					// Fetch the image using the fileId of the selected post
 					const imageResponse = await fetch('api/posts/getimage', {
 						method: 'POST',
 						headers: {
@@ -38,32 +37,35 @@ const ImageDisplay = () => {
 
 					if (!imageResponse.ok) {
 						console.error('Failed to fetch image');
+						setLoading(false);
 						return;
 					}
 
 					const imageBlob = await imageResponse.blob();
 					const imageUrl = URL.createObjectURL(imageBlob);
 					setImageUrl(imageUrl);
-
-					// Save to local storage
-					localStorage.setItem('imageUrl', imageUrl);
+                    localStorage.setItem('imageData', JSON.stringify(randomPost));
+				} else {
+					console.log('No posts found');
 				}
 			} catch (error) {
-				console.error('Error fetching posts:', error);
+				console.error('Error fetching image:', error);
+			} finally {
+				setLoading(false);
 			}
-		};
+		}
 
-		fetchPosts();
-	}, []);
+		fetchImage();
+	}, [trigger]);
 
 	return (
 		<div className="ml-12 mt-9 mr-5 h-full overflow-hidden rounded-2xl border-2 border-black bg-gray-800">
 			<div className="h-full rounded-4xl flex justify-center items-center">
-				{imageUrl ? (
-					<img src={imageUrl} alt="Selected Post" className="mx-auto h-full w-auto object-cover" />
-				) : (
-					<div className="spinner"></div>
-				)}
+			{loading ? (
+				<div className="spinner"></div>
+			) : (
+				<img src={imageUrl} alt="Selected Post" className="mx-auto h-full w-auto object-cover" />
+			)}
 			</div>
 		</div>
 	);

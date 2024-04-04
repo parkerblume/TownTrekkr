@@ -6,22 +6,25 @@ import ImageDisplay from '../components/ImageDisplay';
 import NavigationBar from '../components/NavigationBar';
 
 const GuessPage = () => {
-	const [likeDislike, setLikeDislike] = useState('neither'); // 'like', 'dislike', 'neither'
-	const [score, setScore] = useState(0); // Temporary score value
-	const [gameKey, setGameKey] = useState(0); // Used to reset the game
+	const [likeDislike, setLikeDislike] = useState('neither');
+	const [score, setScore] = useState(0);
+	const [gameKey, setGameKey] = useState(0);
+	const [trigger, setTrigger] = useState(0); // New trigger for ImageDisplay
 
 	const handleLike = () => {
 		setLikeDislike(likeDislike !== 'like' ? 'like' : 'neither');
+		// Optionally, update trigger here if you want new images on like/dislike
 	};
 
 	const handleDislike = () => {
 		setLikeDislike(likeDislike !== 'dislike' ? 'dislike' : 'neither');
+		// Optionally, update trigger here
 	};
 
 	const resetGame = useCallback(() => {
-		setGameKey(prevKey => prevKey + 1); // Increment key to force re-render and reset
-		setScore(0); // Reset score or set new score as needed
-		// Add any other state resets here
+		setGameKey(prevKey => prevKey + 1);
+		setScore(0);
+		setTrigger(prevTrigger => prevTrigger + 1); // Resetting game updates the trigger
 	}, []);
 
 	return (
@@ -30,7 +33,7 @@ const GuessPage = () => {
 			<div className="flex flex-grow flex-col">
 				<div className="flex flex-grow flex-row justify-center">
 					<div className="mb-2 flex w-1/2 flex-col">
-						<ImageDisplay />
+						<ImageDisplay trigger={trigger} />
 						<div id="thumbs-up" className="mt-3 mr-20 mb-8 flex justify-end space-x-2">
 							<button onClick={handleLike} className={`p-2 rounded ${likeDislike === 'like' ? 'bg-green-500' : 'bg-gray-200'} w-12 h-12 flex items-center justify-center`}>
 								<FontAwesomeIcon icon={faThumbsUp} color={likeDislike === 'like' ? 'white' : 'black'} size="lg" />
