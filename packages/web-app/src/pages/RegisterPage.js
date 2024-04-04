@@ -63,7 +63,7 @@ function RegisterForm() {
 		if (hasError) return;
 
 		try {
-			const response = await fetch('https://www.towntrekkr.com/signup', {
+			const response = await fetch('/api/user/signup', {
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/json',
@@ -71,12 +71,20 @@ function RegisterForm() {
 				body: JSON.stringify({ username, email, password }),
 			});
 
-            if (!response.ok) {
-                throw new Error('Signup failed');
-            }
+			if (!response.ok) {
+				console.error('Signup failed');
+				return;
+			}
+			//Doesnt fill local storage
+			const data = await response.json(); // The response from your login/signup route
+			if (data && data.user) {
+				localStorage.setItem('user', JSON.stringify({
+					id: data.user._id, // Assuming the user object has an _id property
+					name: data.user.name, // Customize these fields based on your user object
+					email: data.user.email,
+				}));
+			}
 
-			const data = await response.json();
-			console.log('Signup successful:', data);
 			navigate('/HomePage');
 		} catch (error) {
 			console.error('Error signing up:', error);

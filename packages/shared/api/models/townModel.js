@@ -69,10 +69,10 @@ townSchema.statics.getTowns = async function (userId) {
 townSchema.statics.createTown = async function(name, description, topLeftCoord, botRightCoord, creatingUsername)
 {
     const nameExists = await this.findOne({ name })
-    const area = (topLeftCoord.latitude - botRightCoord.latitude) * 
+    let area = (topLeftCoord.latitude - botRightCoord.latitude) *
                 (topLeftCoord.longitude - botRightCoord.longitude)
 
-    if (nameExists) 
+    if (nameExists)
         throw Error("Town with this name already exists")
 
     // No negative areas
@@ -80,10 +80,10 @@ townSchema.statics.createTown = async function(name, description, topLeftCoord, 
         area = area * (-1)
 
     // console.log(topLeftCoord, botRightCoord);
-    const town = await this.create({ 
-        name, 
+    const town = await this.create({
+        name,
         description,
-        creatingUsername, 
+        creatingUsername,
         topLeftLat: topLeftCoord.latitude,
         topLeftLong: topLeftCoord.longitude,
         botRightLat: botRightCoord.latitude,
