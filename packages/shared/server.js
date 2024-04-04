@@ -5,6 +5,10 @@ const app = express();
 const mongoose = require('mongoose')
 const upload = require('./api/middleware/upload');
 
+const postRoutes = require('./api/routes/post.routes');
+const townRoutes = require('./api/routes/town.routes');
+const userRoutes = require('./api/routes/user.routes');
+
 require('dotenv').config({ path: path.resolve(__dirname, '../.env') });
 
 mongoose.connect(process.env.MONGO_URL)
@@ -15,21 +19,19 @@ app.set('port', PORT);
 app.use(express.json());
 
 // Routes -> defined in shared'
-app.use('/', require('./api/routes/routes.js'));
+app.use('/api/town', townRoutes);
+app.use('/api/user', userRoutes);
+app.use('/api/posts', postRoutes);
 
-// Unsafe but doing this so js can stop complaining
-app.use((req, res, next) => {
-	res.setHeader("Content-Security-Policy", "default-src 'self' 'unsafe-inline' 'unsafe-eval' http: https: data:;");
-	next();
-});
 
 
 if (process.env.NODE_ENV === 'production')
 {
 	// Set static folder
 	app.use(express.static('../web-app/build'));
-	app.get('*', (req, res) =>{
-		res.sendFile(path.resolve(__dirname, 'frontend', 'build', 'index.html'));
+	app.get('*', (req, res) =>
+	{
+	res.sendFile(path.resolve(__dirname, 'frontend', 'build', 'index.html'));
 	});
 }
 
