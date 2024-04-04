@@ -31,8 +31,10 @@ const Leaflet = () => {
 	const handleGuessClick = async () => {
 		setGuessedCoordinates(markerPosition);
 
+
+
 		try {
-			const response = await fetch("/api/guess", { // Replace "/api/guess" with your actual API endpoint
+			const response = await fetch("/api/user/makeguess", { // Replace "/api/guess" with your actual API endpoint
 				method: "POST",
 				headers: {
 					'Content-Type': 'application/json',
