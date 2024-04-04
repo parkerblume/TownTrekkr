@@ -1,30 +1,97 @@
-import React from "react";
+import React from 'react';
+import { useNavigate } from "react-router-dom";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
+import Button from "@mui/material/Button";
+import NavigationBar from '../components/NavigationBar';
 
-const HomePage = () => {
+const theme = createTheme({
+  palette: {
+    primary: {
+      main: '#ABC4AB',
+      contrastText: '#DCC9B6',
+    },
+  },
+  components: {
+    MuiButton: {
+      styleOverrides: {
+        root: {
+          fontSize: '90px',
+          textShadow: '2px 2px 0 #000, -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000',
+        },
+      },
+    },
+  },
+});
 
-	// Temporary function to fill the local storage with a user object for testing
-	const fillLocalStorage = () => {
-		localStorage.setItem('user', JSON.stringify({
-							id: '12345689123', // Assuming the user object has an _id property
-							name: 'camilo', // Customize these fields based on your user object
-							email: 'camilo@gmail.com',
-						}));
-	}
+function HomePage() {
+  const navigate = useNavigate();
 
-	return (
-		<div className="flex flex-col items-center justify-center h-screen">
-			<h1 className="text-4xl font-bold">Welcome to GeoGame!</h1>
-			<button className="mt-4 px-4 py-2 font-bold text-white bg-blue-500 hover:bg-blue-700">
-				<a href="/GuessPage">Start Playing</a>
-			</button>
-			<button className="mt-4 px-4 py-2 font-bold text-white bg-blue-500 hover:bg-blue-700">
-				<a href="/CreateTownPage">Create a Town</a>
-			</button>
-			<button className="mt-4 px-4 py-2 font-bold text-white bg-blue-500 hover:bg-blue-700" onClick={fillLocalStorage}>
-				Fill Local Storage
-			</button>
-		</div>
-	);
+  const handleNavigate = (path) => {
+    navigate(path);
+  };
+
+  return (
+    <div className="flex min-h-screen flex-col bg-custom-bg">
+      <NavigationBar />
+      <div className="flex flex-grow items-center justify-center">
+        <ThemeProvider theme={theme}>
+          <div className="grid grid-cols-3 gap-4 w-full justify-items-center">
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={() => handleNavigate('/my-account')}
+              sx={{
+                height: '60vh',
+                width: '25vw',
+                backgroundImage: 'url(/images/house.jpg)',
+                backgroundSize: 'cover',
+                boxShadow: '5px 5px 15px rgba(0,0,0,0.6)',
+                '&:hover': {
+                  backgroundColor: 'rgba(0, 0, 0, 0.2)',
+                },
+              }}
+            >
+              Account
+            </Button>
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={() => handleNavigate('/CreateTown')}
+              sx={{
+                height: '60vh',
+                width: '25vw',
+                backgroundImage: 'url(/images/town.jpg)',
+                backgroundSize: 'cover',
+                boxShadow: '5px 5px 15px rgba(0,0,0,0.6)',
+                '&:hover': {
+                  backgroundColor: 'rgba(0, 0, 0, 0.2)',
+                },
+              }}
+            >
+              Towns
+            </Button>
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={() => handleNavigate('/GuessPage')}
+              sx={{
+                height: '60vh',
+                width: '25vw',
+                backgroundImage: 'url(/images/map.jpg)',
+                backgroundSize: 'cover',
+                boxShadow: '5px 5px 15px rgba(0,0,0,0.6)',
+                '&:hover': {
+                  backgroundColor: 'rgba(0, 0, 0, 0.2)',
+                },
+              }}
+            >
+              Play
+            </Button>
+          </div>
+        </ThemeProvider>
+      </div>
+    </div>
+  );
 }
 
 export default HomePage;
