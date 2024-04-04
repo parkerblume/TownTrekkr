@@ -1,7 +1,13 @@
 import React, { useState } from 'react';
+import { useNavigate } from "react-router-dom";
 import AddTownLeaflet from "../components/AddTownLeaflet";
 
 const CreateTownPage = () => {
+	const navigate = useNavigate();
+
+	const handleNavigate = (path) => {
+		navigate(path);
+	};
 	const [guessedCoordinates, setGuessedCoordinates] = useState(null);
 	const [townName, setTownName] = useState('');
 	const [townDescription, setTownDescription] = useState('');
@@ -76,9 +82,13 @@ const CreateTownPage = () => {
 				<h1 className="text-4xl font-bold">Create a New Town</h1>
 			</div>
 			{/*return to home page*/}
-			<a href="/HomePage" className="px-4 py-2 font-bold text-white bg-red-500 hover:bg-red-700 rounded">
+			{/* <a href="/HomePage" className="px-4 py-2 font-bold text-white bg-red-500 hover:bg-red-700 rounded">
 				Home
-			</a>
+			</a> */}
+			<button
+				onClick={() => handleNavigate('/HomePage')}>
+				Home
+			</button>
 			<button
 				onClick={handleRetrieveUser}
 				className="px-4 py-2 font-bold text-white bg-green-500 hover:bg-green-700 rounded">
