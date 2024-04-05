@@ -48,11 +48,13 @@ const GuessPage = () => {
 					</div>
 				</div>
 			</div>
-			<div className="w-full p-4 flex justify-between items-center bg-gray-800 text-white fixed bottom-0">
-				<div>Score: {score}</div>
-				<button onClick={resetGame} className="p-2 bg-blue-500 rounded hover:bg-blue-700 transition duration-300">
-					<FontAwesomeIcon icon={faRedo} size="lg" /> New Game
-				</button>
+			<div className="pt-14">
+				<div className="w-full flex justify-between items-center bg-gray-800 text-white fixed bottom-0">
+					<div>Score: {score}</div>
+					<button onClick={resetGame} className="p-2 bg-blue-500 rounded hover:bg-blue-700 transition duration-300">
+						<FontAwesomeIcon icon={faRedo} size="lg"/> New Game
+					</button>
+				</div>
 			</div>
 		</div>
 	);
