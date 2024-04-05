@@ -35,11 +35,11 @@ function HomePage() {
       <NavigationBar />
       <div className="flex flex-grow items-center justify-center">
         <ThemeProvider theme={theme}>
-          <div className="grid grid-cols-2 gap-4 w-full justify-items-center">
+          <div className="grid grid-cols-3 gap-4 w-full justify-items-center">
             {/* <Button
               variant="contained"
               color="primary"
-              onClick={() => handleNavigate('/my-account')}
+              onClick={() => handleNavigate('/Create')}
               sx={{
                 height: '60vh',
                 width: '25vw',
@@ -53,6 +53,23 @@ function HomePage() {
             >
               Account
             </Button> */}
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={() => handleNavigate('/CreateTownPage')}
+              sx={{
+                height: '60vh',
+                width: '35vw',
+                backgroundImage: 'url(/images/town2.jpg)',
+                backgroundSize: 'cover',
+                boxShadow: '5px 5px 15px rgba(0,0,0,0.6)',
+                '&:hover': {
+                  backgroundColor: 'rgba(0, 0, 0, 0.2)',
+                },
+              }}
+            >
+              Create Town
+            </Button>
             <Button
               variant="contained"
               color="primary"
