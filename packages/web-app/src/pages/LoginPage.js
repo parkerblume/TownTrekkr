@@ -40,7 +40,6 @@ function LoginForm() {
 			hasError = true;
 		}
 
-		// If there's an error, stop form submission
 		if (hasError) return;
 
         try {
@@ -59,18 +58,18 @@ function LoginForm() {
 
             const data = await response.json();
             console.log('Login successful:', data);
-	        if (data && data.user) {
-		        localStorage.setItem('user', JSON.stringify({
-			        id: data.user._id, // Assuming the user object has an _id property
-			        name: data.user.name, // Customize these fields based on your user object
-			        email: data.user.email,
-		        }));
-	        }
+	        if (data && data.id) {
+				localStorage.setItem('user', JSON.stringify({
+					id: data.id,
+					name: data.username,
+					email: data.email,
+				}));
+				console.log('Stored user:', localStorage.getItem('user'));
+			}
 
-            navigate('/HomePage'); // Redirect to HomePage on success
+            navigate('/HomePage');
         } catch (error) {
             console.error('Error logging in:', error);
-            // Handle login failure (e.g., show an error message)
         }
     };
 

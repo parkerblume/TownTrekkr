@@ -56,7 +56,7 @@ function HomePage() {
             <Button
               variant="contained"
               color="primary"
-              onClick={() => handleNavigate('/CreateTownPage')}
+              onClick={() => handleNavigate('/MyTowns')}
               sx={{
                 height: '60vh',
                 width: '25vw',
