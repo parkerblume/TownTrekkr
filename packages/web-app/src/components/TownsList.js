@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 const TownsList = () => {
@@ -20,7 +20,7 @@ const TownsList = () => {
       townMembers: [{ userId: "user1", _id: "member1" }],
     },
     {
-      _id: "1",
+      _id: "2",
       name: "Fake Town",
       description: "We're way faker than that other one!",
       creatingUsername: "Example_User_11",
@@ -33,7 +33,7 @@ const TownsList = () => {
     }
   ];
 
-  const fetchTowns = async () => {
+  const fetchTowns = useCallback(async () => {
     setIsLoading(true);
     try {
       const storedUser = JSON.parse(localStorage.getItem('user'));
@@ -55,11 +55,12 @@ const TownsList = () => {
       setTowns(example);
     }
     setIsLoading(false);
-  };
+  }, []);
 
   useEffect(() => {
     fetchTowns();
-  }, []);
+  }, [fetchTowns]);
+
 
   return (
     <div style={{
@@ -121,3 +122,4 @@ const TownsList = () => {
 };
 
 export default TownsList;
+
