@@ -8,6 +8,12 @@ router.post('/login', UserController.loginUser)
 // signup route
 router.post('/signup', UserController.signupUser)
 
+// send verify email
+router.post('/sendemail', UserController.sendEmail)
+
+// verify code
+router.post('/verify', UserController.verify)
+
 // make guess
 router.post('/makeguess', UserController.makeGuess)
 

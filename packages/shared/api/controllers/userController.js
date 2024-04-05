@@ -34,6 +34,34 @@ const signupUser = async (req, res) => {
     }
 }
 
+const sendEmail = async (req, res) => {
+    const {email} = req.body
+
+    try {
+        const message = await User.sendemail(email)
+
+
+        res.status(200).json({message: message})
+    }
+    catch (error) {
+        res.status(400).json({error: error.message})
+    }
+}
+
+const verify = async (req, res) => {
+    const {email, code} = req.body
+
+    try {
+        const message = await User.verify(email, code)
+
+
+        res.status(200).json({message: message})
+    }
+    catch (error) {
+        res.status(400).json({error: error.message})
+    }
+}
+
 const makeGuess = async (req, res) => {
     const {userid, postid, score, hasliked} = req.body
 
@@ -64,6 +92,8 @@ const getGuesses = async (req, res) => {
 module.exports = {
     loginUser,
     signupUser,
+    sendEmail,
+    verify,
     makeGuess,
     getGuesses
 }
