@@ -1,37 +1,37 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 
+const example = [
+  {
+    _id: "1",
+    name: "Example-ville",
+    description: "A fake town with fake people and a fake name.",
+    creatingUsername: "Example_User_10",
+    topLeftLat: 0.0,
+    topLeftLong: 1.0,
+    botRightLat: -1.0,
+    botRightLong: 2.0,
+    scoreMod: 1,
+    townMembers: [{ userId: "user1", _id: "member1" }],
+  },
+  {
+    _id: "2",
+    name: "Fake Town",
+    description: "We're way faker than that other one!",
+    creatingUsername: "Example_User_11",
+    topLeftLat: 0.1,
+    topLeftLong: 1.1,
+    botRightLat: -1.1,
+    botRightLong: 2.1,
+    scoreMod: 1,
+    townMembers: [{ userId: "user1", _id: "member1" }],
+  }
+];
+
 const TownsList = () => {
   const [towns, setTowns] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
-
-  const example = [
-    {
-      _id: "1",
-      name: "Example-ville",
-      description: "A fake town with fake people and a fake name.",
-      creatingUsername: "Example_User_10",
-      topLeftLat: 0.0,
-      topLeftLong: 1.0,
-      botRightLat: -1.0,
-      botRightLong: 2.0,
-      scoreMod: 1,
-      townMembers: [{ userId: "user1", _id: "member1" }],
-    },
-    {
-      _id: "2",
-      name: "Fake Town",
-      description: "We're way faker than that other one!",
-      creatingUsername: "Example_User_11",
-      topLeftLat: 0.1,
-      topLeftLong: 1.1,
-      botRightLat: -1.1,
-      botRightLong: 2.1,
-      scoreMod: 1,
-      townMembers: [{ userId: "user1", _id: "member1" }],
-    }
-  ];
 
   const fetchTowns = useCallback(async () => {
     setIsLoading(true);
