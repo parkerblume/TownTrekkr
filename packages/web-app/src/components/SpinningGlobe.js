@@ -15,7 +15,7 @@ const SpinningGlobe = () => {
     const height = mountRef.current.clientHeight;
 
     const scene = new THREE.Scene();
-    const camera = new THREE.PerspectiveCamera(75, width / height, 0.1, 1000);
+    const camera = new THREE.PerspectiveCamera(85, width / height, 0.1, 1000);
     camera.position.set(0, 0, 200);
 
     const renderer = new THREE.WebGLRenderer();
@@ -58,7 +58,7 @@ const SpinningGlobe = () => {
         if (rotationSpeed.current.x > 0.0005 || rotationSpeed.current.x < -0.0005) rotationSpeed.current.x = rotationSpeed.current.x * 0.9975;
         if (rotationSpeed.current.y > 0.0005 || rotationSpeed.current.y < -0.0005) rotationSpeed.current.y = rotationSpeed.current.y * 0.9975;
       }
-      
+
       renderer.render(scene, camera);
     };
 
@@ -106,20 +106,20 @@ const SpinningGlobe = () => {
           x: event.clientX - previousMousePosition.x,
           y: event.clientY - previousMousePosition.y,
         };
-    
+
         const rotationFactor = 0.0003; // Adjust this value for sensitivity
         rotationSpeed.current = {
           y: deltaMove.x * rotationFactor,
           x: deltaMove.y * rotationFactor
         };
-    
+
         globeRef.current.rotation.y += rotationSpeed.current.y;
         globeRef.current.rotation.x += rotationSpeed.current.x;
-    
+
         setPreviousMousePosition({ x: event.clientX, y: event.clientY });
       }
     };
-    
+
 
     const handleMouseUp = () => {
       setIsDragging(false);
