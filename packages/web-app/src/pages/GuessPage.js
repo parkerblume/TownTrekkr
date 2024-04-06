@@ -1,14 +1,13 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState} from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faThumbsUp, faThumbsDown, faRedo } from '@fortawesome/free-solid-svg-icons';
 import Leaflet from '../components/leaflet';
+import { useGame } from '../components/GameContext';
 import ImageDisplay from '../components/ImageDisplay';
 
 const GuessPage = () => {
+	const { score, trigger, resetGame, setScore, gameKey } = useGame();
 	const [likeDislike, setLikeDislike] = useState('neither');
-	const [score, setScore] = useState(0);
-	const [gameKey, setGameKey] = useState(0);
-	const [trigger, setTrigger] = useState(0); // New trigger for ImageDisplay
 
 	const handleLike = () => {
 		setLikeDislike(likeDislike !== 'like' ? 'like' : 'neither');
@@ -19,12 +18,6 @@ const GuessPage = () => {
 		setLikeDislike(likeDislike !== 'dislike' ? 'dislike' : 'neither');
 		// Optionally, update trigger here
 	};
-
-	const resetGame = useCallback(() => {
-		setGameKey(prevKey => prevKey + 1);
-		setScore(0);
-		setTrigger(prevTrigger => prevTrigger + 1); // Resetting game updates the trigger
-	}, []);
 
 	return (
 		<div className="flex min-h-screen w-screen flex-col bg-webPrimary">
