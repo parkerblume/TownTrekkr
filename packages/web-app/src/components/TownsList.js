@@ -28,7 +28,7 @@ const example = [
   }
 ];
 
-const TownsList = () => {
+const TownsList = ({ className }) => {
   const [towns, setTowns] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
@@ -61,6 +61,10 @@ const TownsList = () => {
     fetchTowns();
   }, [fetchTowns]);
 
+  const handleTownSelect = (town) => {
+    localStorage.setItem('selectedTown', JSON.stringify(town));
+    navigate('/GuessPage');
+  };
 
   return (
     <div style={{
@@ -104,7 +108,7 @@ const TownsList = () => {
             <p style={{ fontSize: '18px' }}>Coordinates: [{town.topLeftLat}, {town.topLeftLong}] to [{town.botRightLat}, {town.botRightLong}]</p>
           </div>
           <button
-            onClick={() => navigate('/GuessPage')}
+            onClick={() => handleTownSelect(town)}
             style={{
               padding: '10px 20px',
               fontSize: '18px',
