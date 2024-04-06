@@ -123,7 +123,7 @@ townSchema.statics.addUser = async function(town_id, user_id) {
 		}
 	} catch (error) {
 		console.error(`Error finding user with ID ${user_id}:`, error.message);
-		throw error; // Re-throw the error to be caught by the calling function
+		throw error;
 	}
 
 	if (town.townMembers.find(member => member.userId.toString() === user_id.toString())) {
