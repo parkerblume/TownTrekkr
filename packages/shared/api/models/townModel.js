@@ -79,10 +79,10 @@ townSchema.statics.getTowns = async function (userId, page, limit) {
 townSchema.statics.createTown = async function(name, description, topLeftCoord, botRightCoord, creatingUsername)
 {
     const nameExists = await this.findOne({ name })
-    const area = (topLeftCoord.latitude - botRightCoord.latitude) * 
+    let area = (topLeftCoord.latitude - botRightCoord.latitude) *
                 (topLeftCoord.longitude - botRightCoord.longitude)
 
-    if (nameExists) 
+    if (nameExists)
         throw Error("Town with this name already exists")
 
     // No negative areas
@@ -90,10 +90,10 @@ townSchema.statics.createTown = async function(name, description, topLeftCoord, 
         area = area * (-1)
 
     // console.log(topLeftCoord, botRightCoord);
-    const town = await this.create({ 
-        name, 
+    const town = await this.create({
+        name,
         description,
-        creatingUsername, 
+        creatingUsername,
         topLeftLat: topLeftCoord.latitude,
         topLeftLong: topLeftCoord.longitude,
         botRightLat: botRightCoord.latitude,
@@ -113,28 +113,48 @@ townSchema.statics.deleteTown = async function(town_id)
     return town
 }
 
-townSchema.statics.addUser = async function(town_id, user_id)
-{
-    const town = await this.findById(town_id)
-    const user = await User.findById(user_id)
+townSchema.statics.addUser = async function(town_id, user_id) {
+	let town, user;
 
-    if (!user)
-        throw Error("User does not exist")
+	try {
+		town = await this.findById(town_id);
+		if (!town) {
+			throw new Error(`Town with ID ${town_id} does not exist`);
+		}
+	} catch (error) {
+		console.error(`Error finding town with ID ${town_id}:`, error.message);
+		throw error; // Re-throw the error to be caught by the calling function
+	}
 
-    if (!town)
-        throw Error("Town does not exist")
+	try {
+		user = await User.findById(user_id);
+		if (!user) {
+			throw new Error(`User with ID ${user_id} does not exist`);
+		}
+	} catch (error) {
+		console.error(`Error finding user with ID ${user_id}:`, error.message);
+		throw error;
+	}
 
-    if (town.townMembers.find(member => member.userId.toString() === user_id.toString()))
-        throw Error("User is already registered to this town")
+	if (town.townMembers.find(member => member.userId.toString() === user_id.toString())) {
+		const errorMessage = `User with ID ${user_id} is already registered to the town with ID ${town_id}`;
+		console.error(errorMessage);
+		throw new Error(errorMessage);
+	}
 
-    user.activeTowns.push({town_id: town_id})
-    town.townMembers.push({userId: user_id})
+	try {
+		user.activeTowns.push({ town_id: town_id });
+		town.townMembers.push({ userId: user_id });
 
-    await user.save()
-    await town.save()
+		await user.save();
+		await town.save();
+	} catch (error) {
+		console.error(`Error adding user with ID ${user_id} to town with ID ${town_id}:`, error.message);
+		throw error; // Ensures that any error during saving is caught and logged
+	}
 
-    return town
-}
+	return town;
+};
 
 
 module.exports = mongoose.model('Town', townSchema)

@@ -1,10 +1,13 @@
-import {createTheme, ThemeProvider} from "@mui/material/styles";
+import * as React from "react";
+import { useState } from "react";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
 import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
 import ToggleButton from "@mui/material/ToggleButton";
 import LoginForm from "./LoginPage";
 import RegisterForm from "./RegisterPage";
-import * as React from "react";
-import {useState} from "react";
+import classNames from 'classnames';
+import SpinningGlobe from "../components/SpinningGlobe";
+import NavigationBar from '../components/NavigationBar';
 
 const theme = createTheme({
 	palette: {
@@ -19,21 +22,19 @@ const theme = createTheme({
 		MuiToggleButton: {
 			styleOverrides: {
 				root: {
-					// Default state
-					backgroundColor: 'ABC4AB', // or any default color
-					color: '#242105', // assuming default text color
-					opacity: 1.0, // Default opacity
+					color: '#242105',
+					opacity: 1.0,
 					borderRadius: '20px',
 					border: '3px solid #abc4ab',
 					fontWeight: 'bold',
 					'&:hover': {
-						backgroundColor: '#969c8c', // Light color for hover state
+						backgroundColor: '#969c8c',
 					},
 					'&.Mui-selected, &.Mui-selected:hover': {
-						backgroundColor: '#abc4ab', // Main color for selected state
+						backgroundColor: '#abc4ab',
 						shadow: '0px 0px 10px 5px #abc4ab',
-						color: '#D9DFD6', // Contrast text color for legibility
-						opacity: 1.0, // Full opacity for selected state
+						color: '#D9DFD6',
+						opacity: 1.0,
 					},
 				},
 			},
@@ -41,46 +42,71 @@ const theme = createTheme({
 	},
 });
 
-
 function AccountPage() {
-	const [alignment, setAlignment] = useState('Login'); // Default to one option being selected
+	const [alignment, setAlignment] = useState('Login');
+	const [currentForm, setCurrentForm] = useState('Login');
+	const [isFormAnimating, setIsFormAnimating] = useState(false);
+	const [isImageAnimating, setIsImageAnimating] = useState(false);
 
 	const handleChange = (event, newAlignment) => {
-		// Prevent deselecting all buttons by checking if newAlignment is not null
-		if (newAlignment !== null) {
+		if (newAlignment !== null && newAlignment !== alignment) {
+			setIsFormAnimating(true);
+			setIsImageAnimating(true); // Start image animation
 			setAlignment(newAlignment);
+
+			// Wait for 500ms to swap the form (for the form animation)
+			setTimeout(() => {
+				setCurrentForm(newAlignment);
+				setIsFormAnimating(false);
+			}, 300); // Form animation duration
+
+			// Use a different timeout for the image opacity animation if needed
+			setTimeout(() => {
+				setIsImageAnimating(false); // End image animation
+			}, 600); // Adjust this duration for the image opacity animation
 		}
 	};
 
 	return (
-		<div className="h-screen w-screen bg-webBackground">
-			<header className="h-14 w-full p-2 py-3 bg-webTertiary">
-				<h1 className="text-4xl font-bold text-webPrimary">Town Trekker</h1>
-			</header>
-			<header className="h-12 w-full p-2 pl-7 bg-webSecondary">
-				<h2 className="text-2xl font-bold text-webTertiary">idk what to put here</h2>
-			</header>
-		<div className="m-12 flex flex-col items-center justify-start rounded-3xl pb-52 opacity-75 bg-webTertiary">
-			<div className="mt-6">
-				<ThemeProvider theme={theme}>
-					<ToggleButtonGroup
-						value={alignment}
-						exclusive
-						onChange={handleChange}
-						aria-label="Platform"
-					>
-						<ToggleButton value="Login">Login</ToggleButton>
-						<ToggleButton value="Register">Register</ToggleButton>
-						</ToggleButtonGroup>
-					</ThemeProvider>
-				</div>
-				<div id="forms" className="flex flex-row w-full p-4">
-					{alignment === 'Login' ? (
-						<LoginForm/>
-					) : (
-						<RegisterForm/>
-					)}
-					<div className="w-1/2 p-5 m-5"></div>
+		<div className="flex min-h-screen w-screen flex-col bg-custom-bg">
+			<NavigationBar />
+			<div className="m-12 flex flex-grow items-center justify-center rounded-3xl bg-opacity-70 bg-webTertiary backdrop-blur-sm">
+				<div className="flex w-full justify-between">
+					<div className={classNames("w-1/2 flex flex-col items-center justify-start pt-32", {
+						'toggle-animate': true,
+						'form-slide-right': alignment === 'Register',
+						'form-slide-left': alignment === 'Login',
+					})}>
+						<ThemeProvider theme={theme}>
+							<ToggleButtonGroup
+								value={alignment}
+								exclusive
+								onChange={handleChange}
+								aria-label="Platform"
+								sx={{width: 'auto', mb: 3}} // Maintain auto width for flexibility
+							>
+								<ToggleButton value="Login" style={{width: '120px'}}>Login</ToggleButton>
+								<ToggleButton value="Register" style={{width: '120px'}}>Register</ToggleButton>
+							</ToggleButtonGroup>
+						</ThemeProvider>
+						<div className="w-full flex justify-center">
+							{currentForm === 'Login' ? (
+								<LoginForm/>
+							) : (
+								<RegisterForm/>
+							)}
+						</div>
+					</div>
+					<div className={classNames("w-1/2 flex justify-center items-center shadow-2xl m-2 rounded-2xl image-opacity", {
+						'toggle-animate': true,
+						'image-slide-left': alignment === 'Register',
+						'image-slide-right': alignment === 'Login',
+						'opacity-animate': isImageAnimating, // This class should only be added when animating
+					})}>
+						<SpinningGlobe />
+					</div>
+
+
 				</div>
 			</div>
 		</div>

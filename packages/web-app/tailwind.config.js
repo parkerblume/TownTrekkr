@@ -9,6 +9,7 @@ module.exports = {
   ],
   prefix: "",
   theme: {
+
     container: {
       center: true,
       padding: "2rem",
@@ -17,6 +18,9 @@ module.exports = {
       },
     },
     extend: {
+	    backgroundImage: {
+		    'custom-bg': "url('../public/bg.png')",
+	    },
       colors: {
 	      'webBackground': '#DCC9B6',
 	      'webPrimary': '#ABC4AB',
