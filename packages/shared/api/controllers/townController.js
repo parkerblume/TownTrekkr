@@ -29,24 +29,22 @@ const getTowns = async (req, res) => {
 }
 
 // creating a town
-const createTown = async (req, res) => 
-{
-    const { name, description, topLeftCoord, botRightCoord, creatingUser_id, creatingUsername } = req.body
+const createTown = async (req, res) => {
+	const { name, description, topLeftCoord, botRightCoord, creatingUser_id, creatingUsername } = req.body;
 
-    try
-    {
-        const town = await Town.createTown(name, description, topLeftCoord, botRightCoord, creatingUsername);
+	try {
+		const town = await Town.createTown(name, description, topLeftCoord, botRightCoord, creatingUsername);
 
-        // Add the user who creates the town as a user immediately
-        Town.addUser(town._id, creatingUser_id);
+		// Add the user who creates the town as a user immediately
+		await Town.addUser(town._id, creatingUser_id);
 
-        res.status(200).json({ town })
-    }
-    catch (error)
-    {
-        res.status(400).json({error: error.message})
-    }
-}
+		res.status(200).json({ town });
+	} catch (error) {
+		console.error("Error creating town:", error.message);
+		res.status(400).json({error: error.message});
+	}
+};
+
 
 // With every creation there must exist an equal deletion.
 // For every ying, there exists a yang
@@ -86,7 +84,7 @@ const addUser = async (req, res) =>
 
 }
 
-module.exports = 
+module.exports =
 {
     getTown,
     getTowns,

@@ -3,7 +3,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faThumbsUp, faThumbsDown, faRedo } from '@fortawesome/free-solid-svg-icons';
 import Leaflet from '../components/leaflet';
 import ImageDisplay from '../components/ImageDisplay';
-import NavigationBar from '../components/NavigationBar';
 
 const GuessPage = () => {
 	const [likeDislike, setLikeDislike] = useState('neither');
@@ -29,7 +28,6 @@ const GuessPage = () => {
 
 	return (
 		<div className="flex min-h-screen w-screen flex-col bg-webPrimary">
-			<NavigationBar />
 			<div className="flex flex-grow flex-col">
 				<div className="flex flex-grow flex-row justify-center">
 					<div className="mb-2 flex w-1/2 flex-col">
