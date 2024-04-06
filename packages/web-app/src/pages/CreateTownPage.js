@@ -22,51 +22,53 @@ const CreateTownPage = () => {
 		}
 
 		const user = JSON.parse(localStorage.getItem('user'));
-		if (!user || !user._id) {
+		if (!user || !user.id) {
 			alert('User information is missing. Please log in again.');
+			return;
 		}
 
-		// const coordinatesModel = {
-		// 	topLeftCoord: {
-		// 		latitude: guessedCoordinates[0][0],
-		// 		longitude: guessedCoordinates[0][1],
-		// 	},
-		// 	botRightCoord: {
-		// 		latitude: guessedCoordinates[1][0],
-		// 		longitude: guessedCoordinates[1][1],
-		// 	},
-		// };
-		//
-		// const requestBody = {
-		// 	name: townName,
-		// 	description: townDescription,
-		// 	topLeftCoord: coordinatesModel.topLeftCoord,
-		// 	botRightCoord: coordinatesModel.botRightCoord,
-		// 	creatingUser_id: user._id,
-		// 	creatingUsername: user.name,
-		// };
-		//
-		// try {
-		// 	const response = await fetch('api/town/createtown', {
-		// 		method: 'POST',
-		// 		headers: {
-		// 			'Content-Type': 'application/json',
-		// 		},
-		// 		body: JSON.stringify(requestBody),
-		// 	});
-		//
-		// 	if (!response.ok) {
-		// 		console.error('Network response was not ok.');
-		// 		return;
-		// 	}
-		//
-		// 	const result = await response.json();
-		// 	console.log('Town created successfully:', result);
-		// 	alert('Town created successfully!');
-		// } catch (error) {
-		// 	console.error('Failed to create town:', error);
-		// 	alert('Failed to create town. Please try again.');
-		// }
+
+		const coordinatesModel = {
+			topLeftCoord: {
+				latitude: guessedCoordinates[0][0],
+				longitude: guessedCoordinates[0][1],
+			},
+			botRightCoord: {
+				latitude: guessedCoordinates[1][0],
+				longitude: guessedCoordinates[1][1],
+			},
+		};
+
+		const requestBody = {
+			name: townName,
+			description: townDescription,
+			topLeftCoord: coordinatesModel.topLeftCoord,
+			botRightCoord: coordinatesModel.botRightCoord,
+			creatingUser_id: user.id,
+			creatingUsername: user.name,
+		};
+
+		try {
+			const response = await fetch('api/town/createtown', {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json',
+				},
+				body: JSON.stringify(requestBody),
+			});
+
+			if (!response.ok) {
+				console.error('Network response was not ok.');
+				return;
+			}
+
+			const result = await response.json();
+			console.log('Town created successfully:', result);
+			alert('Town created successfully!');
+		} catch (error) {
+			console.error('Failed to create town:', error);
+			alert('Failed to create town. Please try again.');
+		}
 	};
 	return (
 		<div className="bg-webPrimary w-screen p-4">
