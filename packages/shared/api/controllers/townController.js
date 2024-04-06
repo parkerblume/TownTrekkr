@@ -19,7 +19,11 @@ const getTowns = async (req, res) => {
     try {
         const userId = req.query.userId;
 
-        const towns = await Town.getTowns(userId);
+        // support pagination for lazy loading
+        const page = parseInt(req.query.page) || 1;
+        const limit = parseInt(req.query.limit) || 20;
+
+        const towns = await Town.getTowns(userId, page, limit);
 
         res.status(200).json(towns)
     }
