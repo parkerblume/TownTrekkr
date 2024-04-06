@@ -1,7 +1,13 @@
 import React, { useState } from 'react';
+import { useNavigate } from "react-router-dom";
 import AddTownLeaflet from "../components/AddTownLeaflet";
 
 const CreateTownPage = () => {
+	const navigate = useNavigate();
+
+	const handleNavigate = (path) => {
+		navigate(path);
+	};
 	const [guessedCoordinates, setGuessedCoordinates] = useState(null);
 	const [townName, setTownName] = useState('');
 	const [townDescription, setTownDescription] = useState('');
@@ -15,6 +21,13 @@ const CreateTownPage = () => {
 			return;
 		}
 
+		const user = JSON.parse(localStorage.getItem('user'));
+		if (!user || !user.id) {
+			alert('User information is missing. Please log in again.');
+			return;
+		}
+
+
 		const coordinatesModel = {
 			topLeftCoord: {
 				latitude: guessedCoordinates[0][0],
@@ -26,14 +39,12 @@ const CreateTownPage = () => {
 			},
 		};
 
-		const user = JSON.parse(localStorage.getItem('user'));
-
 		const requestBody = {
 			name: townName,
 			description: townDescription,
 			topLeftCoord: coordinatesModel.topLeftCoord,
 			botRightCoord: coordinatesModel.botRightCoord,
-			creatingUser_id: user._id,
+			creatingUser_id: user.id,
 			creatingUsername: user.name,
 		};
 

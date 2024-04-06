@@ -4,7 +4,7 @@ import { faThumbsUp, faThumbsDown } from '@fortawesome/free-solid-svg-icons';
 import Leaflet from '../components/leaflet';
 import ImageDisplay from '../components/ImageDisplay';
 import NavigationBar from '../components/NavigationBar';
-import { colors } from '../styles/commonStyles';
+
 
 const GamePage = () => {
 	const [likeDislike, setLikeDislike] = useState('neither'); // 'like', 'dislike', 'neither'
