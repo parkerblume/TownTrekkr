@@ -1,5 +1,6 @@
 const mongoose = require('mongoose')
 const bcrypt = require('bcrypt')
+const { getClient } = require('../middleware/email')
 const Schema = mongoose.Schema
 
 const userSchema = new Schema({
@@ -19,7 +20,11 @@ const userSchema = new Schema({
     },
     verified : {
         type: Boolean,
-        default: true
+        default: false
+    },
+    verifyCode : {
+        type: String,
+        required: true
     },
     // List of posts already played and respective score
     playedPosts : [
@@ -81,11 +86,43 @@ userSchema.statics.signup = async function(email, password, username) {
 
     const salt = await bcrypt.genSalt(10)
     const hash = await bcrypt.hash(password, salt)
+    
 
-    const user = await this.create({ email, password: hash, username})
+    // create verification code
+    let nanoid = (await import('nanoid')).nanoid;
+    const verifyCode = nanoid(4)
+
+    const user = await this.create({ email, password: hash, username, verifyCode})
 
     return user
 
+}
+
+userSchema.statics.sendemail = async function(email) {
+    const user = await this.findOne({ email })
+    const client = getClient()
+
+    if (user && user.verified == false) {
+        client.sendEmail({
+            "From": "ry595376@ucf.edu",
+            "To": user.email,
+            "Subject": "TownTrekkr: Verify Your Email Address",
+            "TextBody": `Your verification code is: ${user.verifyCode}`
+        });
+    }
+
+    return `Verification email sent to ${email}`
+}
+
+userSchema.statics.verify = async function(email, code) {
+    const user = await this.findOne({ email })
+    
+    if (user && user.verifyCode === code) {
+        user.verified = true
+        await user.save()
+    }
+
+    return `User has been verified`
 }
 
 userSchema.statics.saveguess = async function(userid, postid, score, hasliked) {

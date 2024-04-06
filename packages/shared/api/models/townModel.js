@@ -52,16 +52,26 @@ townSchema.statics.getTown = async function (townId) {
     return town
 }
 
-townSchema.statics.getTowns = async function (userId) {
+townSchema.statics.getTowns = async function (userId, page, limit) {
     let towns;
+    const skip = (page - 1) * limit; // would be 0 if first page
+
     if (userId)
     {
-        towns = await this.find({ 'townMembers.userId': userId });
+        towns = await this.find({ 'townMembers.userId': userId })
+                          .skip(skip)
+                          .limit(limit)
+                          .exec();
     }
     else
     {
-        towns = await this.find({});
+        towns = await this.find({})
+                          .skip(skip)
+                          .limit(limit)
+                          .exec();
     }
+
+    return towns
 
     return towns
 }
