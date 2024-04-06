@@ -13,16 +13,6 @@ const CreateTownPage = () => {
 	const [townDescription, setTownDescription] = useState('');
 	const [userName, setUserName] = useState(''); // State to store the user's name
 
-	const handleRetrieveUser = () => {
-		const storedUser = localStorage.getItem('user');
-		if (storedUser) {
-			const user = JSON.parse(storedUser);
-			setUserName(user.name); // Update the userName state with the retrieved user's name
-		} else {
-			alert('No user found in localStorage.');
-		}
-	};
-
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 
@@ -30,6 +20,13 @@ const CreateTownPage = () => {
 			alert('Please complete all fields and select a full set of coordinates before submitting.');
 			return;
 		}
+
+		const user = JSON.parse(localStorage.getItem('user'));
+		if (!user || !user.id) {
+			alert('User information is missing. Please log in again.');
+			return;
+		}
+
 
 		const coordinatesModel = {
 			topLeftCoord: {
@@ -42,14 +39,12 @@ const CreateTownPage = () => {
 			},
 		};
 
-		const user = JSON.parse(localStorage.getItem('user'));
-
 		const requestBody = {
 			name: townName,
 			description: townDescription,
 			topLeftCoord: coordinatesModel.topLeftCoord,
 			botRightCoord: coordinatesModel.botRightCoord,
-			creatingUser_id: user._id,
+			creatingUser_id: user.id,
 			creatingUsername: user.name,
 		};
 
@@ -70,7 +65,6 @@ const CreateTownPage = () => {
 			const result = await response.json();
 			console.log('Town created successfully:', result);
 			alert('Town created successfully!');
-
 		} catch (error) {
 			console.error('Failed to create town:', error);
 			alert('Failed to create town. Please try again.');
@@ -81,20 +75,6 @@ const CreateTownPage = () => {
 			<div className="flex justify-center bg-webTertiary p-2 rounded-2xl mb-4">
 				<h1 className="text-4xl font-bold">Create a New Town</h1>
 			</div>
-			{/*return to home page*/}
-			{/* <a href="/HomePage" className="px-4 py-2 font-bold text-white bg-red-500 hover:bg-red-700 rounded">
-				Home
-			</a> */}
-			<button
-				onClick={() => handleNavigate('/HomePage')}>
-				Home
-			</button>
-			<button
-				onClick={handleRetrieveUser}
-				className="px-4 py-2 font-bold text-white bg-green-500 hover:bg-green-700 rounded">
-				Show User Name
-			</button>
-			{userName && <p>User Name: {userName}</p>}
 			<div className="flex flex-row items-stretch justify-center gap-4">
 				<div className="flex-1 bg-webBackground p-4 flex flex-col justify-center items-center rounded-2xl border-2 border-black">
 					<div className="w-full text-center ">
