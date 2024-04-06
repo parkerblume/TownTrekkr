@@ -65,7 +65,6 @@ const CreateTownPage = () => {
 			const result = await response.json();
 			console.log('Town created successfully:', result);
 			alert('Town created successfully!');
-
 		} catch (error) {
 			console.error('Failed to create town:', error);
 			alert('Failed to create town. Please try again.');
