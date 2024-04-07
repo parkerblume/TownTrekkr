@@ -90,7 +90,7 @@ function HomePage() {
             <Button
               variant="contained"
               color="primary"
-              onClick={() => handleNavigate('/GuessPage')}
+              onClick={() => handleNavigate('/GamePage')}
               sx={{
                 height: '60vh',
                 width: '35vw',

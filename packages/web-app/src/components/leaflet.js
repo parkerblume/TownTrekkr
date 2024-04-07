@@ -4,6 +4,7 @@ import "leaflet/dist/leaflet.css";
 import { Icon } from "leaflet";
 import '../styles/Leaflet.css';
 import GuessButton from './GuessButton';
+import { useGame } from './GameContext';
 
 const markerIcon = new Icon({
 	iconUrl: require("../icons/Marker.png"),
@@ -13,15 +14,21 @@ const markerIcon = new Icon({
 const Leaflet = () => {
 	const [markerPosition, setMarkerPosition] = useState([28.6023, -81.2003]);
 	const [guessedCoordinates, setGuessedCoordinates] = useState(null);
+	const { likeDislike } = useGame();
 
 	const user = JSON.parse(localStorage.getItem('user'));
+	const town = JSON.parse(localStorage.getItem('selectedTown'));
+	const imageData = JSON.parse(localStorage.getItem('imageData'));
 
+	let likeState = 0;
+	if( likeDislike === 'like' ) likeState = 1;
+	else if( likeDislike === 'dislike' ) likeState = 0;
 	// Assuming these values are available in your component,
 	// replace them with actual data as needed.
-	const userid = user._id;
-	const postid = "123"; // This should be a unique identifier for the post.
-	const score = "5000"; // This should be a number or calculated based on some logic.
-	const hasliked = false; // Example value, replace with actual logic.
+	const userid = user.id;
+	const postid = imageData._id;
+	const score = "5000"; //Distance or Score depending on progress
+	const hasliked = (likeState === 1)
 
 	const handleMapClick = (e) => {
 		const { lat, lng } = e.latlng;
@@ -31,10 +38,8 @@ const Leaflet = () => {
 	const handleGuessClick = async () => {
 		setGuessedCoordinates(markerPosition);
 
-
-
 		try {
-			const response = await fetch("/api/user/makeguess", { // Replace "/api/guess" with your actual API endpoint
+			const response = await fetch("/api/user/makeguess", {
 				method: "POST",
 				headers: {
 					'Content-Type': 'application/json',

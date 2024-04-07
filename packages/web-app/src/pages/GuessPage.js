@@ -1,4 +1,4 @@
-import React, { useState} from 'react';
+import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faThumbsUp, faThumbsDown, faRedo } from '@fortawesome/free-solid-svg-icons';
 import Leaflet from '../components/leaflet';
@@ -6,18 +6,7 @@ import { useGame } from '../components/GameContext';
 import ImageDisplay from '../components/ImageDisplay';
 
 const GuessPage = () => {
-	const { score, trigger, resetGame, setScore, gameKey } = useGame();
-	const [likeDislike, setLikeDislike] = useState('neither');
-
-	const handleLike = () => {
-		setLikeDislike(likeDislike !== 'like' ? 'like' : 'neither');
-		// Optionally, update trigger here if you want new images on like/dislike
-	};
-
-	const handleDislike = () => {
-		setLikeDislike(likeDislike !== 'dislike' ? 'dislike' : 'neither');
-		// Optionally, update trigger here
-	};
+	const { score, trigger, resetGame, setScore, gameKey,likeDislike, handleLike, handleDislike } = useGame();
 
 	return (
 		<div className="flex min-h-screen w-screen flex-col bg-webPrimary">

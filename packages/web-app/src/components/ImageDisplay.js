@@ -1,15 +1,23 @@
 import React, { useEffect, useState } from 'react';
 import '../styles/Spinner.css';
 import {fetchImageByTown} from './GuessServices';
+import { useGame } from './GameContext';
 
 const ImageDisplay = ({ trigger }) => {
 	const [imageUrl, setImageUrl] = useState('');
 	const [loading, setLoading] = useState(true);
+	const { town, user } = useGame();
 
 	useEffect(() => {
 		const fetchImage = async () => {
 			setLoading(true);
-			const imageUrl = await fetchImageByTown("660497f815daa8e29584bed5");
+			try {
+				const imageUrl = await fetchImageByTown(town._id);
+				setImageUrl(imageUrl);
+			}
+			catch (error) {
+				console.error('Failed to fetch image:', error);
+			}
 			if (imageUrl) {
 				setImageUrl(imageUrl);
 			}
