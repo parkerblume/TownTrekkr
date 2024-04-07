@@ -10,8 +10,9 @@ const loginUser = async (req, res) => {
 
         const id = user._id
         const username = user.username
+        const verified = user.verified
 
-        res.status(200).json({id, email, username})
+        res.status(200).json({id, email, username, verified})
     }
     catch (error) {
         res.status(400).json({error: error.message})
