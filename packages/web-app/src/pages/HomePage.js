@@ -75,10 +75,10 @@ function HomePage() {
           </div>
         </ThemeProvider>
       </div>
-      {user && !user.verified && <EmailVerificationPopup user={user} onClose={() => {
+      {/* {user && !user.verified && <EmailVerificationPopup user={user} onClose={() => {
         const updatedUser = { ...user, verified: true };
         localStorage.setItem('user', JSON.stringify(updatedUser));
-      }} />}
+      }} />} */}
     </div>
   );
 }
