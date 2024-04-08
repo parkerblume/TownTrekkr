@@ -5,12 +5,12 @@ const getTown = async (req, res) => {
     try {
         const { townId } = req.body
 
-        const town = await Town.getTown(townId)
+        const town = await Town.getTown(townId);
 
-        res.status(200).json(town)
+        res.status(200).json(town);
     }
     catch (error) {
-        res.status(400).json({error: error.message})
+        res.status(400).json({error: error.message});
     }
 }
 
@@ -25,10 +25,10 @@ const getTowns = async (req, res) => {
 
         const towns = await Town.getTowns(userId, page, limit);
 
-        res.status(200).json(towns)
+        res.status(200).json(towns);
     }
     catch (error) {
-        res.status(400).json({error: error.message})
+        res.status(400).json({error: error.message});
     }
 }
 
@@ -61,11 +61,11 @@ const deleteTown = async (req, res) =>
     try
     {
         const town = await Town.deleteTown(town_id)
-        res.status(200).json(town)
+        res.status(200).json({message: "Town with ID " + town_id + " destroyed"});
     }
     catch (error)
     {
-        res.status(400).json({error: error.message})
+        res.status(400).json({error: error.message});
     }
 }
 
@@ -78,14 +78,32 @@ const addUser = async (req, res) =>
     {
         const town = await Town.addUser(town_id, user_id)
 
-        res.status(200).json({message: "User added to town" + town.name})
+        res.status(200).json({message: "User with ID " + user_id + 
+                            " added to town with ID " + town_id});
 
     }
     catch (error)
     {
-        res.status(400).json({error: error.message})
+        res.status(400).json({error: error.message});
     }
+}
 
+// unregistering a user as no longer a member of a town
+const removeUser = async (req, res) =>
+{
+    const {town_id, user_id} = req.body
+
+    try
+    {
+        const town = await Town.removeUser(town_id, user_id)
+
+        res.status(200).json({message: "User with ID " + user_id + 
+                        " removed from town with ID " + town_id});
+    }
+    catch (error)
+    {
+        res.status(400).json({error: error.message});
+    }
 }
 
 module.exports =
@@ -94,5 +112,6 @@ module.exports =
     getTowns,
     createTown,
     deleteTown,
-    addUser
+    addUser,
+    removeUser
 }
