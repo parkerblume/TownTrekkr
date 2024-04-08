@@ -18,4 +18,7 @@ router.post('/adduser', TownController.addUser)
 // delete town route
 router.delete('/deletetown', TownController.deleteTown)
 
+// remove users from town route
+router.delete('/removeUser', TownController.removeUser)
+
 module.exports = router;
