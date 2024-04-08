@@ -16,6 +16,10 @@ const postSchema = new Schema({
         type: String,
         required: true
     },
+    title : {
+        type: String,
+        required: true
+    },
     coordinateX : {
         type: Number,
         required: true
@@ -23,10 +27,6 @@ const postSchema = new Schema({
     coordinateY : {
         type: Number,
         required: true
-    },
-    name : {
-        type: String,
-        require: true
     },
     likes : {
         type: Number,
@@ -39,9 +39,9 @@ const postSchema = new Schema({
 }, {timestamps: true})
 
 // Static create post method
-postSchema.statics.createpost = async function(fileId, user_id, town, coordinateX, coordinateY) {
+postSchema.statics.createpost = async function(fileId, user_id, town, title, coordinateX, coordinateY) {
 
-    const post = await this.create({ fileId, user_id, town, coordinateX, coordinateY })
+    const post = await this.create({ fileId, user_id, town, title, coordinateX, coordinateY })
 
     return post
 
