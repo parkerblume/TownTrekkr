@@ -36,6 +36,9 @@ const userSchema = new Schema({
         score: {
             type: Number
         },
+        distanceAway: {
+            type: Number
+        },
         hasLiked: {
             type: Boolean
         }
@@ -125,7 +128,7 @@ userSchema.statics.verify = async function(email, code) {
     return `User has been verified`
 }
 
-userSchema.statics.saveguess = async function(userid, postid, score, hasliked) {
+userSchema.statics.saveguess = async function(userid, postid, score, distanceAway, hasliked) {
     try {
         const user = await this.findOne({ _id: userid })
 
@@ -142,6 +145,7 @@ userSchema.statics.saveguess = async function(userid, postid, score, hasliked) {
             user.playedPosts.push({
                 post: postid,
                 score: score,
+                distanceAway: distanceAway,
                 hasLiked: hasliked
             });
         }

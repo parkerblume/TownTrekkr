@@ -64,10 +64,10 @@ const verify = async (req, res) => {
 }
 
 const makeGuess = async (req, res) => {
-    const {userid, postid, score, hasliked} = req.body
+    const {userid, postid, score, distanceAway, hasliked} = req.body
 
     try {
-        const guess = await User.saveguess(userid, postid, score, hasliked)
+        const guess = await User.saveguess(userid, postid, score, distanceAway, hasliked)
 
         res.status(200).json({guess})
     }
