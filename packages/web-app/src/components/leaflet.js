@@ -5,6 +5,7 @@ import { Icon } from "leaflet";
 import '../styles/Leaflet.css';
 import GuessButton from './GuessButton';
 import { useGame } from './GameContext';
+import { makeGuess } from './GuessServices'; // Import makeGuess from GuessServices
 
 const markerIcon = new Icon({
 	iconUrl: require("../icons/Marker.png"),
@@ -17,17 +18,14 @@ const Leaflet = () => {
 	const { likeDislike } = useGame();
 
 	const user = JSON.parse(localStorage.getItem('user'));
-	const town = JSON.parse(localStorage.getItem('selectedTown'));
 	const imageData = JSON.parse(localStorage.getItem('imageData'));
 
 	let likeState = 0;
 	if( likeDislike === 'like' ) likeState = 1;
 	else if( likeDislike === 'dislike' ) likeState = 0;
-	// Assuming these values are available in your component,
-	// replace them with actual data as needed.
 	const userid = user.id;
 	const postid = imageData._id;
-	const score = "5000"; //Distance or Score depending on progress
+	const score = "5000"; // Distance or Score depending on progress
 	const hasliked = (likeState === 1)
 
 	const handleMapClick = (e) => {
@@ -38,31 +36,11 @@ const Leaflet = () => {
 	const handleGuessClick = async () => {
 		setGuessedCoordinates(markerPosition);
 
-		try {
-			const response = await fetch("/api/user/makeguess", {
-				method: "POST",
-				headers: {
-					'Content-Type': 'application/json',
-				},
-				body: JSON.stringify({
-					userid,
-					postid,
-					score,
-					hasliked,
-				}),
-			});
-
-			const data = await response.json();
-
-			if (response.status === 200) {
-				// Handle success
-				console.log("Guess saved successfully:", data);
-			} else {
-				// Handle failure
-				console.error("Failed to save guess:", data.error);
-			}
-		} catch (error) {
-			console.error("Error making guess:", error);
+		// Now calling makeGuess from GuessServices instead
+		const guessDetails = { userid, postid, score, hasliked };
+		const data = await makeGuess(guessDetails);
+		if (data) {
+			console.log("Guess saved successfully:", data);
 		}
 	};
 
@@ -90,7 +68,7 @@ const Leaflet = () => {
 				<Marker position={markerPosition} icon={markerIcon}/>
 			</MapContainer>
 			<div className="flex flex-row items-center gap-4">
-				<GuessButton handleGuessClick={handleGuessClick} /> {/* Use the GuessButton component */}
+				<GuessButton handleGuessClick={handleGuessClick} />
 
 				{guessedCoordinates && (
 					<div className="text-xl">
