@@ -82,6 +82,7 @@ function RegisterForm() {
 					id: data.user._id, // Assuming the user object has an _id property
 					name: data.user.name, // Customize these fields based on your user object
 					email: data.user.email,
+					verified: data.user.verified,
 				}));
 			}
 
