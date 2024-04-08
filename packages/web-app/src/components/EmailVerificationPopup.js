@@ -6,8 +6,15 @@ const EmailVerificationPopup = ({ user, onClose }) => {
   const [resendMessage, setResendMessage] = useState('');
 
   const handleVerify = async () => {
+    if (user.verified === true) {
+      onClose();
+      return;
+    }
+    
     if (!code) {
       setError('Please enter the verification code.');
+      //user.verified = true;
+      console.log('Status: ', user.verified);
       return;
     }
 
