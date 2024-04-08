@@ -54,6 +54,8 @@ const TownsList = () => {
     const townData = await response.json();
 
     if (townData.creatingUsername !== storedUser.username) {
+      console.log(townData.creatingUsername);
+      console.log(storedUser.username);
       alert('You are not the owner of this town.');
       return;
     }

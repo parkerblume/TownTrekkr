@@ -77,12 +77,13 @@ function RegisterForm() {
 			}
 			//Doesnt fill local storage
 			const data = await response.json(); // The response from your login/signup route
-			if (data && data.user) {
+			console.log(data);
+			if (data) {
 				localStorage.setItem('user', JSON.stringify({
-					id: data.user._id, // Assuming the user object has an _id property
-					name: data.user.name, // Customize these fields based on your user object
-					email: data.user.email,
-					verified: data.user.verified,
+					id: data._id, // Assuming the user object has an _id property
+					name: data.name, // Customize these fields based on your user object
+					email: data.email,
+					verified: data.verified,
 				}));
 			}
 
