@@ -10,7 +10,7 @@ const EmailVerificationPopup = ({ user, onClose }) => {
       onClose();
       return;
     }
-    
+
     if (!code) {
       setError('Please enter the verification code.');
       //user.verified = true;
@@ -32,9 +32,10 @@ const EmailVerificationPopup = ({ user, onClose }) => {
       }
 
       const data = await response.json();
-      if (data.success) {
+      if (data.message === "User has been verified") {
         onClose();
       } else {
+        console.log(data);
         setError('Verification failed. Please try again.');
       }
     } catch (error) {
