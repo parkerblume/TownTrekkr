@@ -121,7 +121,7 @@ townSchema.statics.deleteTown = async function(town_id)
     numMembers = town.townMembers.length;
 
     for (let i = 0; i < numMembers; i++)
-        town.removeUser(town_id, town.townMembers[i].user_id);
+        town = await removeUser(town_id, town.townMembers[i].user_id);
 
     try
     {
@@ -161,7 +161,6 @@ townSchema.statics.addUser = async function(town_id, user_id) {
 
 	if (town.townMembers.find(member => member.userId.toString() === user_id.toString())) {
 		const errorMessage = `User with ID ${user_id} is already registered to the town with ID ${town_id}`;
-		console.error(errorMessage);
 		throw new Error(errorMessage);
 	}
 
@@ -191,7 +190,7 @@ townSchema.statics.removeUser = async function(town_id, user_id)
     } 
     catch (error)
     {
-        console.error(`Error finding town with ID ${town_id}:`, errorMessage);
+        console.error(`Error finding town with ID ${town_id}:`, error);
         throw error;
     }
 
@@ -203,7 +202,7 @@ townSchema.statics.removeUser = async function(town_id, user_id)
     }
     catch (error)
     {
-        console.error(`Error finding user with ID ${user_id}:`, errorMessage);
+        console.error(`Error finding user with ID ${user_id}:`, error);
         throw error;
     }
 
@@ -228,14 +227,14 @@ townSchema.statics.removeUser = async function(town_id, user_id)
             false, // Upsert
             false, // Multi
         )
-        
+
         await user.save();
         await town.save();
     }
     catch (error)
     {
         console.error(`Error removing user with ID ${user_id} from town with ID ${town_id}:`,
-                     errorMessage);
+                     error);
         throw error;
     }
 
