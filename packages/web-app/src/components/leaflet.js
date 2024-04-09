@@ -5,7 +5,7 @@ import { Icon } from "leaflet";
 import '../styles/Leaflet.css';
 import GuessButton from './GuessButton';
 import { useGame } from './GameContext';
-import { makeGuess } from './GuessServices'; // Import makeGuess from GuessServices
+import { makeGuess } from './GuessServices';
 
 const markerIcon = new Icon({
 	iconUrl: require("../icons/Marker.png"),
@@ -15,7 +15,7 @@ const markerIcon = new Icon({
 const Leaflet = () => {
 	const [markerPosition, setMarkerPosition] = useState([28.6023, -81.2003]);
 	const [guessedCoordinates, setGuessedCoordinates] = useState(null);
-	const { likeDislike } = useGame();
+	const { likeDislike, resetGame } = useGame();
 
 	const user = JSON.parse(localStorage.getItem('user'));
 	const imageData = JSON.parse(localStorage.getItem('imageData'));
@@ -35,12 +35,11 @@ const Leaflet = () => {
 
 	const handleGuessClick = async () => {
 		setGuessedCoordinates(markerPosition);
-
-		// Now calling makeGuess from GuessServices instead
 		const guessDetails = { userid, postid, score, hasliked };
 		const data = await makeGuess(guessDetails);
 		if (data) {
 			console.log("Guess saved successfully:", data);
+			resetGame();
 		}
 	};
 
@@ -57,15 +56,15 @@ const Leaflet = () => {
 			<MapContainer
 				center={[28.6023, -81.2003]}
 				zoom={15}
-				style={{ width: '100%'}} /* Ensure the map has a defined size */
+				style={{ width: '100%' }} /* Ensure the map has a defined size */
 				className="flex rounded-2xl border-2 border-black map-container" /* Add 'map-container' class */
 			>
 				<TileLayer
 					attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
 					url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
 				/>
-				<AddMarkerToMap/>
-				<Marker position={markerPosition} icon={markerIcon}/>
+				<AddMarkerToMap />
+				<Marker position={markerPosition} icon={markerIcon} />
 			</MapContainer>
 			<div className="flex flex-row items-center gap-4">
 				<GuessButton handleGuessClick={handleGuessClick} />
