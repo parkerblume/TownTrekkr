@@ -35,7 +35,6 @@ export const GameProvider = ({ children }) => {
 			handleNavigate();
 		}
 		setGameKey(prevKey => prevKey + 1);
-		setScore(0);
 		setTrigger(prevTrigger => prevTrigger + 1);
 		setLikeDislike('neither'); // Reset like/dislike on game reset
 	}, [postIndex]);

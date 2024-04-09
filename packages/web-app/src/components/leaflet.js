@@ -11,11 +11,14 @@ const markerIcon = new Icon({
 	iconUrl: require("../icons/Marker.png"),
 	iconSize: [38, 38]
 });
-
+// Latitude: 28.6023
+//
+// Longitude: -81.2003
+// Distance: 155.28 miles
 const Leaflet = () => {
 	const [markerPosition, setMarkerPosition] = useState([28.6023, -81.2003]);
 	const [guessedCoordinates, setGuessedCoordinates] = useState(null);
-	const { likeDislike, resetGame } = useGame();
+	const { likeDislike, resetGame, score, setScore } = useGame();
 
 	const user = JSON.parse(localStorage.getItem('user'));
 	const imageData = JSON.parse(localStorage.getItem('imageData'));
@@ -25,7 +28,6 @@ const Leaflet = () => {
 	else if( likeDislike === 'dislike' ) likeState = 0;
 	const userid = user.id;
 	const postid = imageData._id;
-	const score = "5000"; // Distance or Score depending on progress
 	const hasliked = (likeState === 1)
 
 	const handleMapClick = (e) => {
@@ -35,12 +37,19 @@ const Leaflet = () => {
 
 	const handleGuessClick = async () => {
 		setGuessedCoordinates(markerPosition);
+		// Calculate distance between marker and actual location
+		let imageLocation = [imageData.coordinateY, imageData.coordinateX];
+		let distance = Math.sqrt((imageLocation[0] - markerPosition[0]) ** 2 + (imageLocation[1] - markerPosition[1]) ** 2);
+		distance = distance * 69.0;
+		distance = distance.toFixed(2);
+		setScore(distance);
 		const guessDetails = { userid, postid, score, hasliked };
 		const data = await makeGuess(guessDetails);
 		if (data) {
 			console.log("Guess saved successfully:", data);
 			resetGame();
 		}
+
 	};
 
 	const AddMarkerToMap = () => {

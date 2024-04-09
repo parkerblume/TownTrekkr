@@ -1,15 +1,37 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faThumbsUp, faThumbsDown, faRedo } from '@fortawesome/free-solid-svg-icons';
 import Leaflet from '../components/leaflet';
 import { useGame } from '../components/GameContext';
 import ImageDisplay from '../components/ImageDisplay';
+import { useNavigate } from 'react-router-dom';
 
 const GuessPage = () => {
-	const { score, trigger, resetGame, setScore, gameKey,likeDislike, handleLike, handleDislike } = useGame();
+	const { score, trigger, resetGame, gameKey, likeDislike, handleLike, handleDislike, postIndex } = useGame();
+	const navigate = useNavigate();
+	// Using a state to force re-render of the score component with animation
+	const [scoreKey, setScoreKey] = useState(0);
 
+	useEffect(() => {
+		// Trigger re-render with animation by changing the key
+		setScoreKey(prevKey => prevKey + 1);
+	}, [score]);
+
+	// if score miles is less than 1, display feet instead
+	let newScore;
+	if (score < 1) {
+		newScore = (score * 5280).toFixed(2) + ' feet';
+} else {
+		newScore = score + ' miles';
+	}
+
+	let title = JSON.parse(localStorage.getItem('imageData')).title;
 	return (
 		<div className="flex min-h-screen w-screen flex-col bg-webPrimary">
+			<div className="w-full flex justify-between items-center bg-webAccent border-4 rounded-2xl mt-4 text-white p-5 text-2xl font-bold">
+				<h1>Guessing Post: {title}</h1>
+				<h1>Round {postIndex + 1}</h1>
+			</div>
 			<div className="flex flex-grow flex-col">
 				<div className="flex flex-grow flex-row justify-center">
 					<div className="mb-2 flex w-1/2 flex-col">
@@ -28,13 +50,11 @@ const GuessPage = () => {
 					</div>
 				</div>
 			</div>
-			<div className="pt-14">
-				<div className="w-full flex justify-between items-center bg-gray-800 text-white fixed bottom-0">
-					<div>Score: {score}</div>
-					<button onClick={resetGame} className="p-2 bg-blue-500 rounded hover:bg-blue-700 transition duration-300">
-						<FontAwesomeIcon icon={faRedo} size="lg"/> New Game
-					</button>
-				</div>
+			<div className="w-full flex justify-between items-center bg-gray-800 text-white fixed bottom-0 p-5 text-2xl font-bold">
+				<div key={scoreKey} className="score-animation">Distance: {newScore}</div>
+				<button onClick={resetGame} className="p-2 bg-blue-500 rounded hover:bg-blue-700 transition duration-300">
+					<FontAwesomeIcon icon={faRedo} size="lg"/> New Image
+				</button>
 			</div>
 		</div>
 	);
