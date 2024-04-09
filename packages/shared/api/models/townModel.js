@@ -127,7 +127,7 @@ townSchema.statics.deleteTown = async function(town_id)
 
     try
     {
-        town = await this.deleteOne();
+        town = await this.deleteOne(town);
     }
     catch (error)
     {
