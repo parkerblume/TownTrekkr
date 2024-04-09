@@ -38,7 +38,7 @@ const Leaflet = () => {
 	const handleGuessClick = async () => {
 		setGuessedCoordinates(markerPosition);
 		// Calculate distance between marker and actual location
-		let imageLocation = [imageData.coordinateY, imageData.coordinateX];
+		let imageLocation = [imageData.coordinateX, imageData.coordinateY];
 		let distance = Math.sqrt((imageLocation[0] - markerPosition[0]) ** 2 + (imageLocation[1] - markerPosition[1]) ** 2);
 		distance = distance * 69.0;
 		distance = distance.toFixed(2);
