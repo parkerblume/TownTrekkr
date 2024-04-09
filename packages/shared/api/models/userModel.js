@@ -105,25 +105,28 @@ userSchema.statics.sendemail = async function(email) {
     const user = await this.findOne({ email })
     const client = getClient()
 
-    if (user && user.verified == false) {
-        client.sendEmail({
-            "From": "ry595376@ucf.edu",
-            "To": user.email,
-            "Subject": "TownTrekkr: Verify Your Email Address",
-            "TextBody": `Your verification code is: ${user.verifyCode}`
-        });
-    }
+    if (!user) throw Error("User not found")
+    if (user.verified === true) throw Error("User is already verified")
+    
+    client.sendEmail({
+        "From": "ry595376@ucf.edu",
+        "To": user.email,
+        "Subject": "TownTrekkr: Verify Your Email Address",
+        "TextBody": `Your verification code is: ${user.verifyCode}`
+    });
+
 
     return `Verification email sent to ${email}`
 }
 
 userSchema.statics.verify = async function(email, code) {
     const user = await this.findOne({ email })
-    
-    if (user && user.verifyCode === code) {
-        user.verified = true
-        await user.save()
-    }
+
+    if (!user) throw Error("Invalid user")
+    if (user.verifyCode !== code) throw Error("Invalid verification code")
+
+    user.verified = true
+    await user.save()
 
     return `User has been verified`
 }
