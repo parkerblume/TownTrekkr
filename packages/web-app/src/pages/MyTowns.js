@@ -4,6 +4,7 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import Button from "@mui/material/Button";
 import NavigationBar from '../components/NavigationBar';
 import TownsList from '../components/TownsList';
+import AvailableTownsList from '../components/AvailableTownsList';
 
 const theme = createTheme({
   palette: {
@@ -36,14 +37,14 @@ const MyTowns = () => {
       <div className="flex min-h-screen flex-col bg-custom-bg">
         <NavigationBar />
         <div className="flex flex-grow items-center justify-center">
-          <div className="grid grid-cols-2 gap-4 w-full justify-items-center">
+          <div className="grid grid-cols-3 gap-4 w-full justify-items-center">
             <Button
               variant="contained"
               color="primary"
               onClick={handleNavigate}
               sx={{
                 height: '60vh',
-                width: '35vw',
+                width: '30vw',
                 backgroundImage: 'url(/images/town2.jpg)',
                 backgroundSize: 'cover',
                 boxShadow: '5px 5px 15px rgba(0,0,0,0.6)',
@@ -56,6 +57,9 @@ const MyTowns = () => {
             </Button>
             <div className="flex-1">
               <TownsList />
+            </div>
+            <div className="flex-1">
+              <AvailableTownsList />
             </div>
           </div>
         </div>
