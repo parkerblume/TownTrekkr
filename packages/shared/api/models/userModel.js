@@ -173,6 +173,21 @@ userSchema.statics.getguesses = async function(userid) {
     }
 }
 
+userSchema.statics.getUserById = async function(userId)
+{
+    try {
+        const user = await this.findOne({ _id: userId });
+
+        if (!user) {
+            throw Error("No user");
+        }
+
+        return user.username;
+    } catch (error) {
+        throw Error(error.message);
+    }
+}
+
 
 
 module.exports = mongoose.model('User', userSchema)

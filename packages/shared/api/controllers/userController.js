@@ -89,6 +89,18 @@ const getGuesses = async (req, res) => {
     }
 }
 
+const getUserById = async (req, res) => {
+    const {userId} = req.body
+
+    try {
+        const username = await User.getUserById(userId);
+
+        res.status(200).json({ username });
+    } catch (error) {
+        res.status(400).json({error: error.message});
+    }
+}
+
 
 module.exports = {
     loginUser,
@@ -96,5 +108,6 @@ module.exports = {
     sendEmail,
     verify,
     makeGuess,
-    getGuesses
+    getGuesses,
+    getUserById
 }
