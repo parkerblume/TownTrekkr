@@ -45,9 +45,7 @@ export const fetchImageByTown = async (townId) => {
 			localStorage.setItem('imageData', JSON.stringify(randomPost));
 			return imageUrl;
 		} else {
-			// Alert user if no posts are found or all posts have been guessed
-			alert('No new posts available to guess in this town.');
-			console.log('No posts found or all posts have been guessed');
+			return null;
 		}
 	} catch (error) {
 		console.error('Error fetching image:', error);

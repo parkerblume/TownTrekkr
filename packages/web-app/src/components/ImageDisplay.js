@@ -6,13 +6,16 @@ import { useGame } from './GameContext';
 const ImageDisplay = ({ trigger }) => {
 	const [imageUrl, setImageUrl] = useState('');
 	const [loading, setLoading] = useState(true);
-	const { town, user } = useGame();
+	const { town, user, showModal } = useGame();
 
 	useEffect(() => {
 		const fetchImage = async () => {
 			setLoading(true);
 			try {
 				let imageUrl = await fetchImageByTown(town._id);
+				if(!imageUrl){
+					showModal('No more posts to guess in this town. Please select another town.');
+				}
 				setImageUrl(imageUrl);
 			} catch (error) {
 				console.error('Failed to fetch image:', error);

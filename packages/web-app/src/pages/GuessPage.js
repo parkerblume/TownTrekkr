@@ -7,9 +7,8 @@ import ImageDisplay from '../components/ImageDisplay';
 import { useNavigate } from 'react-router-dom';
 
 const GuessPage = () => {
-	const { score, trigger, resetGame, gameKey, likeDislike, handleLike, handleDislike, postIndex } = useGame();
+	const { score, trigger, resetGame, gameKey, likeDislike, handleLike, handleDislike, postIndex, gameActive, setGameActive, showModal } = useGame();
 	const navigate = useNavigate();
-	// Using a state to force re-render of the score component with animation
 	const [scoreKey, setScoreKey] = useState(0);
 
 	useEffect(() => {
@@ -26,6 +25,7 @@ const GuessPage = () => {
 	}
 
 	let title = JSON.parse(localStorage.getItem('imageData')).title;
+
 	return (
 		<div className="flex min-h-screen w-screen flex-col bg-webPrimary">
 			<div className="w-full flex justify-between items-center bg-webAccent text-white p-2 text-2xl font-bold">

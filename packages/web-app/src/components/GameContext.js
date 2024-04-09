@@ -1,5 +1,7 @@
 import React, {createContext, useCallback, useContext, useState} from 'react';
 import { useNavigate } from 'react-router-dom';
+import './GuessModal';
+import GuessModal from "./GuessModal";
 
 const GameContext = createContext();
 
@@ -17,6 +19,18 @@ export const GameProvider = ({ children }) => {
 	const [town, setTown] = useState(JSON.parse(localStorage.getItem('selectedTown')) || null);
 	const [likeDislike, setLikeDislike] = useState('neither');
 	const [postIndex , setPostIndex] = useState(0);
+	const [gameActive, setGameActive] = useState(true);
+	const [modalMessage, setModalMessage] = useState('');
+
+	// Function to open the modal with a specific message
+	const showModal = (message) => {
+		setModalMessage(message);
+	};
+
+	// Function to hide the modal
+	const hideModal = () => {
+		setModalMessage('');
+	};
 
 	const handleLike = useCallback(() => {
 		setLikeDislike(likeDislike !== 'like' ? 'like' : 'neither');
@@ -31,7 +45,7 @@ export const GameProvider = ({ children }) => {
 			setPostIndex(postIndex + 1);
 		}
 		else{
-			alert('All rounds completed!');
+			showModal('Congratulations! Youve completed this round.');
 			handleNavigate();
 		}
 		setGameKey(prevKey => prevKey + 1);
@@ -53,9 +67,17 @@ export const GameProvider = ({ children }) => {
 		handleDislike,
 		postIndex,
 		setPostIndex,
+		gameActive,
+		setGameActive,
+		showModal,
+		hideModal,
+		modalMessage,
 	};
 
-	return <GameContext.Provider value={value}>{children}</GameContext.Provider>;
+	return <GameContext.Provider value={value}>
+		{children}
+		{modalMessage && <GuessModal message={modalMessage} />}
+	</GameContext.Provider>
 };
 
 
