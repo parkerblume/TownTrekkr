@@ -53,6 +53,15 @@ function LoginForm() {
 
 	        if (!response.ok) {
 		        console.error('Login failed');
+
+				// localStorage.setItem('user', JSON.stringify({
+				// 	id: "1",
+				// 	name: "newuser",
+				// 	email: "scarb@gmail.com",
+				// 	verified: false,
+				// }));
+				// navigate('/HomePage');
+
 		        return;
 	        }
 

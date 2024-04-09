@@ -1,5 +1,5 @@
-import React from 'react';
 import { useNavigate } from "react-router-dom";
+import React, { useState, useEffect } from 'react';
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import Button from "@mui/material/Button";
 import NavigationBar from '../components/NavigationBar';
@@ -26,11 +26,19 @@ const theme = createTheme({
 
 function HomePage() {
   const navigate = useNavigate();
-  const user = JSON.parse(localStorage.getItem('user'));
+  //const user = JSON.parse(localStorage.getItem('user'));
+  const [user, setUser] = useState(JSON.parse(localStorage.getItem('user')));
 
   const handleNavigate = (path) => {
     navigate(path);
   };
+
+  useEffect(() => {
+    const storedUser = JSON.parse(localStorage.getItem('user'));
+    if (storedUser && storedUser.email === user.email && storedUser.verified !== user.verified) {
+      setUser(storedUser);
+    }
+  }, [user]);
 
   return (
     <div className="flex min-h-screen flex-col bg-custom-bg">
@@ -75,10 +83,19 @@ function HomePage() {
           </div>
         </ThemeProvider>
       </div>
-      {user && !user.verified && <EmailVerificationPopup user={user} onClose={() => {
-        const updatedUser = { ...user, verified: true };
-        localStorage.setItem('user', JSON.stringify(updatedUser));
-      }} />}
+      {user && !user.verified && (
+        <EmailVerificationPopup 
+          user={user} 
+          onClose={() => {
+            const updatedUser = { ...user, verified: true };
+            localStorage.setItem('user', JSON.stringify(updatedUser));
+            
+            setUser(updatedUser);
+            
+            console.log(localStorage.getItem('user'));
+          }} 
+        />
+      )}
     </div>
   );
 }
