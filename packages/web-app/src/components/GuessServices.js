@@ -1,4 +1,5 @@
 
+
 export const fetchImageByTown = async (townId) => {
 	try {
 		const response = await fetch('api/posts/getpostsbytown', {
@@ -13,7 +14,15 @@ export const fetchImageByTown = async (townId) => {
 			return;
 		}
 
-		const posts = await response.json();
+		let posts = await response.json();
+		const userId = JSON.parse(localStorage.getItem('user')).id;
+
+		// Fetch past guesses to filter out already guessed posts
+		const pastGuessesResponse = await getPastGuesses(userId);
+		// Make sure to access the guesses array inside the returned object
+		const guessedPostIds = new Set(pastGuessesResponse.guesses.map(guess => guess.post));
+		posts = posts.filter(post => !guessedPostIds.has(post._id));
+
 		if (posts.length > 0) {
 			const randomIndex = Math.floor(Math.random() * posts.length);
 			const randomPost = posts[randomIndex];
@@ -36,12 +45,41 @@ export const fetchImageByTown = async (townId) => {
 			localStorage.setItem('imageData', JSON.stringify(randomPost));
 			return imageUrl;
 		} else {
-			console.log('No posts found');
+			// Alert user if no posts are found or all posts have been guessed
+			alert('No new posts available to guess in this town.');
+			console.log('No posts found or all posts have been guessed');
 		}
 	} catch (error) {
 		console.error('Error fetching image:', error);
 	}
 };
+
+
+
+export const getPastGuesses = async (userid) => {
+	try {
+		const response = await fetch('/api/user/getguesses', {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json',
+			},
+			body: JSON.stringify({ userid: userid }), // Ensure correct property name 'userid' is used based on your backend API requirement
+		});
+
+		if (!response.ok) {
+			console.error('Failed to fetch past guesses');
+			return { guesses: [] }; // Return an object with an empty array for guesses to ensure the caller can always access the guesses property
+		}
+
+		const data = await response.json();
+		console.log('Past guesses fetched:', data); // Debug log to inspect fetched data
+		return data; // Assuming the data structure is { guesses: [{ post: "...", score: ..., hasLiked: ...}, ...] }
+	} catch (error) {
+		console.error('Error fetching past guesses:', error);
+		return { guesses: [] }; // Return an object with an empty array in case of an error
+	}
+};
+
 
 export const makeGuess = async (guessDetails) => {
 	try {
