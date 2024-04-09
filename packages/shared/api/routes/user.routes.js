@@ -20,5 +20,8 @@ router.post('/makeguess', UserController.makeGuess)
 // get guesses
 router.post('/getguesses', UserController.getGuesses)
 
+// get username by user id
+router.post('/getuserbyid', UserController.getUserById)
+
 
 module.exports = router;
