@@ -12,14 +12,10 @@ const ImageDisplay = ({ trigger }) => {
 		const fetchImage = async () => {
 			setLoading(true);
 			try {
-				const imageUrl = await fetchImageByTown(town._id);
+				let imageUrl = await fetchImageByTown(town._id);
 				setImageUrl(imageUrl);
-			}
-			catch (error) {
+			} catch (error) {
 				console.error('Failed to fetch image:', error);
-			}
-			if (imageUrl) {
-				setImageUrl(imageUrl);
 			}
 			setLoading(false);
 		};
