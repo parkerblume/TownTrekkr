@@ -61,7 +61,7 @@ const Leaflet = () => {
 	};
 
 	return (
-		<div className="m-5 mr-12 flex flex-col items-center">
+		<div className=" mr-12 flex flex-col items-center">
 			<MapContainer
 				center={[28.6023, -81.2003]}
 				zoom={15}
@@ -78,13 +78,13 @@ const Leaflet = () => {
 			<div className="flex flex-row items-center gap-4">
 				<GuessButton handleGuessClick={handleGuessClick} />
 
-				{guessedCoordinates && (
-					<div className="text-xl">
-						<h3>Guessed Coordinates:</h3>
-						<p>Latitude: {guessedCoordinates[0]}</p>
-						<p>Longitude: {guessedCoordinates[1]}</p>
-					</div>
-				)}
+				{/*{guessedCoordinates && (*/}
+				{/*	<div className="text-xl">*/}
+				{/*		<h3>Guessed Coordinates:</h3>*/}
+				{/*		<p>Latitude: {guessedCoordinates[0]}</p>*/}
+				{/*		<p>Longitude: {guessedCoordinates[1]}</p>*/}
+				{/*	</div>*/}
+				{/*)}*/}
 			</div>
 		</div>
 	);

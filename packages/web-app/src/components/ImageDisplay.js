@@ -24,7 +24,7 @@ const ImageDisplay = ({ trigger }) => {
 	}, [trigger]);
 
 	return (
-		<div className="ml-12 mt-9 mr-5 h-full overflow-hidden rounded-2xl border-2 border-black bg-gray-800">
+		<div className="ml-12 mt-2 mr-5 h-full overflow-hidden rounded-2xl border-2 border-black bg-gray-800">
 			<div className="h-full rounded-4xl flex justify-center items-center">
 				{loading ? (
 					<div className="spinner"></div>
