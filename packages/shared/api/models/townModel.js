@@ -121,7 +121,7 @@ townSchema.statics.deleteTown = async function(town_id)
     numMembers = town.townMembers.length;
 
     for (let i = 0; i < numMembers; i++)
-        town.removeUser(town_id, town.townMembers[i].user_id);
+        town = await removeUser(town_id, town.townMembers[i].user_id);
 
     try
     {
@@ -228,7 +228,7 @@ townSchema.statics.removeUser = async function(town_id, user_id)
             false, // Upsert
             false, // Multi
         )
-        
+
         await user.save();
         await town.save();
     }
