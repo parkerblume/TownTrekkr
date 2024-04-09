@@ -206,7 +206,8 @@ townSchema.statics.removeUser = async function(town_id, user_id)
         throw error;
     }
 
-    if (town.townMembers.find(member => member.userId.toString() !== user_id.toString()))
+    const memberIndex = town.townMembers.findIndex(member => member.userId.toString() === user_id.toString())
+    if (memberIndex === -1)
     {
         const errorMessage = `User with ID ${user_id} was not found in town with ID ${town_id}`
         console.error(errorMessage);
@@ -215,18 +216,11 @@ townSchema.statics.removeUser = async function(town_id, user_id)
 
     try
     {
-        TownTrekkr.users.update(
-            { '_id': ObjectId(user_id) }, 
-            { $pull: { activeTowns: { town_id: town_id } } },
-            false, // Upsert
-            false, // Multi
-        );
-        TownTrekker.towns.update(
-            { '_id': ObjectId(user_id) },
-            { $pull: { townMembers: {user_id: user_id} } },
-            false, // Upsert
-            false, // Multi
-        )
+        // remove active town
+        user.activeTowns = user.activeTowns.filter(activeTown => activeTown.town_id.toString() !== town_id.toString());
+
+        // remove user from towns members
+        town.townMembers.splice(memberIndex, 1);
 
         await user.save();
         await town.save();
