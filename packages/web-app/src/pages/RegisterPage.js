@@ -20,23 +20,27 @@ const theme = createTheme({
 function RegisterForm() {
 	const navigate = useNavigate();
 	const [open, setOpen] = React.useState(false);
-	const [tooltipError, setTooltipError] = React.useState({
-		username: '',
-		email: '',
-		password: '',
-	});
+	const [tooltipError, setTooltipError] = React.useState({ username: '', email: '', password: '', });
 
 	const strongPasswordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
 	const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
+	const getPasswordError = (password) => {
+		if (password.length < 8) return "Password must be at least 8 characters";
+		if (!/[a-z]/.test(password)) return "Password must contain at least one lowercase letter";
+		if (!/[A-Z]/.test(password)) return "Password must contain at least one uppercase letter";
+		if (!/\d/.test(password)) return "Password must contain at least one digit";
+		if (!/[@$!%*?&]/.test(password)) return "Password must contain at least one special character (@$!%*?&)";
+		return "";
+	};
+
 	const handleSubmit = async (event) => {
 		event.preventDefault();
-		const email = event.target.email.value;
+		const email = event.target.email.value.trim().toLowerCase();
 		const password = event.target.password.value;
-		const username = event.target.username.value;
+		const username = event.target.username.value.trim();
 		let hasError = false;
 
-		// Reset tooltip errors on every submit
 		setTooltipError({ username: '', email: '', password: '' });
 
 		if (!username) {
@@ -53,11 +57,14 @@ function RegisterForm() {
 		if (!password) {
 			setTooltipError(prev => ({ ...prev, password: "Password is required" }));
 			hasError = true;
-		} else if (!strongPasswordRegex.test(password)) {
-			setOpen(true); // Open the snackbar with a general message
-			setTooltipError(prev => ({ ...prev, password: "Password does not meet criteria" }));
-			hasError = true;
-			return;
+		} else {
+			const passwordError = getPasswordError(password);
+			if (passwordError) {
+				setOpen(true);
+				setTooltipError(prev => ({ ...prev, password: passwordError }));
+				hasError = true;
+				return;
+			}
 		}
 
 		if (hasError) return;
@@ -75,13 +82,12 @@ function RegisterForm() {
 				console.error('Signup failed');
 				return;
 			}
-			//Doesnt fill local storage
-			const data = await response.json(); // The response from your login/signup route
-			console.log(data);
+
+			const data = await response.json();
 			if (data) {
 				localStorage.setItem('user', JSON.stringify({
-					id: data._id, // Assuming the user object has an _id property
-					name: data.name, // Customize these fields based on your user object
+					id: data._id,
+					name: data.name,
 					email: data.email,
 					verified: data.verified,
 				}));
@@ -109,25 +115,26 @@ function RegisterForm() {
 					<Tooltip title={tooltipError.username} open={Boolean(tooltipError.username)} placement="top" arrow>
 						<input name="username" id="username"
 						       className="block w-full rounded-lg border border-gray-300 bg-gray-50 text-sm text-gray-900 p-2.5 focus:border-blue-500 focus:ring-blue-500 dark:text:white dark:placeholder-gray-400 dark:border-gray-600 dark:bg-gray-700 dark:focus:border-blue-500 dark:focus:ring-blue-500"
-						       placeholder="username!" />
+						       placeholder="Choose your username"/>
 					</Tooltip>
 				</div>
 				{/* Email Field */}
 				<div className="mb-6">
 					<label htmlFor="email" className="mb-2 block text-sm font-medium text-white">Email address</label>
 					<Tooltip title={tooltipError.email} open={Boolean(tooltipError.email)} placement="top" arrow>
-						<input name="email" id="email"
+						<input type="email" name="email" id="email"
 						       className="block w-full rounded-lg border border-gray-300 bg-gray-50 text-sm text-gray-900 p-2.5 focus:border-blue-500 focus:ring-blue-500 dark:text:white dark:placeholder-gray-400 dark:border-gray-600 dark:bg-gray-700 dark:focus:border-blue-500 dark:focus:ring-blue-500"
-						       placeholder="john.doe@company.com"/>
+						       placeholder="you@example.com"/>
 					</Tooltip>
 				</div>
+
 				{/* Password Field */}
 				<div className="mb-6">
 					<label htmlFor="password" className="mb-2 block text-sm font-medium text-white">Password</label>
 					<Tooltip title={tooltipError.password} open={Boolean(tooltipError.password)} placement="top" arrow>
-						<input name="password" id="password"
+						<input type="password" name="password" id="password"
 						       className="block w-full rounded-lg border border-gray-300 bg-gray-50 text-sm text-gray-900 p-2.5 focus:border-blue-500 focus:ring-blue-500 dark:text:white dark:placeholder-gray-400 dark:border-gray-600 dark:bg-gray-700 dark:focus:border-blue-500 dark:focus:ring-blue-500"
-						       placeholder="•••••••••"/>
+						       placeholder="••••••••"/>
 					</Tooltip>
 				</div>
 				<button type="submit"
@@ -135,7 +142,7 @@ function RegisterForm() {
 				</button>
 			</form>
 			<Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
-				<Alert onClose={handleClose} severity="error" sx={{ width: '100%' }}>
+				<Alert onClose={handleClose} severity="error" sx={{width: '100%'}}>
 					Ensure all fields are correctly filled and password meets the criteria.
 				</Alert>
 			</Snackbar>

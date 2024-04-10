@@ -32,6 +32,20 @@ const example = [
 const TownsList = () => {
   const [towns, setTowns] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const localStorageExampleData = {
+		"_id": "660eed19f9eadf4267c40a18",
+		"fileId": "660eed19a00c8514f2d09c94",
+		"user_id": "66060766d2f84a45fe9c98be",
+		"town": "660497f815daa8e29584bed5",
+		"coordinateX": 28.65944913314387,
+		"coordinateY": -81.2053436789252,
+		"likes": 0,
+		"dislikes": 0,
+		"createdAt": "2024-04-04T18:10:33.961Z",
+		"updatedAt": "2024-04-04T18:10:33.961Z",
+		"__v": 0
+	}
+	localStorage.setItem('imageData', JSON.stringify(localStorageExampleData));
   const navigate = useNavigate();
 
   const deleteTown = async (townId) => {
@@ -41,7 +55,7 @@ const TownsList = () => {
       return;
     }
 
-    const response = await fetch(`https://www.towntrekkr.com/api/town/gettown`, {
+    const response = await fetch(`/api/town/gettown`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ townId }),
@@ -62,7 +76,7 @@ const TownsList = () => {
     }
 
     if (window.confirm('Are you sure you want to delete this town?')) {
-      const deleteResponse = await fetch(`https://www.towntrekkr.com/api/town/deletetown`, {
+      const deleteResponse = await fetch(`/api/town/deletetown`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ town_id: townId }),
@@ -87,7 +101,7 @@ const TownsList = () => {
       if (!storedUser || !storedUser.id) {
         throw new Error('User not found in localStorage.');
       }
-      const response = await fetch(`https://www.towntrekkr.com/api/town/gettowns?userId=${storedUser.id}`);
+      const response = await fetch(`/api/town/gettowns?userId=${storedUser.id}`);
       if (!response.ok) {
         throw new Error('Network response was not ok');
       }

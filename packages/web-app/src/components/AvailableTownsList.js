@@ -12,7 +12,7 @@ const AvailableTownsList = () => {
   
     setIsLoading(true);
     try {
-      const url = `https://www.towntrekkr.com/api/town/gettowns?page=${requestedPage}`;
+      const url = `/api/town/gettowns?page=${requestedPage}`;
       const response = await fetch(url);
       if (!response.ok) {
         throw new Error('Network response was not ok');
