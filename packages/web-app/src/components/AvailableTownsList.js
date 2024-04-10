@@ -1,28 +1,43 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useCallback } from 'react';
 import { colors } from '../styles/commonStyles';
 
 const AvailableTownsList = () => {
   const [towns, setTowns] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [page, setPage] = useState(1);
+  const [hasMore, setHasMore] = useState(true);
 
-  const fetchTowns = useCallback(async () => {
+  const fetchTowns = useCallback(async (requestedPage) => {
+    if (!hasMore && requestedPage !== 1) return;
+  
     setIsLoading(true);
     try {
-      const response = await fetch(`/api/town/gettowns`);
+      const url = `/api/town/gettowns?page=${requestedPage}`;
+      const response = await fetch(url);
       if (!response.ok) {
         throw new Error('Network response was not ok');
       }
-      const data = await response.json();
-      setTowns(data);
+      const newTowns = await response.json();
+      if (requestedPage === 1) {
+        setTowns(newTowns);
+      } else {
+        setTowns(prevTowns => [...prevTowns, ...newTowns]);
+      }
+      setHasMore(newTowns.length > 0);
+      setPage(requestedPage + 1);
     } catch (error) {
       console.error('Failed to fetch towns:', error);
     }
     setIsLoading(false);
-  }, []);
+  }, [hasMore]);
+  
 
-  useEffect(() => {
-    fetchTowns();
-  }, [fetchTowns]);
+  const refreshTowns = () => {
+    setTowns([]);
+    setPage(1);
+    setHasMore(true);
+    fetchTowns(1);
+  };
 
   const joinTown = async (townId) => {
     const storedUser = JSON.parse(localStorage.getItem('user'));
@@ -52,10 +67,16 @@ const AvailableTownsList = () => {
     }
   };
 
+  const loadMoreTowns = () => {
+    if (!isLoading && hasMore) {
+      fetchTowns(page);
+    }
+  };
+
   return (
     <div style={{ background: '#ABC4AB', padding: '20px', height: '60vh', width: '30vw', overflowY: 'auto', scrollbarWidth: 'thin', scrollbarColor: '#A39171 #ABC4AB' }}>
       <h2 style={{ fontSize: '36px', color: colors.buttonPrimary, textAlign: 'center' }}>All Towns</h2>
-      <button onClick={fetchTowns} disabled={isLoading} style={{ padding: '10px 20px', fontSize: '18px', backgroundColor: '#DCC9B6', margin: '10px', borderRadius: '5px' }}>
+      <button onClick={refreshTowns} disabled={isLoading} style={{ padding: '10px 20px', fontSize: '18px', backgroundColor: '#DCC9B6', margin: '10px', borderRadius: '5px' }}>
         {isLoading ? 'Loading...' : 'Refresh'}
       </button>
       {towns.map(town => (
@@ -71,6 +92,11 @@ const AvailableTownsList = () => {
           </button>
         </div>
       ))}
+      {hasMore && (
+        <button onClick={loadMoreTowns} disabled={isLoading}>
+          {isLoading ? 'Loading...' : 'Load More'}
+        </button>
+      )}
     </div>
   );
 };

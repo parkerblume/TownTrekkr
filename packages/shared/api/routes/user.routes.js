@@ -23,5 +23,11 @@ router.post('/getguesses', UserController.getGuesses)
 // get username by user id
 router.post('/getuserbyid', UserController.getUserById)
 
+// forget password
+router.post('/forgetpassword', UserController.forgetPassword)
+
+// reset password
+router.post('/resetpassword/:token', UserController.resetPassword)
+
 
 module.exports = router;
