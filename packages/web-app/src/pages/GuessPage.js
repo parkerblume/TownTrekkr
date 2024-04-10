@@ -16,6 +16,9 @@ const GuessPage = () => {
 		setScoreKey(prevKey => prevKey + 1);
 	}, [score]);
 
+	const imageData = JSON.parse(localStorage.getItem('imageData') || 'null');
+	// Use a placeholder or an empty string if imageData is null
+	let title = imageData ? imageData.title : "No title available";
 	// if score miles is less than 1, display feet instead
 	let newScore;
 	if (score < 1) {
@@ -23,8 +26,6 @@ const GuessPage = () => {
 	} else {
 		newScore = score.toFixed(2) + ' miles';
 	}
-
-	let title = JSON.parse(localStorage.getItem('imageData')).title;
 
 	return (
 		<div className="flex min-h-screen w-screen flex-col bg-webPrimary">

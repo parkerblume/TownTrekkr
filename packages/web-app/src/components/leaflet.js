@@ -24,7 +24,6 @@ const Leaflet = () => {
 	const user = JSON.parse(localStorage.getItem('user'));
 	const imageData = JSON.parse(localStorage.getItem('imageData'));
 	const selectedTown = JSON.parse(localStorage.getItem('selectedTown'));
-	//selectedTown looks like this: "_id":"661492dae405130bc5165242","name":"UCFwithNewEmail","description":"!!!","creatingUsername":"Camilo!!!","topLeftLat":28.608412130144945,"topLeftLong":-81.20797634124756,"botRightLat":28.597336134767406,"botRightLong":-81.19239807128908,"scoreMod":1.0001725448460501,"townMembers":[{"userId":"66149289e405130bc516523a","_id":"661492dae405130bc5165247"},{"userId":"660dd59c1dccdbd168e28198","_id":"6615c2575507419f130839f5"}],"__v":2}
 
 	let likeState = 0;
 	if( likeDislike === 'like' ) likeState = 1;
