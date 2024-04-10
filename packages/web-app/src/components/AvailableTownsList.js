@@ -7,32 +7,30 @@ const AvailableTownsList = () => {
   const [page, setPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);
 
-  const fetchTowns = useCallback(async (newPage = page) => {
-    if (!hasMore && newPage !== 1) return;
-
+  const fetchTowns = useCallback(async (requestedPage) => {
+    if (!hasMore && requestedPage !== 1) return;
+  
     setIsLoading(true);
     try {
-      const storedUser = JSON.parse(localStorage.getItem('user'));
-      if (!storedUser || !storedUser.id) {
-        throw new Error('User not found in localStorage.');
-      }
-      const response = await fetch(`https://www.towntrekkr.com/api/town/gettowns?userId=${storedUser.id}&page=${newPage}`);
+      const url = `https://www.towntrekkr.com/api/town/gettowns?page=${requestedPage}`;
+      const response = await fetch(url);
       if (!response.ok) {
         throw new Error('Network response was not ok');
       }
       const newTowns = await response.json();
-      if (newPage === 1) {
+      if (requestedPage === 1) {
         setTowns(newTowns);
       } else {
-        setTowns(towns => [...towns, ...newTowns]);
+        setTowns(prevTowns => [...prevTowns, ...newTowns]);
       }
       setHasMore(newTowns.length > 0);
-      setPage(newPage => newPage + 1);
+      setPage(requestedPage + 1);
     } catch (error) {
       console.error('Failed to fetch towns:', error);
     }
     setIsLoading(false);
-  }, [page, hasMore]);
+  }, [hasMore]);
+  
 
   const refreshTowns = () => {
     setTowns([]);
@@ -71,14 +69,14 @@ const AvailableTownsList = () => {
 
   const loadMoreTowns = () => {
     if (!isLoading && hasMore) {
-      fetchTowns();
+      fetchTowns(page);
     }
   };
 
   return (
     <div style={{ background: '#ABC4AB', padding: '20px', height: '60vh', width: '30vw', overflowY: 'auto', scrollbarWidth: 'thin', scrollbarColor: '#A39171 #ABC4AB' }}>
       <h2 style={{ fontSize: '36px', color: colors.buttonPrimary, textAlign: 'center' }}>All Towns</h2>
-      <button onClick={fetchTowns} disabled={isLoading} style={{ padding: '10px 20px', fontSize: '18px', backgroundColor: '#DCC9B6', margin: '10px', borderRadius: '5px' }}>
+      <button onClick={refreshTowns} disabled={isLoading} style={{ padding: '10px 20px', fontSize: '18px', backgroundColor: '#DCC9B6', margin: '10px', borderRadius: '5px' }}>
         {isLoading ? 'Loading...' : 'Refresh'}
       </button>
       {towns.map(town => (
