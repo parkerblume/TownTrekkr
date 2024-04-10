@@ -7,7 +7,6 @@ import LoginForm from "./LoginPage";
 import RegisterForm from "./RegisterPage";
 import classNames from 'classnames';
 import SpinningGlobe from "../components/SpinningGlobe";
-import NavigationBar from '../components/NavigationBar';
 
 const theme = createTheme({
 	palette: {
@@ -69,7 +68,9 @@ function AccountPage() {
 
 	return (
 		<div className="flex min-h-screen w-screen flex-col bg-custom-bg">
-			<NavigationBar />
+			<nav className="flex flex-row items-center justify-center w-full h-10vh bg-webAccent text-webSecondary ">
+				<h1 className="text-4xl font-bold p-4">Town Trekkr</h1>
+			</nav>
 			<div className="m-12 flex flex-grow items-center justify-center rounded-3xl bg-opacity-70 bg-webTertiary backdrop-blur-sm">
 				<div className="flex w-full h-screen justify-between">
 					<div className={classNames("w-1/2 flex flex-col items-center justify-start pt-32", {
