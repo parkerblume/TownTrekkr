@@ -1,28 +1,34 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useCallback } from 'react';
 import { colors } from '../styles/commonStyles';
 
 const AvailableTownsList = () => {
   const [towns, setTowns] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [page, setPage] = useState(1);
+  const [hasMore, setHasMore] = useState(true);
 
   const fetchTowns = useCallback(async () => {
+    if (!hasMore) return;
+
     setIsLoading(true);
     try {
-      const response = await fetch(`https://www.towntrekkr.com/api/town/gettowns`);
+      const storedUser = JSON.parse(localStorage.getItem('user'));
+      if (!storedUser || !storedUser.id) {
+        throw new Error('User not found in localStorage.');
+      }
+      const response = await fetch(`https://www.towntrekkr.com/api/town/gettowns?userId=${storedUser.id}&page=${page}`);
       if (!response.ok) {
         throw new Error('Network response was not ok');
       }
-      const data = await response.json();
-      setTowns(data);
+      const newTowns = await response.json();
+      setTowns(towns => [...towns, ...newTowns]);
+      setHasMore(newTowns.length > 0);
+      setPage(page => page + 1);
     } catch (error) {
       console.error('Failed to fetch towns:', error);
     }
     setIsLoading(false);
-  }, []);
-
-  useEffect(() => {
-    fetchTowns();
-  }, [fetchTowns]);
+  }, [page, hasMore]);
 
   const joinTown = async (townId) => {
     const storedUser = JSON.parse(localStorage.getItem('user'));
@@ -52,6 +58,12 @@ const AvailableTownsList = () => {
     }
   };
 
+  const loadMoreTowns = () => {
+    if (!isLoading && hasMore) {
+      fetchTowns();
+    }
+  };
+
   return (
     <div style={{ background: '#ABC4AB', padding: '20px', height: '60vh', width: '30vw', overflowY: 'auto', scrollbarWidth: 'thin', scrollbarColor: '#A39171 #ABC4AB' }}>
       <h2 style={{ fontSize: '36px', color: colors.buttonPrimary, textAlign: 'center' }}>All Towns</h2>
@@ -71,6 +83,11 @@ const AvailableTownsList = () => {
           </button>
         </div>
       ))}
+      {hasMore && (
+        <button onClick={loadMoreTowns} disabled={isLoading}>
+          {isLoading ? 'Loading...' : 'Load More'}
+        </button>
+      )}
     </div>
   );
 };
