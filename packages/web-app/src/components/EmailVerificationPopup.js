@@ -28,7 +28,7 @@ const EmailVerificationPopup = ({ user, onClose }) => {
     }
 
     try {
-      const response = await fetch('https://www.towntrekkr.com/api/user/verify', {
+      const response = await fetch('/api/user/verify', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -58,7 +58,7 @@ const EmailVerificationPopup = ({ user, onClose }) => {
 
   const handleResendCode = async () => {
     try {
-      const response = await fetch('https://www.towntrekkr.com/api/user/sendemail', {
+      const response = await fetch('/api/user/sendemail', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

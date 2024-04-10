@@ -8,7 +8,7 @@ const AvailableTownsList = () => {
   const fetchTowns = useCallback(async () => {
     setIsLoading(true);
     try {
-      const response = await fetch(`https://www.towntrekkr.com/api/town/gettowns`);
+      const response = await fetch(`/api/town/gettowns`);
       if (!response.ok) {
         throw new Error('Network response was not ok');
       }
