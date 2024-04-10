@@ -1,6 +1,9 @@
 const mongoose = require('mongoose')
 const bcrypt = require('bcrypt')
+const path = require('path');
+const jwt = require('jsonwebtoken')
 const { getClient } = require('../middleware/email')
+require('dotenv').config({ path: path.resolve(__dirname, '../../.env') })
 const Schema = mongoose.Schema
 
 const userSchema = new Schema({
@@ -182,14 +185,64 @@ userSchema.statics.getUserById = async function(userId)
         const user = await this.findOne({ _id: userId });
 
         if (!user) {
-            throw Error("No user");
+            throw Error("No user with email");
         }
+
 
         return user.username;
     } catch (error) {
         throw Error(error.message);
     }
 }
+
+userSchema.statics.forgetPasswordEmail = async function (email) {
+    try {
+        const user = await this.findOne({email: email})
+        if (!user) throw Error("Invalid user")
+
+        const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, {expiresIn: "10m",});
+
+        const client = getClient()
+        client.sendEmail({
+            "From": "ry595376@ucf.edu",
+            "To": email,
+            "Subject": "TownTrekkr: Forget Password",
+            "HtmlBody": `<p>To reset your password, please click the following link:</p><a href="http://localhost:3000/ResetPassword/${token}">Reset Password</a>`
+        });
+
+        return `Forget password email sent to ${email}`
+    }
+    catch (error) {
+        throw Error(error.message);
+    }
+}
+
+userSchema.statics.resetPassword = async function (token, password) {
+    try {
+        const decodedToken = jwt.verify(token, process.env.JWT_SECRET)
+
+        if (!decodedToken) {
+            throw Error("Invalid Token");
+        }
+
+        const user = await this.findOne({ _id: decodedToken.userId });
+
+        if (!user) {
+            throw Error("No user found");
+        }
+
+        const salt = await bcrypt.genSalt(10)
+        const hash = await bcrypt.hash(password, salt)
+
+        user.password = hash
+        await user.save()
+
+        return user;
+    } catch (error) {
+        throw Error(error.message);
+    }
+}
+
 
 
 
