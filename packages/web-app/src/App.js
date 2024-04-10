@@ -5,6 +5,7 @@ import AccountPage from './pages/AccountPage';
 import CreateTownPage from './pages/CreateTownPage';
 import MyTowns from './pages/MyTowns';
 import HomePage from './pages/HomePage';
+import PasswordPage from './pages/PasswordPage'
 import GamePage from "./pages/GamePage";
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { GameProvider } from './components/GameContext';
@@ -25,6 +26,7 @@ function App() {
 				<Route path="/HomePage" element={<HomePage />} />
 				<Route path="/MyTowns" element={<MyTowns />} />
 				<Route path="/CreateTownPage" element={<CreateTownPage />} />
+				<Route path="/ResetPassword/:token" element={<PasswordPage/>} />
 			</Routes>
 		</BrowserRouter>
 	);

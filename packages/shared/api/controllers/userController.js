@@ -101,6 +101,31 @@ const getUserById = async (req, res) => {
     }
 }
 
+const forgetPassword = async (req, res) => {
+    const {email} = req.body
+
+    try {
+        const message = await User.forgetPasswordEmail(email)
+
+        res.status(200).json({message: message});
+    } catch (error) {
+        res.status(400).json({error: error.message});
+    }
+}
+
+const resetPassword = async (req, res) => {
+    const {token} = req.params
+    const {password} = req.body
+
+    try {
+        const user = await User.resetPassword(token, password)
+
+        res.status(200).json({user});
+    } catch (error) {
+        res.status(400).json({error: error.message});
+    }
+}
+
 
 module.exports = {
     loginUser,
@@ -109,5 +134,7 @@ module.exports = {
     verify,
     makeGuess,
     getGuesses,
-    getUserById
+    getUserById,
+    forgetPassword,
+    resetPassword
 }
