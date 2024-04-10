@@ -7,7 +7,7 @@ import ImageDisplay from '../components/ImageDisplay';
 import { useNavigate } from 'react-router-dom';
 
 const GuessPage = () => {
-	const { score, trigger, resetGame, gameKey, likeDislike, handleLike, handleDislike, postIndex, gameActive, setGameActive, showModal } = useGame();
+	const { score, trigger, resetGame, gameKey, likeDislike, handleLike, handleDislike, postIndex, showModal } = useGame();
 	const navigate = useNavigate();
 	const [scoreKey, setScoreKey] = useState(0);
 
@@ -20,8 +20,8 @@ const GuessPage = () => {
 	let newScore;
 	if (score < 1) {
 		newScore = (score * 5280).toFixed(2) + ' feet';
-} else {
-		newScore = score + ' miles';
+	} else {
+		newScore = score.toFixed(2) + ' miles';
 	}
 
 	let title = JSON.parse(localStorage.getItem('imageData')).title;

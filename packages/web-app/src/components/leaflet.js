@@ -41,9 +41,8 @@ const Leaflet = () => {
 		let imageLocation = [imageData.coordinateX, imageData.coordinateY];
 		let distance = Math.sqrt((imageLocation[0] - markerPosition[0]) ** 2 + (imageLocation[1] - markerPosition[1]) ** 2);
 		distance = distance * 69.0;
-		distance = distance.toFixed(2);
 		setScore(distance);
-		const guessDetails = { userid, postid, score, hasliked };
+		const guessDetails = { userid, postid, score , hasliked };
 		const data = await makeGuess(guessDetails);
 		if (data) {
 			console.log("Guess saved successfully:", data);
@@ -78,13 +77,6 @@ const Leaflet = () => {
 			<div className="flex flex-row items-center gap-4">
 				<GuessButton handleGuessClick={handleGuessClick} />
 
-				{/*{guessedCoordinates && (*/}
-				{/*	<div className="text-xl">*/}
-				{/*		<h3>Guessed Coordinates:</h3>*/}
-				{/*		<p>Latitude: {guessedCoordinates[0]}</p>*/}
-				{/*		<p>Longitude: {guessedCoordinates[1]}</p>*/}
-				{/*	</div>*/}
-				{/*)}*/}
 			</div>
 		</div>
 	);

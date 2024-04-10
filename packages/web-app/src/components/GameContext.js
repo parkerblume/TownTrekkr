@@ -19,7 +19,6 @@ export const GameProvider = ({ children }) => {
 	const [town, setTown] = useState(JSON.parse(localStorage.getItem('selectedTown')) || null);
 	const [likeDislike, setLikeDislike] = useState('neither');
 	const [postIndex , setPostIndex] = useState(0);
-	const [gameActive, setGameActive] = useState(true);
 	const [modalMessage, setModalMessage] = useState('');
 
 	// Function to open the modal with a specific message
@@ -45,8 +44,7 @@ export const GameProvider = ({ children }) => {
 			setPostIndex(postIndex + 1);
 		}
 		else{
-			showModal('Congratulations! Youve completed this round.');
-			handleNavigate();
+			showModal('Congratulations! You have completed this round.');
 		}
 		setGameKey(prevKey => prevKey + 1);
 		setTrigger(prevTrigger => prevTrigger + 1);
@@ -67,8 +65,6 @@ export const GameProvider = ({ children }) => {
 		handleDislike,
 		postIndex,
 		setPostIndex,
-		gameActive,
-		setGameActive,
 		showModal,
 		hideModal,
 		modalMessage,
