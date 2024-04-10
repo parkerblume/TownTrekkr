@@ -9,14 +9,11 @@ const AvailableTownsList = () => {
 
   const fetchTowns = useCallback(async (requestedPage) => {
     if (!hasMore && requestedPage !== 1) return;
-
+  
     setIsLoading(true);
     try {
-      const storedUser = JSON.parse(localStorage.getItem('user'));
-      if (!storedUser || !storedUser.id) {
-        throw new Error('User not found in localStorage.');
-      }
-      const response = await fetch(`https://www.towntrekkr.com/api/town/gettowns?userId=${storedUser.id}&page=${requestedPage}`);
+      const url = `https://www.towntrekkr.com/api/town/gettowns?page=${requestedPage}`;
+      const response = await fetch(url);
       if (!response.ok) {
         throw new Error('Network response was not ok');
       }
@@ -33,6 +30,7 @@ const AvailableTownsList = () => {
     }
     setIsLoading(false);
   }, [hasMore]);
+  
 
   const refreshTowns = () => {
     setTowns([]);
