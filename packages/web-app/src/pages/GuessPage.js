@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faThumbsUp, faThumbsDown, faRedo } from '@fortawesome/free-solid-svg-icons';
+import { faThumbsUp, faThumbsDown } from '@fortawesome/free-solid-svg-icons';
 import Leaflet from '../components/leaflet';
 import { useGame } from '../components/GameContext';
 import ImageDisplay from '../components/ImageDisplay';
 import { useNavigate } from 'react-router-dom';
 
 const GuessPage = () => {
-	const { score, trigger, resetGame, gameKey, likeDislike, handleLike, handleDislike, postIndex, showModal } = useGame();
+	const { score, trigger, resetGame, gameKey, likeDislike, handleLike, handleDislike, postIndex, showModal, showNextButton, setShowNextButton } = useGame();
 	const navigate = useNavigate();
 	const [scoreKey, setScoreKey] = useState(0);
 
@@ -56,9 +56,11 @@ const GuessPage = () => {
 			</div>
 			<div className="w-full flex justify-between items-center bg-gray-800 text-white fixed bottom-0 pt-4 p-3 text-2xl font-bold">
 				<div key={scoreKey} className="score-animation">Distance: {newScore}</div>
-				<button onClick={resetGame} className="p-2 bg-blue-500 rounded hover:bg-blue-700 transition duration-300">
-					<FontAwesomeIcon icon={faRedo} size="lg"/> New Image
-				</button>
+				{showNextButton && (
+					<button onClick={resetGame} className="p-2 bg-webAccent border-white border-4 rounded-2xl hover:bg-webSecondary transition duration-300">
+						Next Post
+					</button>
+				)}
 			</div>
 		</div>
 	);

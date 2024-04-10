@@ -1,13 +1,13 @@
 import React from 'react';
-import { colors } from '../styles/commonStyles';
+import ReturnHomeButton from './ReturnHomeButton';
 
 const NavigationBar = () => {
-  return (
-    <nav style={{ backgroundColor: colors.olive, color: colors.buttonPrimary, width: '100%', height: '10vh',
-      padding: '10px 0', textAlign: 'center', fontSize: '60px'}}>
-      <h1>Town Trekkr</h1>
-    </nav>
-  );
+	return (
+		<nav className="flex flex-row items-center justify-between w-full h-10vh bg-webAccent text-webSecondary ">
+			<ReturnHomeButton />
+			<h1 className="text-4xl font-bold p-4">Town Trekkr</h1>
+		</nav>
+	);
 };
 
 export default NavigationBar;

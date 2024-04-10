@@ -20,6 +20,7 @@ export const GameProvider = ({ children }) => {
 	const [likeDislike, setLikeDislike] = useState('neither');
 	const [postIndex , setPostIndex] = useState(0);
 	const [modalMessage, setModalMessage] = useState('');
+	const [showNextButton, setShowNextButton] = useState(false);
 
 	// Function to open the modal with a specific message
 	const showModal = (message) => {
@@ -49,7 +50,9 @@ export const GameProvider = ({ children }) => {
 		setGameKey(prevKey => prevKey + 1);
 		setTrigger(prevTrigger => prevTrigger + 1);
 		setLikeDislike('neither'); // Reset like/dislike on game reset
-	}, [postIndex]);
+		setShowNextButton(false);
+		console.log("hide button", showNextButton);
+	}, [postIndex, showNextButton]);
 
 	const value = {
 		score,
@@ -68,6 +71,8 @@ export const GameProvider = ({ children }) => {
 		showModal,
 		hideModal,
 		modalMessage,
+		showNextButton,
+		setShowNextButton,
 	};
 
 	return <GameContext.Provider value={value}>
