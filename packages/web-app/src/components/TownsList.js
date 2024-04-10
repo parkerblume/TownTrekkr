@@ -108,6 +108,11 @@ const TownsList = () => {
     fetchTowns();
   }, [fetchTowns]);
 
+  const handleTownSelect = (town) => {
+    localStorage.setItem('selectedTown', JSON.stringify(town));
+    navigate('/GuessPage');
+  };
+
   return (
     <div style={{ background: '#ABC4AB', padding: '20px', height: '60vh', width: '30vw', overflowY: 'auto', scrollbarWidth: 'thin', scrollbarColor: '#A39171 #ABC4AB' }}>
       <h2 style={{ fontSize: '36px', color: colors.buttonPrimary, textAlign: 'center' }}>My Towns</h2>
@@ -123,7 +128,7 @@ const TownsList = () => {
             <p style={{ fontSize: '18px' }}>Coordinates: [{town.topLeftLat}, {town.topLeftLong}] to [{town.botRightLat}, {town.botRightLong}]</p>
           </div>
           <div>
-            <button onClick={() => navigate('/GuessPage')} style={{ padding: '10px 20px', fontSize: '18px', backgroundColor: '#DCC9B6', borderRadius: '5px', marginRight: '5px' }}>
+            <button onClick={() => handleTownSelect(town)} style={{ padding: '10px 20px', fontSize: '18px', backgroundColor: '#DCC9B6', borderRadius: '5px', marginRight: '5px' }}>
               Play
             </button>
             <button onClick={() => deleteTown(town._id)} style={{ padding: '10px 20px', fontSize: '18px', backgroundColor: '#D95A5A', borderRadius: '5px' }}>
