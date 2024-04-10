@@ -207,7 +207,7 @@ userSchema.statics.forgetPasswordEmail = async function (email) {
             "From": "ry595376@ucf.edu",
             "To": email,
             "Subject": "TownTrekkr: Forget Password",
-            "HtmlBody": `<p>To reset your password, please click the following link:</p><a href="http://localhost:3000/ResetPassword/${token}">Reset Password</a>`
+            "HtmlBody": `<p>To reset your password, please click the following link:</p><a href="https://www.towntrekkr.com/ResetPassword/${token}">Reset Password</a>`
         });
 
         return `Forget password email sent to ${email}`
