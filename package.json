@@ -8,6 +8,7 @@
     "bcrypt": "^5.1.1",
     "dotenv": "^16.4.5",
     "metro-config": "^0.80.0",
+    "selenium-webdriver": "^4.19.0",
     "three": "^0.162.0"
   },
   "scripts": {
