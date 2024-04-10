@@ -7,8 +7,8 @@ const AvailableTownsList = () => {
   const [page, setPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);
 
-  const fetchTowns = useCallback(async () => {
-    if (!hasMore) return;
+  const fetchTowns = useCallback(async (newPage = page) => {
+    if (!hasMore && newPage !== 1) return;
 
     setIsLoading(true);
     try {
@@ -16,19 +16,30 @@ const AvailableTownsList = () => {
       if (!storedUser || !storedUser.id) {
         throw new Error('User not found in localStorage.');
       }
-      const response = await fetch(`https://www.towntrekkr.com/api/town/gettowns?userId=${storedUser.id}&page=${page}`);
+      const response = await fetch(`https://www.towntrekkr.com/api/town/gettowns?userId=${storedUser.id}&page=${newPage}`);
       if (!response.ok) {
         throw new Error('Network response was not ok');
       }
       const newTowns = await response.json();
-      setTowns(towns => [...towns, ...newTowns]);
+      if (newPage === 1) {
+        setTowns(newTowns);
+      } else {
+        setTowns(towns => [...towns, ...newTowns]);
+      }
       setHasMore(newTowns.length > 0);
-      setPage(page => page + 1);
+      setPage(newPage => newPage + 1);
     } catch (error) {
       console.error('Failed to fetch towns:', error);
     }
     setIsLoading(false);
   }, [page, hasMore]);
+
+  const refreshTowns = () => {
+    setTowns([]);
+    setPage(1);
+    setHasMore(true);
+    fetchTowns(1);
+  };
 
   const joinTown = async (townId) => {
     const storedUser = JSON.parse(localStorage.getItem('user'));
