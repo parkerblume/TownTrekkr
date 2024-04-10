@@ -40,6 +40,7 @@ function LoginForm() {
 			hasError = true;
 		}
 
+		// If there's an error, stop form submission
 		if (hasError) return;
 
         try {
@@ -59,14 +60,14 @@ function LoginForm() {
             const data = await response.json();
             console.log('Login successful:', data);
 	        if (data && data.id) {
-				localStorage.setItem('user', JSON.stringify({
+		        localStorage.setItem('user', JSON.stringify({
 					id: data.id,
 					name: data.username,
 					email: data.email,
-					verified: data.verified,
-				}));
+			        verified: data.verified,
+		        }));
 				console.log('Stored user:', localStorage.getItem('user'));
-			}
+	        }
 
             navigate('/HomePage');
         } catch (error) {

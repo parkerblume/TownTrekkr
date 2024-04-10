@@ -1,50 +1,42 @@
-import React, { useState } from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faThumbsUp, faThumbsDown } from '@fortawesome/free-solid-svg-icons';
-import Leaflet from '../components/leaflet';
-import ImageDisplay from '../components/ImageDisplay';
-import NavigationBar from '../components/NavigationBar';
-import { colors } from '../styles/commonStyles';
+import React from 'react';
+import { useNavigate } from "react-router-dom";
+import TownsList from '../components/TownsList';
 
 
 const GamePage = () => {
-	const [likeDislike, setLikeDislike] = useState('neither'); // 'like', 'dislike', 'neither'
+	const navigate = useNavigate();
 
-	const handleLike = () => {
-		setLikeDislike(likeDislike !== 'like' ? 'like' : 'neither');
+	const handleNavigate = (path) => {
+		navigate(path);
 	};
 
-	const handleDislike = () => {
-		setLikeDislike(likeDislike !== 'dislike' ? 'dislike' : 'neither');
-	};
+	const localStorageExampleData = {
+		"_id": "660eed19f9eadf4267c40a18",
+		"fileId": "660eed19a00c8514f2d09c94",
+		"user_id": "66060766d2f84a45fe9c98be",
+		"town": "660497f815daa8e29584bed5",
+		"coordinateX": 28.65944913314387,
+		"coordinateY": -81.2053436789252,
+		"likes": 0,
+		"dislikes": 0,
+		"createdAt": "2024-04-04T18:10:33.961Z",
+		"updatedAt": "2024-04-04T18:10:33.961Z",
+		"__v": 0
+	}
+	localStorage.setItem('imageData', JSON.stringify(localStorageExampleData));
 
 	return (
-		<div className="flex min-h-screen w-screen flex-col bg-webPrimary">
-			<NavigationBar />
-			<div className="flex flex-grow flex-col">
-				<div className="flex flex-grow flex-row justify-center">
-					<div className="mb-2 flex w-1/2 flex-col">
-						<ImageDisplay />
-						<div id="thumbs-up" className="mt-3 mr-20 mb-8 flex justify-end space-x-2">
-							<button
-								onClick={handleLike}
-								className={`p-2 rounded ${likeDislike === 'like' ? 'bg-green-500' : 'bg-gray-200'} w-12 h-12 flex items-center justify-center`}
-							>
-								<FontAwesomeIcon icon={faThumbsUp} color={likeDislike === 'like' ? 'white' : 'black'} size="lg" />
-							</button>
-							<button
-								onClick={handleDislike}
-								className={`p-2 rounded ${likeDislike === 'dislike' ? 'bg-red-500' : 'bg-gray-200'} w-12 h-12 flex items-center justify-center`}
-							>
-								<FontAwesomeIcon icon={faThumbsDown} color={likeDislike === 'dislike' ? 'white' : 'black'} size="lg" />
-							</button>
-						</div>
-					</div>
-					<div className="flex w-1/2 flex-grow flex-col pt-4 rounded-4xl">
-						<Leaflet />
-					</div>
+		<div className="flex items-center min-h-screen w-screen flex-col bg-webTertiary justify-center p-10 ">
+			<h1 className="text-4xl text-white font-bold">Towns</h1>
+			<div className="bg-webPrimary p-3 rounded-2xl">
+				<div className="flex-1">
+					<TownsList/>
 				</div>
 			</div>
+			<button onClick={() => handleNavigate('/MyTowns')}
+			        className="p-2 bg-webAccent border-white border-4 rounded-2xl hover:bg-webPrimary transition duration-300">
+				Edit Towns
+			</button>
 		</div>
 	);
 };

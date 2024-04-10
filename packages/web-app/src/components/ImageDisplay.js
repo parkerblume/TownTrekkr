@@ -1,49 +1,42 @@
 import React, { useEffect, useState } from 'react';
 import '../styles/Spinner.css';
+import {fetchImageByTown} from './GuessServices';
+import { useGame } from './GameContext';
 
-// Currently pulls a random image from the server
-const ImageDisplay = () => {
+const ImageDisplay = ({ trigger }) => {
 	const [imageUrl, setImageUrl] = useState('');
+	const [loading, setLoading] = useState(true);
+	const { town, user, showModal } = useGame();
 
 	useEffect(() => {
-		const fetchPosts = async () => {
-			let posts = [];
+		const fetchImage = async () => {
+			setLoading(true);
 			try {
-				const response = await fetch('/getposts'); // Make sure the URL matches your API endpoint
-				if (!response.ok) {
-					console.error('Failed to fetch posts');
-					return;
+				let imageUrl = await fetchImageByTown(town._id);
+				if(!imageUrl){
+					showModal('No more posts to guess in this town. Please select another town.');
 				}
-
-				posts = await response.json();
+				setImageUrl(imageUrl);
 			} catch (error) {
-				console.error('Error fetching posts:', error);
+				console.error('Failed to fetch image:', error);
 			}
-
-			// Select a random post if posts are available
-			if (posts.length > 0) {
-				const randomIndex = Math.floor(Math.random() * posts.length);
-				const randomPost = posts[randomIndex];
-				setImageUrl(randomPost.imageUrl);
-				// save to local storage
-				localStorage.setItem('imageUrl', randomPost.imageUrl);
-			}
+			setLoading(false);
 		};
 
-		fetchPosts();
-	}, []);
-
+		fetchImage();
+	}, [trigger]);
 
 	return (
-		<div className="ml-12 mt-9 mr-5 h-full overflow-hidden rounded-2xl border-2 border-black bg-gray-800">
+		<div className="ml-12 mt-2 mr-5 h-full overflow-hidden rounded-2xl border-2 border-black bg-gray-800">
 			<div className="h-full rounded-4xl flex justify-center items-center">
-				{imageUrl ? (
-					<img src={imageUrl} alt="Selected Post" className="mx-auto h-full w-auto object-cover"/>
+				{loading ? (
+					<div className="spinner"></div>
 				) : (
-					<div className="spinner"></div> // This spinner is centered by flexbox
+				<img src={imageUrl} alt="Selected Post" className="mx-auto h-full w-auto object-cover" />
 				)}
 			</div>
 		</div>
+
 	);
 };
 

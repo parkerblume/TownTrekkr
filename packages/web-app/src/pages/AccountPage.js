@@ -71,7 +71,7 @@ function AccountPage() {
 		<div className="flex min-h-screen w-screen flex-col bg-custom-bg">
 			<NavigationBar />
 			<div className="m-12 flex flex-grow items-center justify-center rounded-3xl bg-opacity-70 bg-webTertiary backdrop-blur-sm">
-				<div className="flex w-full justify-between">
+				<div className="flex w-full h-screen justify-between">
 					<div className={classNames("w-1/2 flex flex-col items-center justify-start pt-32", {
 						'toggle-animate': true,
 						'form-slide-right': alignment === 'Register',

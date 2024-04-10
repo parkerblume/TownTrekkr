@@ -77,6 +77,23 @@
     }
 }
 
+@keyframes scorePulse {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.2); /* Adjust this value to control the size it grows to */
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+.score-animation {
+    animation: scorePulse 1s ease; /* Adjust time as needed */
+}
+
+
 .opacity-animate {
     animation: opacityToggle var(--transition-duration) ease-in-out forwards;
 
