@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from "react-router-dom";
 import AddTownLeaflet from "../components/AddTownLeaflet";
+import ReturnHomeButton from "../components/ReturnHomeButton";
 
 const CreateTownPage = () => {
 	const navigate = useNavigate();
@@ -72,7 +73,8 @@ const CreateTownPage = () => {
 	};
 	return (
 		<div className="bg-webPrimary w-screen p-4">
-			<div className="flex justify-center bg-webTertiary p-2 rounded-2xl mb-4">
+			<div className="flex justify-between items-center bg-webTertiary p-2 rounded-2xl mb-4">
+				<ReturnHomeButton className="bg-webTertiary"/>
 				<h1 className="text-4xl font-bold">Create a New Town</h1>
 			</div>
 			<div className="flex flex-row items-stretch justify-center gap-4">

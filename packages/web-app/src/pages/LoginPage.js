@@ -23,14 +23,12 @@ function LoginForm() {
 
 	const handleSubmit = async (event) => {
 		event.preventDefault();
-		const email = event.target.email.value;
-		const password = event.target.password.value;
+		const email = event.target.email.value.trim().toLowerCase(); // Normalize email input
+		const password = event.target.password.value; // Password input remains unchanged
 		let hasError = false;
 
-		// Reset tooltip state on every submit
-		setShowTooltip({ email: false, password: false });
+		setShowTooltip({ email: false, password: false }); // Reset tooltip state on every submit
 
-		// Check for empty fields and show tooltip
 		if (!email) {
 			setShowTooltip(prev => ({ ...prev, email: true }));
 			hasError = true;
@@ -42,37 +40,35 @@ function LoginForm() {
 
 		if (hasError) return;
 
-        try {
-            const response = await fetch('/api/user/login', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ email, password }),
-            });
+		try {
+			const response = await fetch('/api/user/login', {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json',
+				},
+				body: JSON.stringify({ email, password }),
+			});
 
-	        if (!response.ok) {
-		        console.error('Login failed');
-		        return;
-	        }
+			if (!response.ok) {
+				console.error('Login failed');
+				return;
+			}
 
-            const data = await response.json();
-            console.log('Login successful:', data);
-	        if (data && data.id) {
+			const data = await response.json();
+			if (data && data.id) {
 				localStorage.setItem('user', JSON.stringify({
 					id: data.id,
 					name: data.username,
 					email: data.email,
 					verified: data.verified,
 				}));
-				console.log('Stored user:', localStorage.getItem('user'));
 			}
 
-            navigate('/HomePage');
-        } catch (error) {
-            console.error('Error logging in:', error);
-        }
-    };
+			navigate('/HomePage');
+		} catch (error) {
+			console.error('Error logging in:', error);
+		}
+	};
 
 	return (
 		<ThemeProvider theme={theme}>
@@ -80,21 +76,21 @@ function LoginForm() {
 				<div className="mb-6">
 					<label htmlFor="email" className="mb-2 block text-sm font-medium text-white">Email address</label>
 					<Tooltip title="Please fill out this field" open={showTooltip.email} placement="top" arrow>
-						<input name="email" id="email"
-						       className="block w-full rounded-lg border border-gray-300 bg-gray-50 text-sm text-gray-900 p-2.5 focus:border-blue-500 focus:ring-blue-500 dark:placeholder-gray-400 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:focus:border-blue-500 dark:focus:ring-blue-500"
+						<input type="email" name="email" id="email"
+						       className="block w-full rounded-lg border border-gray-300 bg-gray-50 text-sm text-gray-900 p-2.5 focus:border-blue-500 focus:ring-blue-500 dark:placeholder-gray-400 dark:border-gray-600 dark:bg-gray-700 dark:text:white dark:focus:border-blue-500 dark:focus:ring-blue-500"
 						       placeholder="john.doe@company.com"/>
 					</Tooltip>
 				</div>
 				<div className="mb-6">
 					<label htmlFor="password" className="mb-2 block text-sm font-medium text-white">Password</label>
 					<Tooltip title="Please fill out this field" open={showTooltip.password} placement="top" arrow>
-						<input name="password" id="password"
+						<input type="password" name="password" id="password" // Obscure password input
 						       className="block w-full rounded-lg border border-gray-300 bg-gray-50 text-sm text-gray-900 p-2.5 focus:border-blue-500 focus:ring-blue-500 dark:text:white dark:placeholder-gray-400 dark:border-gray-600 dark:bg-gray-700 dark:focus:border-blue-500 dark:focus:ring-blue-500"
 						       placeholder="•••••••••"/>
 					</Tooltip>
 				</div>
 				<button type="submit"
-				        className="w-full rounded-lg bg-webBackground px-5 text-center text-sm font-medium text-white py-2.5 hover:bg-webAccent hover:animate-out focus:outline-none focus:ring-4 focus:ring-blue-300 sm:w-auto ">Submit
+				        className="w-full rounded-lg bg-blue-700 px-5 text-center text-sm font-medium text-white py-2.5 hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 sm:w-auto dark:hover:bg-blue-700 dark:focus:ring-blue-800">Submit
 				</button>
 			</form>
 		</ThemeProvider>
@@ -102,4 +98,3 @@ function LoginForm() {
 }
 
 export default LoginForm;
-

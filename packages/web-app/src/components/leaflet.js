@@ -1,62 +1,86 @@
 import React, { useState } from "react";
-import { MapContainer, TileLayer, Marker, useMapEvents } from "react-leaflet";
+import { MapContainer, TileLayer, Marker, Rectangle, Polyline, useMapEvents } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import { Icon } from "leaflet";
 import '../styles/Leaflet.css';
 import GuessButton from './GuessButton';
+import { useGame } from './GameContext';
+import { makeGuess } from './GuessServices';
 
 const markerIcon = new Icon({
 	iconUrl: require("../icons/Marker.png"),
 	iconSize: [38, 38]
 });
 
+const actualLocationIcon = new Icon({
+  iconUrl: require("../icons/ActualLocationMarker.png"), // Add your actual location marker icon here
+  iconSize: [38, 38]
+});
+
 const Leaflet = () => {
 	const [markerPosition, setMarkerPosition] = useState([28.6023, -81.2003]);
+    const [actualLocation, setActualLocation] = useState(null); // To store the actual location
 	const [guessedCoordinates, setGuessedCoordinates] = useState(null);
+	const [showGuessButton, setShowGuessButton] = useState(true);
+	const [line,setLine] = useState([]);
+	const [guessMade, setGuessMade] = useState(false);
+
+	const { likeDislike, resetGame, score, setScore, showNextButton, setShowNextButton } = useGame();
+	const [hasClicked, setHasClicked] = useState(false);
 
 	const user = JSON.parse(localStorage.getItem('user'));
+	const imageData = JSON.parse(localStorage.getItem('imageData'));
+	const selectedTown = JSON.parse(localStorage.getItem('selectedTown'));
 
-	// Assuming these values are available in your component,
-	// replace them with actual data as needed.
-	const userid = user._id;
-	const postid = "123"; // This should be a unique identifier for the post.
-	const score = "5000"; // This should be a number or calculated based on some logic.
-	const hasliked = false; // Example value, replace with actual logic.
+
+	let likeState = 0;
+	if( likeDislike === 'like' ) likeState = 1;
+	else if( likeDislike === 'dislike' ) likeState = 0;
+	const userid = user.id;
+	const postid = imageData._id;
+	const hasliked = (likeState === 1)
+
+	const townBounds = [
+		[selectedTown.topLeftLat, selectedTown.topLeftLong], // Top left
+		[selectedTown.botRightLat, selectedTown.botRightLong] // Bottom right
+	];
+
+	const mapCenter = [
+		(selectedTown.topLeftLat + selectedTown.botRightLat) / 2,
+		(selectedTown.topLeftLong + selectedTown.botRightLong) / 2
+	];
 
 	const handleMapClick = (e) => {
 		const { lat, lng } = e.latlng;
-		setMarkerPosition([lat, lng]);
+		const withinLatBounds = lat >= selectedTown.botRightLat && lat <= selectedTown.topLeftLat;
+		const withinLngBounds = lng >= selectedTown.topLeftLong && lng <= selectedTown.botRightLong;
+		console.log("Clicked position:", lat, lng);
+
+		if (withinLatBounds && withinLngBounds) {
+			setMarkerPosition([lat, lng]);
+			setHasClicked(true);
+		}
 	};
 
 	const handleGuessClick = async () => {
+		if (!hasClicked) return;
+		setActualLocation([imageData.coordinateX, imageData.coordinateY]);
 		setGuessedCoordinates(markerPosition);
-
-		try {
-			const response = await fetch("/api/guess", { // Replace "/api/guess" with your actual API endpoint
-				method: "POST",
-				headers: {
-					'Content-Type': 'application/json',
-				},
-				body: JSON.stringify({
-					userid,
-					postid,
-					score,
-					hasliked,
-				}),
-			});
-
-			const data = await response.json();
-
-			if (response.status === 200) {
-				// Handle success
-				console.log("Guess saved successfully:", data);
-			} else {
-				// Handle failure
-				console.error("Failed to save guess:", data.error);
-			}
-		} catch (error) {
-			console.error("Error making guess:", error);
+		// Calculate distance between marker and actual location
+		let imageLocation = [imageData.coordinateX, imageData.coordinateY];
+		let distance = Math.sqrt((imageLocation[0] - markerPosition[0]) ** 2 + (imageLocation[1] - markerPosition[1]) ** 2);
+		distance = distance * 69.0;
+		setScore(distance);
+		const guessDetails = { userid, postid, score , hasliked };
+		const data = await makeGuess(guessDetails);
+		if (data) {
+			console.log("Guess saved successfully:", data);
+			setShowNextButton(true);
+			setShowGuessButton(false);
+			setGuessMade(true)
+			setLine([markerPosition, [imageData.coordinateX, imageData.coordinateY]]);
 		}
+
 	};
 
 	const AddMarkerToMap = () => {
@@ -68,12 +92,12 @@ const Leaflet = () => {
 	};
 
 	return (
-		<div className="m-5 mr-12 flex flex-col items-center">
+		<div className="mr-12 flex flex-col items-center">
 			<MapContainer
-				center={[28.6023, -81.2003]}
+				center={mapCenter}
 				zoom={15}
-				style={{ width: '100%'}} /* Ensure the map has a defined size */
-				className="flex rounded-2xl border-2 border-black map-container" /* Add 'map-container' class */
+				style={{width: '100%'}}
+				className="flex rounded-2xl border-2 border-black map-container"
 			>
 				<TileLayer
 					attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
@@ -81,18 +105,16 @@ const Leaflet = () => {
 				/>
 				<AddMarkerToMap/>
 				<Marker position={markerPosition} icon={markerIcon}/>
+				{guessMade && actualLocation && <Marker position={actualLocation} icon={actualLocationIcon}/>}
+				{guessMade && line.length > 0 && <Polyline positions={line} color="blue" dashArray="5, 10"/>}
+				<Rectangle bounds={townBounds} color="#5F8575"
+				           fillColor="#FFEEFF"
+				           fillOpacity={0.4}
+				           opacity={0.9}/>
 			</MapContainer>
-			<div className="flex flex-row items-center gap-4">
-				<GuessButton handleGuessClick={handleGuessClick} /> {/* Use the GuessButton component */}
-
-				{guessedCoordinates && (
-					<div className="text-xl">
-						<h3>Guessed Coordinates:</h3>
-						<p>Latitude: {guessedCoordinates[0]}</p>
-						<p>Longitude: {guessedCoordinates[1]}</p>
-					</div>
-				)}
-			</div>
+			{showGuessButton && <div className="flex flex-row items-center gap-4">
+				<GuessButton handleGuessClick={handleGuessClick}/>
+			</div>}
 		</div>
 	);
 };

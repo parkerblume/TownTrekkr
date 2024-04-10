@@ -88,7 +88,7 @@ const addUser = async (req, res) =>
     }
 }
 
-// unregistering a user as no longer a member of a town
+// terminator removes user from their town...
 const removeUser = async (req, res) =>
 {
     const {town_id, user_id} = req.body

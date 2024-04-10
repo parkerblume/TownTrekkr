@@ -1,6 +1,9 @@
 const mongoose = require('mongoose')
 const bcrypt = require('bcrypt')
+const path = require('path');
+const jwt = require('jsonwebtoken')
 const { getClient } = require('../middleware/email')
+require('dotenv').config({ path: path.resolve(__dirname, '../../.env') })
 const Schema = mongoose.Schema
 
 const userSchema = new Schema({
@@ -105,25 +108,28 @@ userSchema.statics.sendemail = async function(email) {
     const user = await this.findOne({ email })
     const client = getClient()
 
-    if (user && user.verified == false) {
-        client.sendEmail({
-            "From": "ry595376@ucf.edu",
-            "To": user.email,
-            "Subject": "TownTrekkr: Verify Your Email Address",
-            "TextBody": `Your verification code is: ${user.verifyCode}`
-        });
-    }
+    if (!user) throw Error("User not found")
+    if (user.verified === true) throw Error("User is already verified")
+    
+    client.sendEmail({
+        "From": "ry595376@ucf.edu",
+        "To": user.email,
+        "Subject": "TownTrekkr: Verify Your Email Address",
+        "TextBody": `Your verification code is: ${user.verifyCode}`
+    });
+
 
     return `Verification email sent to ${email}`
 }
 
 userSchema.statics.verify = async function(email, code) {
     const user = await this.findOne({ email })
-    
-    if (user && user.verifyCode === code) {
-        user.verified = true
-        await user.save()
-    }
+
+    if (!user) throw Error("Invalid user")
+    if (user.verifyCode !== code) throw Error("Invalid verification code")
+
+    user.verified = true
+    await user.save()
 
     return `User has been verified`
 }
@@ -179,14 +185,64 @@ userSchema.statics.getUserById = async function(userId)
         const user = await this.findOne({ _id: userId });
 
         if (!user) {
-            throw Error("No user");
+            throw Error("No user with email");
         }
+
 
         return user.username;
     } catch (error) {
         throw Error(error.message);
     }
 }
+
+userSchema.statics.forgetPasswordEmail = async function (email) {
+    try {
+        const user = await this.findOne({email: email})
+        if (!user) throw Error("Invalid user")
+
+        const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, {expiresIn: "10m",});
+
+        const client = getClient()
+        client.sendEmail({
+            "From": "ry595376@ucf.edu",
+            "To": email,
+            "Subject": "TownTrekkr: Forget Password",
+            "HtmlBody": `<p>To reset your password, please click the following link:</p><a href="https://www.towntrekkr.com/ResetPassword/${token}">Reset Password</a>`
+        });
+
+        return `Forget password email sent to ${email}`
+    }
+    catch (error) {
+        throw Error(error.message);
+    }
+}
+
+userSchema.statics.resetPassword = async function (token, password) {
+    try {
+        const decodedToken = jwt.verify(token, process.env.JWT_SECRET)
+
+        if (!decodedToken) {
+            throw Error("Invalid Token");
+        }
+
+        const user = await this.findOne({ _id: decodedToken.userId });
+
+        if (!user) {
+            throw Error("No user found");
+        }
+
+        const salt = await bcrypt.genSalt(10)
+        const hash = await bcrypt.hash(password, salt)
+
+        user.password = hash
+        await user.save()
+
+        return user;
+    } catch (error) {
+        throw Error(error.message);
+    }
+}
+
 
 
 
