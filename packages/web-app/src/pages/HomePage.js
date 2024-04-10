@@ -1,3 +1,4 @@
+import React from 'react';
 import { useNavigate } from "react-router-dom";
 import React, { useState, useEffect } from 'react';
 import { createTheme, ThemeProvider } from "@mui/material/styles";
@@ -66,7 +67,7 @@ function HomePage() {
             <Button
               variant="contained"
               color="primary"
-              onClick={() => handleNavigate('/GuessPage')}
+              onClick={() => handleNavigate('/GamePage')}
               sx={{
                 height: '60vh',
                 width: '35vw',
@@ -84,16 +85,16 @@ function HomePage() {
         </ThemeProvider>
       </div>
       {user && !user.verified && (
-        <EmailVerificationPopup 
-          user={user} 
+        <EmailVerificationPopup
+          user={user}
           onClose={() => {
             const updatedUser = { ...user, verified: true };
             localStorage.setItem('user', JSON.stringify(updatedUser));
-            
+
             setUser(updatedUser);
-            
+
             console.log(localStorage.getItem('user'));
-          }} 
+          }}
         />
       )}
     </div>
