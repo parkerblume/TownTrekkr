@@ -1,5 +1,6 @@
 const mongoose = require('mongoose')
 const bcrypt = require('bcrypt')
+const { getClient } = require('../middleware/email')
 const Schema = mongoose.Schema
 
 const userSchema = new Schema({
@@ -19,7 +20,11 @@ const userSchema = new Schema({
     },
     verified : {
         type: Boolean,
-        default: true
+        default: false
+    },
+    verifyCode : {
+        type: String,
+        required: true
     },
     // List of posts already played and respective score
     playedPosts : [
@@ -29,6 +34,9 @@ const userSchema = new Schema({
             ref: 'Post',
         },
         score: {
+            type: Number
+        },
+        distanceAway: {
             type: Number
         },
         hasLiked: {
@@ -81,14 +89,49 @@ userSchema.statics.signup = async function(email, password, username) {
 
     const salt = await bcrypt.genSalt(10)
     const hash = await bcrypt.hash(password, salt)
+    
 
-    const user = await this.create({ email, password: hash, username})
+    // create verification code
+    let nanoid = (await import('nanoid')).nanoid;
+    const verifyCode = nanoid(4)
+
+    const user = await this.create({ email, password: hash, username, verifyCode})
 
     return user
 
 }
 
-userSchema.statics.saveguess = async function(userid, postid, score, hasliked) {
+userSchema.statics.sendemail = async function(email) {
+    const user = await this.findOne({ email })
+    const client = getClient()
+
+    if (!user) throw Error("User not found")
+    if (user.verified === true) throw Error("User is already verified")
+    
+    client.sendEmail({
+        "From": "ry595376@ucf.edu",
+        "To": user.email,
+        "Subject": "TownTrekkr: Verify Your Email Address",
+        "TextBody": `Your verification code is: ${user.verifyCode}`
+    });
+
+
+    return `Verification email sent to ${email}`
+}
+
+userSchema.statics.verify = async function(email, code) {
+    const user = await this.findOne({ email })
+
+    if (!user) throw Error("Invalid user")
+    if (user.verifyCode !== code) throw Error("Invalid verification code")
+
+    user.verified = true
+    await user.save()
+
+    return `User has been verified`
+}
+
+userSchema.statics.saveguess = async function(userid, postid, score, distanceAway, hasliked) {
     try {
         const user = await this.findOne({ _id: userid })
 
@@ -105,6 +148,7 @@ userSchema.statics.saveguess = async function(userid, postid, score, hasliked) {
             user.playedPosts.push({
                 post: postid,
                 score: score,
+                distanceAway: distanceAway,
                 hasLiked: hasliked
             });
         }
@@ -129,6 +173,21 @@ userSchema.statics.getguesses = async function(userid) {
 
     } catch (error) {
         throw Error(error.message)
+    }
+}
+
+userSchema.statics.getUserById = async function(userId)
+{
+    try {
+        const user = await this.findOne({ _id: userId });
+
+        if (!user) {
+            throw Error("No user");
+        }
+
+        return user.username;
+    } catch (error) {
+        throw Error(error.message);
     }
 }
 

@@ -52,15 +52,23 @@ townSchema.statics.getTown = async function (townId) {
     return town
 }
 
-townSchema.statics.getTowns = async function (userId) {
+townSchema.statics.getTowns = async function (userId, page, limit) {
     let towns;
+    const skip = (page - 1) * limit; // would be 0 if first page
+
     if (userId)
     {
-        towns = await this.find({ 'townMembers.userId': userId });
+        towns = await this.find({ 'townMembers.userId': userId })
+                          .skip(skip)
+                          .limit(limit)
+                          .exec();
     }
     else
     {
-        towns = await this.find({});
+        towns = await this.find({})
+                          .skip(skip)
+                          .limit(limit)
+                          .exec();
     }
 
     return towns
@@ -96,11 +104,38 @@ townSchema.statics.createTown = async function(name, description, topLeftCoord, 
 
 townSchema.statics.deleteTown = async function(town_id)
 {
-    const town = await this.findOneAndDelete({_id: town_id})
+    let town, numMembers;
 
-    if (!town) throw Error("Town does not exist")
+	try 
+    {
+		town = await this.findById(town_id);
+		if (!town) 
+			throw new Error(`Town with ID ${town_id} does not exist`);
+	} 
+    catch (error) 
+    {
+		console.error(`Error finding town with ID ${town_id}:`, error.message);
+		throw error; // Re-throw the error to be caught by the calling function
+	}
 
-    return town
+    numMembers = town.townMembers.length;
+
+    for (let i = 0; i < numMembers; i++)
+    {
+        town = await this.removeUser(town_id, town.townMembers[i].userId);
+    }
+
+    try
+    {
+        town = await this.deleteOne(town);
+    }
+    catch (error)
+    {
+        console.error(`Error deleting town with ID ${town_id}:`, error.message);
+        throw error;
+    }
+
+    return town;
 }
 
 townSchema.statics.addUser = async function(town_id, user_id) {
@@ -128,7 +163,6 @@ townSchema.statics.addUser = async function(town_id, user_id) {
 
 	if (town.townMembers.find(member => member.userId.toString() === user_id.toString())) {
 		const errorMessage = `User with ID ${user_id} is already registered to the town with ID ${town_id}`;
-		console.error(errorMessage);
 		throw new Error(errorMessage);
 	}
 
@@ -146,5 +180,61 @@ townSchema.statics.addUser = async function(town_id, user_id) {
 	return town;
 };
 
+townSchema.statics.removeUser = async function(town_id, user_id)
+{
+    let town, user;
+
+    try
+    {
+        town = await this.findById(town_id);
+        if (!town)
+            throw new Error(`Town with ID ${town_id} does not exist`);
+    } 
+    catch (error)
+    {
+        console.error(`Error finding town with ID ${town_id}:`, error);
+        throw error;
+    }
+
+    try
+    {
+        user = await User.findById(user_id);
+        if (!user)
+            throw new Error(`User with ID ${user_id} does not exist`);
+    }
+    catch (error)
+    {
+        console.error(`Error finding user with ID ${user_id}:`, error);
+        throw error;
+    }
+
+    const memberIndex = town.townMembers.findIndex(member => member.userId.toString() === user_id.toString())
+    if (memberIndex === -1)
+    {
+        const errorMessage = `User with ID ${user_id} was not found in town with ID ${town_id}`
+        console.error(errorMessage);
+        throw new Error(errorMessage);
+    }
+
+    try
+    {
+        // remove active town
+        user.activeTowns = user.activeTowns.filter(activeTown => activeTown.town_id.toString() !== town_id.toString());
+
+        // remove user from towns members
+        town.townMembers.splice(memberIndex, 1);
+
+        await user.save();
+        await town.save();
+    }
+    catch (error)
+    {
+        console.error(`Error removing user with ID ${user_id} from town with ID ${town_id}:`,
+                     error);
+        throw error;
+    }
+
+    return town;
+}
 
 module.exports = mongoose.model('Town', townSchema)

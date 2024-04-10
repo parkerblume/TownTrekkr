@@ -64,6 +64,7 @@ function LoginForm() {
 					id: data.id,
 					name: data.username,
 					email: data.email,
+			        verified: data.verified,
 		        }));
 				console.log('Stored user:', localStorage.getItem('user'));
 	        }

@@ -2,6 +2,7 @@ import React from 'react';
 import { useNavigate } from "react-router-dom";
 import TownsList from '../components/TownsList';
 
+
 const GamePage = () => {
 	const navigate = useNavigate();
 

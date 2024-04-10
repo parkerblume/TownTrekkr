@@ -9,7 +9,6 @@ import GamePage from "./pages/GamePage";
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { GameProvider } from './components/GameContext';
 
-
 function App() {
 
 	return (
