@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import { colors } from '../styles/commonStyles';
 
 const AvailableTownsList = () => {
@@ -29,8 +29,11 @@ const AvailableTownsList = () => {
       console.error('Failed to fetch towns:', error);
     }
     setIsLoading(false);
-  }, [hasMore]);
-  
+  }, [hasMore, setPage, setIsLoading]);
+
+  useEffect(() => {
+    fetchTowns(page);
+  }, [fetchTowns, page]);
 
   const refreshTowns = () => {
     setTowns([]);
@@ -80,12 +83,12 @@ const AvailableTownsList = () => {
         {isLoading ? 'Loading...' : 'Refresh'}
       </button>
       {towns.map(town => (
-        <div key={town._id} style={{ marginBottom: '20px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', backgroundColor: '#A39171', borderRadius: '10px', padding: '15px', minWidth: '500px' }}>
+        <div key={town._id} style={{ marginBottom: '20px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', backgroundColor: '#A39171', borderRadius: '10px', padding: '15px' }}>
           <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', flex: 1 }}>
             <h2 style={{ fontSize: '36px', fontWeight: 'bold' }}>{town.name}</h2>
             <p style={{ fontSize: '24px' }}>Created by: {town.creatingUsername}</p>
             <p style={{ fontStyle: 'italic', fontSize: '20px' }}>{town.description}</p>
-            <p style={{ fontSize: '18px' }}>Coordinates: [{town.topLeftLat}, {town.topLeftLong}] to [{town.botRightLat}, {town.botRightLong}]</p>
+            {/* <p style={{ fontSize: '18px' }}>Coordinates: [{town.topLeftLat}, {town.topLeftLong}] to [{town.botRightLat}, {town.botRightLong}]</p> */}
           </div>
           <button onClick={() => joinTown(town._id)} style={{ padding: '10px 20px', fontSize: '18px', backgroundColor: '#ABC4AB', borderRadius: '5px', color: 'white' }}>
             Join

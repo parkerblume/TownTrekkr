@@ -134,12 +134,12 @@ const TownsList = () => {
         {isLoading ? 'Loading...' : 'Refresh'}
       </button>
       {towns.map(town => (
-        <div key={town._id} style={{ marginBottom: '20px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', backgroundColor: '#A39171', borderRadius: '10px', padding: '15px', minWidth: '500px' }}>
+        <div key={town._id} style={{ marginBottom: '20px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', backgroundColor: '#A39171', borderRadius: '10px', padding: '15px' }}>
           <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', flex: 1 }}>
             <h2 style={{ fontSize: '36px', fontWeight: 'bold' }}>{town.name}</h2>
             <p style={{ fontSize: '24px' }}>Created by: {town.creatingUsername}</p>
             <p style={{ fontStyle: 'italic', fontSize: '20px' }}>{town.description}</p>
-            <p style={{ fontSize: '18px' }}>Coordinates: [{town.topLeftLat}, {town.topLeftLong}] to [{town.botRightLat}, {town.botRightLong}]</p>
+            {/* <p style={{ fontSize: '18px' }}>Coordinates: [{town.topLeftLat}, {town.topLeftLong}] to [{town.botRightLat}, {town.botRightLong}]</p> */}
           </div>
           <div>
             <button onClick={() => handleTownSelect(town)} style={{ padding: '10px 20px', fontSize: '18px', backgroundColor: '#DCC9B6', borderRadius: '5px', marginRight: '5px' }}>
