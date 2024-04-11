@@ -68,11 +68,30 @@ const SpinningGlobe = () => {
 			window.removeEventListener('resize', onWindowResize);
 			cancelAnimationFrame(animationFrameId);
 
-			scene.remove(globeRef.current);
-			globeRef.current?.geometry?.dispose();
-			globeRef.current?.material?.dispose();
+      // Clean up the globe object
+      if (globeRef.current) {
+        scene.remove(globeRef.current);  // Remove the object from the scene
+        if (globeRef.current.geometry) {
+          globeRef.current.geometry.dispose();  // Dispose of the geometry
+        }
+        if (globeRef.current.material) {
+          if (Array.isArray(globeRef.current.material)) {  // In case of multi-materials
+            globeRef.current.material.forEach(material => material.dispose());
+          } else {
+            globeRef.current.material.dispose();  // Dispose of the material
+          }
+        }
+        // If the object has a texture, dispose of it as well
+        if (globeRef.current.material && globeRef.current.material.map) {
+          globeRef.current.material.map.dispose();
+        }
+      }
+
+      // Renderer cleanup
 			renderer.dispose();
+      if (mountRef.current) {
 			mountRef.current.removeChild(renderer.domElement);
+      }
 		};
 	}, []);
 
@@ -94,6 +113,9 @@ const SpinningGlobe = () => {
 					y: deltaMove.x * rotationFactor,
 					x: deltaMove.y * rotationFactor
 				};
+
+        globeRef.current.rotation.y += rotationSpeed.current.y;
+        globeRef.current.rotation.x += rotationSpeed.current.x;
 
 				setPreviousMousePosition({ x: event.clientX, y: event.clientY });
 			}

@@ -84,10 +84,10 @@ function AccountPage() {
 								exclusive
 								onChange={handleChange}
 								aria-label="Platform"
-								sx={{width: 'auto', mb: 3}} // Maintain auto width for flexibility
+								sx={{width: 'auto', mb: 3, fontWeight: 'bold', fontSize: '3rem'}}
 							>
-								<ToggleButton value="Login" style={{width: '120px'}}>Login</ToggleButton>
-								<ToggleButton value="Register" style={{width: '120px'}}>Register</ToggleButton>
+								<ToggleButton value="Login" style={{width: '200px', height: '60px', fontSize: '1.25rem'}}>Login</ToggleButton>
+								<ToggleButton value="Register" style={{width: '200px', height: '60px', fontSize: '1.25rem'}}>Register</ToggleButton>
 							</ToggleButtonGroup>
 						</ThemeProvider>
 						<div className="w-full flex justify-center">

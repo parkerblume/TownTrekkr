@@ -17,6 +17,7 @@ const theme = createTheme({
 	},
 });
 
+
 function LoginForm() {
 	const navigate = useNavigate();
 	const [showTooltip, setShowTooltip] = React.useState({ email: false, password: false });
@@ -74,23 +75,23 @@ function LoginForm() {
 		<ThemeProvider theme={theme}>
 			<form className="ml-6 w-5/6 max-h-fit p-10 bg-stone-600 shadow-2xl rounded-2xl" onSubmit={handleSubmit}>
 				<div className="mb-6">
-					<label htmlFor="email" className="mb-2 block text-sm font-medium text-white">Email address</label>
+					<label htmlFor="email" className="mb-2 block font-medium text-white text-xl">Email address</label>
 					<Tooltip title="Please fill out this field" open={showTooltip.email} placement="top" arrow>
 						<input type="email" name="email" id="email"
-						       className="block w-full rounded-lg border border-gray-300 bg-gray-50 text-sm text-gray-900 p-2.5 focus:border-blue-500 focus:ring-blue-500 dark:placeholder-gray-400 dark:border-gray-600 dark:bg-gray-700 dark:text:white dark:focus:border-blue-500 dark:focus:ring-blue-500"
+						       className="block w-full rounded-lg border border-gray-300 bg-gray-50 text-gray-900 p-4 focus:border-blue-500 focus:ring-blue-500 dark:placeholder-gray-400 dark:border-gray-600 dark:bg-gray-700 dark:text:white dark:focus:border-blue-500 dark:focus:ring-blue-500"
 						       placeholder="john.doe@company.com"/>
 					</Tooltip>
 				</div>
 				<div className="mb-6">
-					<label htmlFor="password" className="mb-2 block text-sm font-medium text-white">Password</label>
+					<label htmlFor="password" className="mb-2 block text-xl font-medium text-white">Password</label>
 					<Tooltip title="Please fill out this field" open={showTooltip.password} placement="top" arrow>
 						<input type="password" name="password" id="password" // Obscure password input
-						       className="block w-full rounded-lg border border-gray-300 bg-gray-50 text-sm text-gray-900 p-2.5 focus:border-blue-500 focus:ring-blue-500 dark:text:white dark:placeholder-gray-400 dark:border-gray-600 dark:bg-gray-700 dark:focus:border-blue-500 dark:focus:ring-blue-500"
+						       className="block w-full rounded-lg border border-gray-300 bg-gray-50 text-gray-900 p-4 focus:border-blue-500 focus:ring-blue-500 dark:text:white dark:placeholder-gray-400 dark:border-gray-600 dark:bg-gray-700 dark:focus:border-blue-500 dark:focus:ring-blue-500"
 						       placeholder="•••••••••"/>
 					</Tooltip>
 				</div>
 				<button type="submit"
-				        className="w-full rounded-lg bg-blue-700 px-5 text-center text-sm font-medium text-white py-2.5 hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 sm:w-auto dark:hover:bg-blue-700 dark:focus:ring-blue-800">Submit
+				        className="w-full rounded-lg bg-blue-700 px-4 text-center text-xl font-bold text-white py-2 hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 sm:w-auto dark:hover:bg-blue-700 dark:focus:ring-blue-800">Submit
 				</button>
 			</form>
 		</ThemeProvider>
