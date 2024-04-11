@@ -1,4 +1,5 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
+import Tooltip from '@mui/material/Tooltip';
 import { colors } from '../styles/commonStyles';
 
 const AvailableTownsList = () => {
@@ -6,16 +7,19 @@ const AvailableTownsList = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [page, setPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);
+  const [joinTooltip, setJoinTooltip] = useState({ show: false, message: '', townId: null });
 
   const fetchTowns = useCallback(async (requestedPage) => {
     if (!hasMore && requestedPage !== 1) return;
-  
+
     setIsLoading(true);
     try {
       const url = `/api/town/gettowns?page=${requestedPage}`;
       const response = await fetch(url);
       if (!response.ok) {
-        throw new Error('Network response was not ok');
+        console.error('Network response was not ok');
+        setIsLoading(false);
+        return;
       }
       const newTowns = await response.json();
       if (requestedPage === 1) {
@@ -29,8 +33,11 @@ const AvailableTownsList = () => {
       console.error('Failed to fetch towns:', error);
     }
     setIsLoading(false);
-  }, [hasMore]);
-  
+  }, [hasMore, setPage, setIsLoading]);
+
+  useEffect(() => {
+    fetchTowns(page);
+  }, [fetchTowns, page]);
 
   const refreshTowns = () => {
     setTowns([]);
@@ -42,7 +49,8 @@ const AvailableTownsList = () => {
   const joinTown = async (townId) => {
     const storedUser = JSON.parse(localStorage.getItem('user'));
     if (!storedUser || !storedUser.id) {
-      alert('You are not logged in.');
+      setJoinTooltip({ show: true, message: 'You are not logged in.', townId });
+      setTimeout(() => setJoinTooltip({ show: false, message: '', townId: null }), 3000);
       return;
     }
 
@@ -56,14 +64,18 @@ const AvailableTownsList = () => {
       });
 
       if (!response.ok) {
-        throw new Error('Failed to join the town.');
+        setJoinTooltip({ show: true, message: 'Failed to join the town.', townId });
+        setTimeout(() => setJoinTooltip({ show: false, message: '', townId: null }), 3000);
+        return;
       }
 
-      alert('You have successfully joined the town.');
+      setJoinTooltip({ show: true, message: 'You have successfully joined the town.', townId });
+      setTimeout(() => setJoinTooltip({ show: false, message: '', townId: null }), 3000);
       fetchTowns();
     } catch (error) {
       console.error('Failed to join the town:', error);
-      alert('Failed to join the town. Please try again.');
+      setJoinTooltip({ show: true, message: 'Failed to join the town. Please try again.', townId });
+      setTimeout(() => setJoinTooltip({ show: false, message: '', townId: null }), 3000);
     }
   };
 
@@ -80,20 +92,21 @@ const AvailableTownsList = () => {
         {isLoading ? 'Loading...' : 'Refresh'}
       </button>
       {towns.map(town => (
-        <div key={town._id} style={{ marginBottom: '20px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', backgroundColor: '#A39171', borderRadius: '10px', padding: '15px', minWidth: '500px' }}>
+        <div key={town._id} style={{ marginBottom: '20px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', backgroundColor: '#A39171', borderRadius: '10px', padding: '15px' }}>
           <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', flex: 1 }}>
             <h2 style={{ fontSize: '36px', fontWeight: 'bold' }}>{town.name}</h2>
             <p style={{ fontSize: '24px' }}>Created by: {town.creatingUsername}</p>
             <p style={{ fontStyle: 'italic', fontSize: '20px' }}>{town.description}</p>
-            <p style={{ fontSize: '18px' }}>Coordinates: [{town.topLeftLat}, {town.topLeftLong}] to [{town.botRightLat}, {town.botRightLong}]</p>
           </div>
-          <button onClick={() => joinTown(town._id)} style={{ padding: '10px 20px', fontSize: '18px', backgroundColor: '#ABC4AB', borderRadius: '5px', color: 'white' }}>
-            Join
-          </button>
+          <Tooltip title={joinTooltip.message} open={joinTooltip.show && joinTooltip.townId === town._id} placement="top">
+            <button onClick={() => joinTown(town._id)} style={{ padding: '10px 20px', fontSize: '18px', backgroundColor: '#ABC4AB', borderRadius: '5px', color: 'white' }}>
+              Join
+            </button>
+          </Tooltip>
         </div>
       ))}
       {hasMore && (
-        <button onClick={loadMoreTowns} disabled={isLoading}>
+        <button onClick={loadMoreTowns} disabled={isLoading} style={{ padding: '10px 20px', fontSize: '18px', backgroundColor: '#DCC9B6', borderRadius: '5px' }}>
           {isLoading ? 'Loading...' : 'Load More'}
         </button>
       )}
