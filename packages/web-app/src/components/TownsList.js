@@ -139,7 +139,7 @@ const TownsList = () => {
             <h2 style={{ fontSize: '36px', fontWeight: 'bold' }}>{town.name}</h2>
             <p style={{ fontSize: '24px' }}>Created by: {town.creatingUsername}</p>
             <p style={{ fontStyle: 'italic', fontSize: '20px' }}>{town.description}</p>
-            <p style={{ fontSize: '18px' }}>Coordinates: [{town.topLeftLat}, {town.topLeftLong}] to [{town.botRightLat}, {town.botRightLong}]</p>
+            {/* <p style={{ fontSize: '18px' }}>Coordinates: [{town.topLeftLat}, {town.topLeftLong}] to [{town.botRightLat}, {town.botRightLong}]</p> */}
           </div>
           <div>
             <button onClick={() => handleTownSelect(town)} style={{ padding: '10px 20px', fontSize: '18px', backgroundColor: '#DCC9B6', borderRadius: '5px', marginRight: '5px' }}>
