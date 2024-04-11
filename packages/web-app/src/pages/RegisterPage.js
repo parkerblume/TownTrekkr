@@ -86,12 +86,13 @@ function RegisterForm() {
 			const data = await response.json();
 			if (data) {
 				localStorage.setItem('user', JSON.stringify({
-					id: data._id,
-					name: data.name,
+					id: data.id,
+					name: data.username,
 					email: data.email,
 					verified: data.verified,
 				}));
 			}
+			console.log(localStorage.getItem('user'));
 
 			navigate('/HomePage');
 		} catch (error) {
