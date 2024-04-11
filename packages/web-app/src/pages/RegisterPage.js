@@ -86,11 +86,24 @@ function RegisterForm() {
 			const data = await response.json();
 			if (data) {
 				localStorage.setItem('user', JSON.stringify({
-					id: data._id,
-					name: data.name,
+					id: data.id,
+					name: data.username,
 					email: data.email,
 					verified: data.verified,
 				}));
+			}
+
+			const response2 = await fetch('/api/user/sendemail', {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json',
+				},
+				body: JSON.stringify({ email }),
+			});
+
+			if (!response2.ok) {
+				console.error('Verification email failed');
+				return;
 			}
 
 			navigate('/HomePage');
