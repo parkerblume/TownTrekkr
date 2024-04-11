@@ -73,7 +73,7 @@ function LoginForm() {
 
 	return (
 		<ThemeProvider theme={theme}>
-			<form className="ml-6 w-5/6 max-h-fit p-10 bg-stone-600 shadow-2xl rounded-2xl" onSubmit={handleSubmit}>
+			<form className="ml-6 w-5/6 mb-60 p-10 bg-stone-600 shadow-2xl rounded-2xl" onSubmit={handleSubmit}>
 				<div className="mb-6">
 					<label htmlFor="email" className="mb-2 block font-medium text-white text-xl">Email address</label>
 					<Tooltip title="Please fill out this field" open={showTooltip.email} placement="top" arrow>

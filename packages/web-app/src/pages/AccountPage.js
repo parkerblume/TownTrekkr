@@ -21,6 +21,9 @@ const theme = createTheme({
 		MuiToggleButton: {
 			styleOverrides: {
 				root: {
+					width: '12.5rem', // Equivalent to 200px, scales with base font size
+					height: '3.75rem', // Equivalent to 60px
+					fontSize: '1.25rem', // Use rem for font sizes
 					color: '#242105',
 					opacity: 1.0,
 					borderRadius: '20px',
@@ -50,29 +53,27 @@ function AccountPage() {
 	const handleChange = (event, newAlignment) => {
 		if (newAlignment !== null && newAlignment !== alignment) {
 			setIsFormAnimating(true);
-			setIsImageAnimating(true); // Start image animation
+			setIsImageAnimating(true);
 			setAlignment(newAlignment);
 
-			// Wait for 500ms to swap the form (for the form animation)
 			setTimeout(() => {
 				setCurrentForm(newAlignment);
 				setIsFormAnimating(false);
-			}, 300); // Form animation duration
+			}, 300);
 
-			// Use a different timeout for the image opacity animation if needed
 			setTimeout(() => {
 				setIsImageAnimating(false); // End image animation
-			}, 600); // Adjust this duration for the image opacity animation
+			}, 600);
 		}
 	};
 
 	return (
-		<div className="flex min-h-screen w-screen flex-col bg-custom-bg">
+		<div className="flex h-full w-screen flex-col bg-custom-bg bg-cover bg-center ">
 			<nav className="flex flex-row items-center justify-center w-full h-10vh bg-webAccent text-webSecondary ">
 				<h1 className="text-5xl p-4 font-londrina-solid">Town Trekkr</h1>
 			</nav>
-			<div className="m-12 flex flex-grow items-center justify-center rounded-3xl bg-opacity-70 bg-webTertiary backdrop-blur-sm">
-				<div className="flex w-full h-screen justify-between">
+			<div className="m-10 flex mb-24 flex-grow items-center justify-center rounded-3xl bg-opacity-70 bg-webTertiary backdrop-blur-sm">
+				<div className="flex w-full h-max justify-between">
 					<div className={classNames("w-1/2 flex flex-col items-center justify-start pt-32", {
 						'toggle-animate': true,
 						'form-slide-right': alignment === 'Register',
