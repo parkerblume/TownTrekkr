@@ -76,7 +76,6 @@ const TownsList = () => {
     }
 
     const townData = await response.json();
-
     if (townData.creatingUsername !== storedUser.name) {
       setDeleteTooltip({ show: true, message: 'You are not the owner of this town.', townId });
       setTimeout(() => setDeleteTooltip({ show: false, message: '', townId: null }), 3000);

@@ -3,19 +3,18 @@ import { useNavigate } from "react-router-dom";
 import { Tooltip, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Button, TextField, Snackbar, Alert, createTheme, ThemeProvider } from "@mui/material";
 
 const theme = createTheme({
-	components: {
-		MuiTooltip: {
-			styleOverrides: {
-				tooltip: {
-					backgroundColor: '#55a25a', // Dark green
-					color: 'white',
-					fontSize: '0.875rem',
-				},
-			},
-		},
-	},
+    components: {
+        MuiTooltip: {
+            styleOverrides: {
+                tooltip: {
+                    backgroundColor: '#55a25a', // Dark green
+                    color: 'white',
+                    fontSize: '0.875rem',
+                },
+            },
+        },
+    },
 });
-
 
 function LoginForm() {
 	const navigate = useNavigate();
@@ -102,9 +101,9 @@ function LoginForm() {
             } else {
                 throw new Error('Failed to send reset email, please try again.');
             }
-		} catch (error) {
+        } catch (error) {
             setSnackbarInfo({ open: true, message: error.message, severity: 'error' });
-		}
+        }
 
         handleClose();
     };
