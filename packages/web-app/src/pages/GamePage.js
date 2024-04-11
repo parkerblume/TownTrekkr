@@ -14,7 +14,7 @@ const GamePage = () => {
 		<div className="min-h-screen w-screen bg-webTertiary">
 			<ReturnHomeButton />
 			<div className="flex items-center flex-col justify-center p-10 gap-2">
-				<h1 className="text-4xl text-white font-bold">Ready to guess? Select a town!</h1>
+				<h1 className="text-white text-5xl p-4 font-londrina-solid">Ready to guess? Select a town!</h1>
 				<div className="bg-webPrimary p-3 rounded-2xl shadow-xl">
 					<div className="flex-1">
 						<TownsList/>

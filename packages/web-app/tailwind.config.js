@@ -18,6 +18,15 @@ module.exports = {
       },
     },
     extend: {
+	    fontFamily: {
+		    'londrina-solid': ['Londrina Solid', 'cursive'],
+
+	    },
+	    fontWeight: {
+		    'londrina-light': 300,
+		    'londrina-regular': 400,
+		    'londrina-black': 900,
+	    },
 	    backgroundImage: {
 		    'custom-bg': "url('../public/bg.png')",
 	    },
