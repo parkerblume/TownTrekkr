@@ -17,7 +17,7 @@ const theme = createTheme({
 });
 
 function LoginForm() {
-    const navigate = useNavigate();
+	const navigate = useNavigate();
     const [showTooltip, setShowTooltip] = useState({ email: false, password: false });
     const [openDialog, setOpenDialog] = useState(false);
     const [emailForReset, setEmailForReset] = useState('');
@@ -25,47 +25,48 @@ function LoginForm() {
 
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; // Regex to validate email format
 
-    const handleSubmit = async (event) => {
-        event.preventDefault();
+	const handleSubmit = async (event) => {
+		event.preventDefault();
         const email = event.target.email.value.trim().toLowerCase();
         const password = event.target.password.value;
-        let hasError = false;
+		let hasError = false;
 
         setShowTooltip({ email: false, password: false });
 
-        if (!email) {
-            setShowTooltip(prev => ({ ...prev, email: true }));
-            hasError = true;
-        }
-        if (!password) {
-            setShowTooltip(prev => ({ ...prev, password: true }));
-            hasError = true;
-        }
+		if (!email) {
+			setShowTooltip(prev => ({ ...prev, email: true }));
+			hasError = true;
+		}
+		if (!password) {
+			setShowTooltip(prev => ({ ...prev, password: true }));
+			hasError = true;
+		}
 
-        if (hasError) return;
+		if (hasError) return;
 
-        try {
-            const response = await fetch('/api/user/login', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ email, password }),
-            });
+		try {
+			const response = await fetch('/api/user/login', {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json',
+				},
+				body: JSON.stringify({ email, password }),
+			});
 
-            if (!response.ok) {
-                throw new Error("Login failed due to server error");
-            }
+			if (!response.ok) {
+				console.error('Login failed');
+				return;
+			}
 
-            const data = await response.json();
-            if (data && data.id) {
-                localStorage.setItem('user', JSON.stringify({
-                    id: data.id,
-                    name: data.username,
-                    email: data.email,
-                    verified: data.verified,
-                }));
-                navigate('/HomePage');
+			const data = await response.json();
+			if (data && data.id) {
+				localStorage.setItem('user', JSON.stringify({
+					id: data.id,
+					name: data.username,
+					email: data.email,
+					verified: data.verified,
+				}));
+			navigate('/HomePage');
             }
         } catch (error) {
             setSnackbarInfo({ open: true, message: error.message, severity: 'error' });
@@ -112,34 +113,31 @@ function LoginForm() {
             return;
         }
         setSnackbarInfo({ ...snackbarInfo, open: false });
-    };
+	};
 
-    return (
-        <ThemeProvider theme={theme}>
-            <form className="ml-6 w-5/6 max-h-fit p-10 bg-stone-600 shadow-2xl rounded-2xl" onSubmit={handleSubmit}>
-                {/* Email input */}
-                <div className="mb-6">
-                    <label htmlFor="email" className="mb-2 block font-medium text-white text-xl">Email address</label>
-                    <Tooltip title="Please fill out this field" open={showTooltip.email} placement="top" arrow>
-                        <input type="email" name="email" id="email"
+	return (
+		<ThemeProvider theme={theme}>
+			<form className="ml-6 w-5/6 mb-60 p-10 bg-stone-600 shadow-2xl rounded-2xl" onSubmit={handleSubmit}>
+				<div className="mb-6">
+					<label htmlFor="email" className="mb-2 block font-medium text-white text-xl">Email address</label>
+					<Tooltip title="Please fill out this field" open={showTooltip.email} placement="top" arrow>
+						<input type="email" name="email" id="email"
                                className="block w-full rounded-lg border border-gray-300 bg-gray-50 text-gray-900 p-4 focus:border-blue-500 focus:ring-blue-500"
-                               placeholder="john.doe@company.com"/>
-                    </Tooltip>
-                </div>
-                {/* Password input */}
-                <div className="mb-6">
-                    <label htmlFor="password" className="mb-2 block text-xl font-medium text-white">Password</label>
-                    <Tooltip title="Please fill out this field" open={showTooltip.password} placement="top" arrow>
+						       placeholder="john.doe@company.com"/>
+					</Tooltip>
+				</div>
+				<div className="mb-6">
+					<label htmlFor="password" className="mb-2 block text-xl font-medium text-white">Password</label>
+					<Tooltip title="Please fill out this field" open={showTooltip.password} placement="top" arrow>
                         <input type="password" name="password" id="password"
                                className="block w-full rounded-lg border border-gray-300 bg-gray-50 text-gray-900 p-4 focus:border-blue-500 focus:ring-blue-500"
-                               placeholder="•••••••••"/>
-                    </Tooltip>
-                </div>
+						       placeholder="•••••••••"/>
+					</Tooltip>
+				</div>
                 <div style={{ position: 'relative' }}>
-					<button type="submit"
-							className="w-full rounded-lg bg-blue-700 px-4 text-center text-xl font-bold text-white py-2 hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 sm:w-auto dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-						Submit
-					</button>
+				<button type="submit"
+				        className="w-full rounded-lg bg-blue-700 px-4 text-center text-xl font-bold text-white py-2 hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 sm:w-auto dark:hover:bg-blue-700 dark:focus:ring-blue-800">Submit
+				</button>
 					<button type="button" onClick={handleOpen}
 							style={{
 								background: 'none',
@@ -158,7 +156,7 @@ function LoginForm() {
 				</div>
 
 
-            </form>
+			</form>
             <Dialog open={openDialog} onClose={handleClose} BackdropProps={{ style: { backgroundColor: 'transparent', boxShadow: 'none' } }}>
                 <DialogTitle>Reset Password</DialogTitle>
                 <DialogContent>
@@ -196,8 +194,8 @@ function LoginForm() {
 					{snackbarInfo.message}
 				</Alert>
 			</Snackbar>
-        </ThemeProvider>
-    );
+		</ThemeProvider>
+	);
 }
 
 export default LoginForm;

@@ -6,7 +6,21 @@ import { colors } from '../styles/commonStyles';
 const TownsList = () => {
   const [towns, setTowns] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
-  const [deleteTooltip, setDeleteTooltip] = useState({ show: false, message: '', townId: null });
+	const [deleteTooltip, setDeleteTooltip] = useState({ show: false, message: '', townId: null });
+  const localStorageExampleData = {
+		"_id": "660eed19f9eadf4267c40a18",
+		"fileId": "660eed19a00c8514f2d09c94",
+		"user_id": "66060766d2f84a45fe9c98be",
+		"town": "660497f815daa8e29584bed5",
+		"coordinateX": 28.65944913314387,
+		"coordinateY": -81.2053436789252,
+		"likes": 0,
+		"dislikes": 0,
+		"createdAt": "2024-04-04T18:10:33.961Z",
+		"updatedAt": "2024-04-04T18:10:33.961Z",
+		"__v": 0
+	}
+	localStorage.setItem('imageData', JSON.stringify(localStorageExampleData));
   const navigate = useNavigate();
 
   const fetchTowns = useCallback(async () => {
@@ -83,7 +97,7 @@ const TownsList = () => {
 
       setDeleteTooltip({ show: true, message: 'Town deleted successfully.', townId });
       setTimeout(() => setDeleteTooltip({ show: false, message: '', townId: null }), 3000);
-      fetchTowns();
+    fetchTowns();
     }
   };
 
@@ -105,9 +119,9 @@ const TownsList = () => {
               Play
             </button>
             <Tooltip title={deleteTooltip.message} open={deleteTooltip.show && deleteTooltip.townId === town._id} placement="top">
-              <button onClick={() => deleteTown(town._id)} style={{ padding: '10px 20px', fontSize: '18px', backgroundColor: '#D95A5A', borderRadius: '5px' }}>
-                Delete
-              </button>
+            <button onClick={() => deleteTown(town._id)} style={{ padding: '10px 20px', fontSize: '18px', backgroundColor: '#D95A5A', borderRadius: '5px' }}>
+              Delete
+            </button>
             </Tooltip>
           </div>
         </div>

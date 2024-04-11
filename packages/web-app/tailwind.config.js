@@ -30,6 +30,12 @@ module.exports = {
 	    backgroundImage: {
 		    'custom-bg': "url('../public/bg.png')",
 	    },
+	    backgroundSize: { // Add this to control the size of the background image
+		    'cover': 'cover'
+	    },
+	    backgroundPosition: { // Optional: Ensure the image is centered
+		    'center': 'center'
+	    },
       colors: {
 	      'webBackground': '#DCC9B6',
 	      'webPrimary': '#ABC4AB',
