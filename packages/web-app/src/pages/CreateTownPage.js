@@ -74,8 +74,8 @@ const CreateTownPage = () => {
 	return (
 		<div className="bg-webPrimary w-screen p-4">
 			<div className="flex justify-between items-center bg-webTertiary p-2 rounded-2xl mb-4">
-				<ReturnHomeButton className="bg-webTertiary"/>
-				<h1 className="text-4xl font-bold">Create a New Town</h1>
+				<ReturnHomeButton className="ml-4"/>
+				<h1 className="text-4xl font-bold mr-8">Create a New Town</h1>
 			</div>
 			<div className="flex flex-row items-stretch justify-center gap-4">
 				<div className="flex-1 bg-webBackground p-4 flex flex-col justify-center items-center rounded-2xl border-2 border-black">
