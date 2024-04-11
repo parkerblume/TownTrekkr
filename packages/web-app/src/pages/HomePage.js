@@ -2,7 +2,6 @@ import { useNavigate } from "react-router-dom";
 import React, { useState, useEffect } from 'react';
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import Button from "@mui/material/Button";
-import NavigationBar from '../components/NavigationBar';
 import EmailVerificationPopup from '../components/EmailVerificationPopup';
 
 const theme = createTheme({
@@ -26,7 +25,6 @@ const theme = createTheme({
 
 function HomePage() {
   const navigate = useNavigate();
-  //const user = JSON.parse(localStorage.getItem('user'));
   const [user, setUser] = useState(JSON.parse(localStorage.getItem('user')));
 
   const handleNavigate = (path) => {
@@ -42,11 +40,13 @@ function HomePage() {
 
   return (
     <div className="flex min-h-screen flex-col bg-custom-bg">
-      <NavigationBar />
-      <div className="flex flex-grow items-center justify-center">
-        <ThemeProvider theme={theme}>
-          <div className="grid grid-cols-2 gap-4 w-full justify-items-center">
-            <Button
+	    <nav className="flex flex-row items-center justify-center w-full h-10vh bg-webAccent text-webSecondary ">
+		    <h1 className="text-4xl font-bold p-6">Town Trekkr</h1>
+	    </nav>
+	    <div className="flex flex-grow items-center justify-center">
+		    <ThemeProvider theme={theme}>
+			    <div className="grid grid-cols-2 gap-4 w-full justify-items-center">
+				    <Button
               variant="contained"
               color="primary"
               onClick={() => handleNavigate('/MyTowns')}
