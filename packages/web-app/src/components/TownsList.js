@@ -84,11 +84,11 @@ const TownsList = () => {
 
     if (window.confirm('Are you sure you want to delete this town?')) {
       const deleteResponse = await fetch(`/api/town/deletetown`, {
-        method: 'POST',
+        method: 'DELETE',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ town_id: townId }),
       });
-
+      console.log(townId);
       if (!deleteResponse.ok) {
         setDeleteTooltip({ show: true, message: 'Failed to delete town.', townId });
         setTimeout(() => setDeleteTooltip({ show: false, message: '', townId: null }), 3000);
