@@ -27,6 +27,11 @@ function HomePage() {
   const navigate = useNavigate();
   const [user, setUser] = useState(JSON.parse(localStorage.getItem('user')));
 
+	const handleLogout = () => {
+		localStorage.removeItem('user'); // Remove the user from localStorage
+		navigate('/'); // Redirect user to login page
+	};
+
   const handleNavigate = (path) => {
     navigate(path);
   };
@@ -40,8 +45,9 @@ function HomePage() {
 
   return (
     <div className="flex min-h-screen flex-col bg-custom-bg">
-	    <nav className="flex flex-row items-center justify-center w-full h-10vh bg-webAccent text-webSecondary ">
-		    <h1 className="text-4xl font-bold p-6">Town Trekkr</h1>
+	    <nav className="flex flex-row items-center justify-between w-full h-10vh bg-webAccent text-webSecondary">
+		    <button onClick={handleLogout} className="p-2 m-4 shadow-xl bg-webSecondary text-2xl text-white font-bold border-white border-4 rounded-2xl hover:bg-webBackground hover:text-webTertiary transition duration-300">Logout</button>
+		    <h1 className="text-5xl p-4 font-londrina-solid pr-4">Town Trekkr</h1>
 	    </nav>
 	    <div className="flex flex-grow items-center justify-center">
 		    <ThemeProvider theme={theme}>

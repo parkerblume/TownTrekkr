@@ -10,7 +10,7 @@ const ReturnHomeButton = () => {
 
 	return (
 		<button onClick={handleNavigateHome}
-		        className="p-2 m-4 shadow-xl bg-webSecondary text-2xl text-webBackground border-white border-4 rounded-2xl hover:bg-webBackground hover:text-webTertiary transition duration-300">
+		        className="p-2 m-4 shadow-xl bg-webSecondary text-2xl text-white font-bold  border-white border-4 rounded-2xl hover:bg-webBackground hover:text-webTertiary transition duration-300">
 			Return Home
 		</button>
 	);

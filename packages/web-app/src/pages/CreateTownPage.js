@@ -75,13 +75,13 @@ const CreateTownPage = () => {
 		<div className="bg-webPrimary w-screen p-4">
 			<div className="flex justify-between items-center bg-webTertiary p-2 rounded-2xl mb-4">
 				<ReturnHomeButton className="ml-4"/>
-				<h1 className="text-4xl font-bold mr-8">Create a New Town</h1>
+				<h1 className="text-5xl p-4 font-londrina-solid mr-8">Create a New Town</h1>
 			</div>
 			<div className="flex flex-row items-stretch justify-center gap-4">
 				<div className="flex-1 bg-webBackground p-4 flex flex-col justify-center items-center rounded-2xl border-2 border-black">
 					<div className="w-full text-center ">
 						<form onSubmit={handleSubmit} className="p-32 bg-webTertiary rounded-2xl ">
-							<h2 className="text-3xl font-bold pb-8 m-4">Town Information</h2>
+							<h2 className="text-3xl font-bold pb-8 m-4 ">Town Information</h2>
 							<input
 								className="mb-8 w-full px-3 py-2 leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
 								id="town-name"
@@ -107,7 +107,7 @@ const CreateTownPage = () => {
 						</form>
 						{guessedCoordinates && (
 							<div className="mb-4">
-								<h3>Guessed Coordinates:</h3>
+								<h3>Selected Coordinates:</h3>
 								<p>Top Left - Latitude: {guessedCoordinates[0][0].toFixed(4)}, Longitude: {guessedCoordinates[0][1].toFixed(4)}</p>
 								<p>Bottom Right - Latitude: {guessedCoordinates[1][0].toFixed(4)},
 									Longitude: {guessedCoordinates[1][1].toFixed(4)}</p>

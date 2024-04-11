@@ -69,7 +69,7 @@ function AccountPage() {
 	return (
 		<div className="flex min-h-screen w-screen flex-col bg-custom-bg">
 			<nav className="flex flex-row items-center justify-center w-full h-10vh bg-webAccent text-webSecondary ">
-				<h1 className="text-4xl font-bold p-4">Town Trekkr</h1>
+				<h1 className="text-5xl p-4 font-londrina-solid">Town Trekkr</h1>
 			</nav>
 			<div className="m-12 flex flex-grow items-center justify-center rounded-3xl bg-opacity-70 bg-webTertiary backdrop-blur-sm">
 				<div className="flex w-full h-screen justify-between">
@@ -84,10 +84,10 @@ function AccountPage() {
 								exclusive
 								onChange={handleChange}
 								aria-label="Platform"
-								sx={{width: 'auto', mb: 3}} // Maintain auto width for flexibility
+								sx={{width: 'auto', mb: 3, fontWeight: 'bold', fontSize: '3rem'}}
 							>
-								<ToggleButton value="Login" style={{width: '120px'}}>Login</ToggleButton>
-								<ToggleButton value="Register" style={{width: '120px'}}>Register</ToggleButton>
+								<ToggleButton value="Login" style={{width: '200px', height: '60px', fontSize: '1.25rem'}}>Login</ToggleButton>
+								<ToggleButton value="Register" style={{width: '200px', height: '60px', fontSize: '1.25rem'}}>Register</ToggleButton>
 							</ToggleButtonGroup>
 						</ThemeProvider>
 						<div className="w-full flex justify-center">
@@ -104,7 +104,7 @@ function AccountPage() {
 						'image-slide-right': alignment === 'Login',
 						'opacity-animate': isImageAnimating, // This class should only be added when animating
 					})}>
-						<SpinningGlobe />
+						<SpinningGlobe/>
 					</div>
 
 
