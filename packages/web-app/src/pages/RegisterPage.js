@@ -94,6 +94,19 @@ function RegisterForm() {
 			}
 			console.log(localStorage.getItem('user'));
 
+			const response2 = await fetch('/api/user/sendemail', {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json',
+				},
+				body: JSON.stringify({ email }),
+			});
+
+			if (!response2.ok) {
+				console.error('Verification email failed');
+				return;
+			}
+
 			navigate('/HomePage');
 		} catch (error) {
 			console.error('Error signing up:', error);
