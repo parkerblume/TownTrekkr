@@ -3,15 +3,15 @@ const PORT = process.env.PORT || 5000;
 const express = require('express');
 const app = express();
 const mongoose = require('mongoose')
-const upload = require('./api/middleware/upload');
+const upload = require('./middleware/upload');
 
-const postRoutes = require('./api/routes/post.routes');
-const townRoutes = require('./api/routes/town.routes');
-const userRoutes = require('./api/routes/user.routes');
+const postRoutes = require('./routes/post.routes');
+const townRoutes = require('./routes/town.routes');
+const userRoutes = require('./routes/user.routes');
 
-require('dotenv').config({ path: path.resolve(__dirname, '../.env') });
+require('dotenv').config({ path: path.resolve(__dirname, './.env') });
 
-mongoose.connect(process.env.MONGO_URL)
+mongoose.connect(process.env.MONGO_URI)
 
 app.set('port', PORT);
 
