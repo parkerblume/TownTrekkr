@@ -26,10 +26,6 @@
             "src": "/api/posts/(.*)", 
             "dest": "server/server.js" 
         },
-        {
-            "src": "/",
-            "dest": "client/build/index.html"
-        },
         { 
             "src": "/(.*)", 
             "dest": "client/build/$1" 
