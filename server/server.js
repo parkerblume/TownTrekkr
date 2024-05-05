@@ -9,9 +9,9 @@ const townRoutes = require('./routes/town.routes');
 const userRoutes = require('./routes/user.routes');
 
 require('dotenv').config({ path: path.resolve(__dirname, './.env') });
-
 mongoose.connect(process.env.MONGO_URI)
 
+const PORT = process.env.PORT || 3000;
 app.set('port', PORT);
 
 // Incoming json
@@ -34,7 +34,6 @@ app.use('/api/posts', postRoutes);
 // 	});
 // }
 
-const PORT = process.env.PORT || 3000;
 // Start the server
 app.listen(PORT, () => {
 	console.log(`Server is running on port ${PORT}`);
