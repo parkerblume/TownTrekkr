@@ -1,5 +1,4 @@
 const path = require('path');
-const PORT = process.env.PORT || 5000;
 const express = require('express');
 const app = express();
 const mongoose = require('mongoose')
@@ -35,7 +34,7 @@ app.use('/api/posts', postRoutes);
 // 	});
 // }
 
-
+const PORT = process.env.PORT || 3000;
 // Start the server
 app.listen(PORT, () => {
 	console.log(`Server is running on port ${PORT}`);
