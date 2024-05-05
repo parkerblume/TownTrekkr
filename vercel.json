@@ -16,19 +16,23 @@
     "routes": [
         { 
             "src": "/api/town/(.*)", 
-            "dest": "backend/server.js" 
+            "dest": "server/server.js" 
         },
         { 
             "src": "/api/user/(.*)", 
-            "dest": "backend/server.js" 
+            "dest": "server/server.js" 
         },
         { 
             "src": "/api/posts/(.*)", 
-            "dest": "backend/server.js" 
+            "dest": "server/server.js" 
+        },
+        {
+            "src": "/",
+            "dest": "client/build/index.html"
         },
         { 
             "src": "/(.*)", 
-            "dest": "client/$1" 
+            "dest": "client/build/$1" 
         }
     ]
 }
