@@ -1,8 +1,8 @@
-
+import { SERVER } from "../config/config";
 
 export const fetchImageByTown = async (townId) => {
 	try {
-		const response = await fetch('api/posts/getpostsbytown', {
+		const response = await fetch(`${SERVER}/api/posts/getpostsbytown`, {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json',
@@ -27,7 +27,7 @@ export const fetchImageByTown = async (townId) => {
 			const randomIndex = Math.floor(Math.random() * posts.length);
 			const randomPost = posts[randomIndex];
 
-			const imageResponse = await fetch('api/posts/getimage', {
+			const imageResponse = await fetch(`${SERVER}api/posts/getimage`, {
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/json',
@@ -56,7 +56,7 @@ export const fetchImageByTown = async (townId) => {
 
 export const getPastGuesses = async (userid) => {
 	try {
-		const response = await fetch('/api/user/getguesses', {
+		const response = await fetch(`${SERVER}/api/user/getguesses`, {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json',
@@ -81,7 +81,7 @@ export const getPastGuesses = async (userid) => {
 
 export const makeGuess = async (guessDetails) => {
 	try {
-		const response = await fetch("/api/user/makeguess", {
+		const response = await fetch(`${SERVER}/api/user/makeguess`, {
 			method: "POST",
 			headers: {
 				'Content-Type': 'application/json',

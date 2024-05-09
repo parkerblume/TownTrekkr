@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Tooltip, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Button, TextField, Snackbar, Alert, createTheme, ThemeProvider } from "@mui/material";
+import { SERVER } from "../config/config";
 
 const theme = createTheme({
     components: {
@@ -45,7 +46,7 @@ function LoginForm() {
 		if (hasError) return;
 
 		try {
-			const response = await fetch('/api/user/login', {
+			const response = await fetch(`${SERVER}/api/user/login`, {
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/json',
@@ -88,7 +89,7 @@ function LoginForm() {
         }
 
         try {
-            const response = await fetch('/api/user/forgetpassword', {
+            const response = await fetch(`${SERVER}/api/user/forgetpassword`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

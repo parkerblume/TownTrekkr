@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Tooltip, Snackbar, Alert } from "@mui/material";
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { SERVER } from '../config/config';
 
 // Define the theme for tooltips
 const theme = createTheme({
@@ -39,7 +40,7 @@ const ResetPassword = () => {
         }
 
         try {
-            const response = await fetch(`/api/user/resetpassword/${token}`, {
+            const response = await fetch(`${SERVER}/api/user/resetpassword/${token}`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
