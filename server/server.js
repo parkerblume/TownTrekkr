@@ -23,17 +23,6 @@ app.use('/api/user', userRoutes);
 app.use('/api/posts', postRoutes);
 
 
-
-// if (process.env.NODE_ENV === 'production')
-// {
-// 	// Set static folder
-// 	app.use(express.static('../web-app/build'));
-// 	app.get('*', (req, res) =>
-// 	{
-// 	res.sendFile(path.resolve(__dirname, '../web-app/build', 'index.html'));
-// 	});
-// }
-
 // Start the server
 app.listen(PORT, () => {
 	console.log(`Server is running on port ${PORT}`);
