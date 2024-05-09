@@ -2,6 +2,10 @@
     "version": 2,
     "builds": [
         {
+            "src": "server/server.js",
+            "use": "@vercel/node"
+        },
+        {
             "src": "client/package.json",
             "use": "@vercel/static-build",
             "config": {
@@ -11,8 +15,20 @@
     ],
     "routes": [
         { 
+            "src": "/api/town/(.*)", 
+            "dest": "backend/server.js" 
+        },
+        { 
+            "src": "/api/user/(.*)", 
+            "dest": "backend/server.js" 
+        },
+        { 
+            "src": "/api/posts/(.*)", 
+            "dest": "backend/server.js" 
+        },
+        { 
             "src": "/(.*)", 
-            "dest": "client/build/$1" 
+            "dest": "client/$1" 
         }
     ]
 }
