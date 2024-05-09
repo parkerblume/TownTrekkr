@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Tooltip, Snackbar, Alert } from "@mui/material";
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { SERVER } from '../config/config';
 
 // Define the theme for tooltips
 const theme = createTheme({

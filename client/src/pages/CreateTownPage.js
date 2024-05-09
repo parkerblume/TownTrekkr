@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from "react-router-dom";
 import AddTownLeaflet from "../components/AddTownLeaflet";
 import ReturnHomeButton from "../components/ReturnHomeButton";
+import { SERVER } from '../config/config';
 
 const CreateTownPage = () => {
 	const navigate = useNavigate();

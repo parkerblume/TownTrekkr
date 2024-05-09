@@ -2,6 +2,7 @@ import * as React from "react";
 import { useNavigate } from "react-router-dom";
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { Tooltip, Alert, Snackbar } from "@mui/material";
+import { SERVER } from "../config/config";
 
 const theme = createTheme({
 	components: {

@@ -1,4 +1,1 @@
-import dotenv from 'dotenv';
-dotenv.config();
-
-export const SERVER = process.env.SERVER;
+export const SERVER = process.env.REACT_APP_SERVER;
