@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import Tooltip from '@mui/material/Tooltip';
 import { colors } from '../styles/commonStyles';
+import { SERVER } from '../config/config.js';
 
 const AvailableTownsList = () => {
   const [towns, setTowns] = useState([]);
@@ -14,7 +15,7 @@ const AvailableTownsList = () => {
 
     setIsLoading(true);
     try {
-      const url = `/api/town/gettowns?page=${requestedPage}`;
+      const url = `${SERVER}/api/town/gettowns?page=${requestedPage}`;
       const response = await fetch(url);
       if (!response.ok) {
         console.error('Network response was not ok');

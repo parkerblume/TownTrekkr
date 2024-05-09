@@ -2,6 +2,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Tooltip from '@mui/material/Tooltip';
 import { colors } from '../styles/commonStyles';
+import { SERVER } from '../config/config';
 
 const TownsList = () => {
   const [towns, setTowns] = useState([]);
@@ -32,7 +33,7 @@ const TownsList = () => {
         setIsLoading(false);
         return;
       }
-      const response = await fetch(`/api/town/gettowns?userId=${storedUser.id}`);
+      const response = await fetch(`${SERVER}/api/town/gettowns?userId=${storedUser.id}`);
       if (!response.ok) {
         console.error('Network response was not ok');
         setIsLoading(false);
@@ -63,7 +64,7 @@ const TownsList = () => {
       return;
     }
 
-    const response = await fetch(`/api/town/gettown`, {
+    const response = await fetch(`${SERVER}/api/town/gettown`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ townId }),
@@ -83,7 +84,7 @@ const TownsList = () => {
     }
 
     if (window.confirm('Are you sure you want to delete this town?')) {
-      const deleteResponse = await fetch(`/api/town/deletetown`, {
+      const deleteResponse = await fetch(`${SERVER}/api/town/deletetown`, {
         method: 'DELETE',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ town_id: townId }),

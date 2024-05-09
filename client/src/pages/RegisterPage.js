@@ -70,7 +70,7 @@ function RegisterForm() {
 		if (hasError) return;
 
 		try {
-			const response = await fetch('/api/user/signup', {
+			const response = await fetch(`${SERVER}/api/user/signup`, {
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/json',
@@ -94,7 +94,7 @@ function RegisterForm() {
 			}
 			console.log(localStorage.getItem('user'));
 
-			const response2 = await fetch('/api/user/sendemail', {
+			const response2 = await fetch(`${SERVER}/api/user/sendemail`, {
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/json',

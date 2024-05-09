@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { SERVER } from '../config/config';
 
 const EmailVerificationPopup = ({ user, onClose }) => {
   const [code, setCode] = useState('');
@@ -28,7 +29,7 @@ const EmailVerificationPopup = ({ user, onClose }) => {
     }
 
     try {
-      const response = await fetch('/api/user/verify', {
+      const response = await fetch(`${SERVER}/api/user/verify`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -58,7 +59,7 @@ const EmailVerificationPopup = ({ user, onClose }) => {
 
   const handleResendCode = async () => {
     try {
-      const response = await fetch('/api/user/sendemail', {
+      const response = await fetch(`${SERVER}/api/user/sendemail`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

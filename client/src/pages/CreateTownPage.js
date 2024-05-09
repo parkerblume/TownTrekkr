@@ -50,7 +50,7 @@ const CreateTownPage = () => {
 		};
 
 		try {
-			const response = await fetch('api/town/createtown', {
+			const response = await fetch(`${SERVER}/api/town/createtown`, {
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/json',

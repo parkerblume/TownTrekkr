@@ -45,7 +45,7 @@ function LoginForm() {
 		if (hasError) return;
 
 		try {
-			const response = await fetch('/api/user/login', {
+			const response = await fetch(`${SERVER}/api/user/login`, {
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/json',
@@ -88,7 +88,7 @@ function LoginForm() {
         }
 
         try {
-            const response = await fetch('/api/user/forgetpassword', {
+            const response = await fetch(`${SERVER}/api/user/forgetpassword`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
