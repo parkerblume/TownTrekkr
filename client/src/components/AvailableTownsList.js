@@ -56,7 +56,7 @@ const AvailableTownsList = () => {
     }
 
     try {
-      const response = await fetch(`/api/town/adduser`, {
+      const response = await fetch(`${SERVER}/api/town/adduser`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

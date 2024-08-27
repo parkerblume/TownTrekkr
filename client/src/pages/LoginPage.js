@@ -74,6 +74,39 @@ function LoginForm() {
         }
     };
 
+    const guestLogin = async (event) => {
+
+		try {
+			const email = 'guest@guest'
+			const password = 'guest'
+			const response = await fetch(`${SERVER}/api/user/login`, {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json',
+				},
+				body: JSON.stringify({ email, password }),
+			});
+
+			if (!response.ok) {
+				console.error('Login failed');
+				return;
+			}
+
+			const data = await response.json();
+			if (data && data.id) {
+				localStorage.setItem('user', JSON.stringify({
+					id: data.id,
+					name: data.username,
+					email: data.email,
+					verified: data.verified,
+				}));
+			navigate('/HomePage');
+            }
+        } catch (error) {
+            console.log('error')
+        }
+    };
+
     const handleOpen = () => {
         setOpenDialog(true);
     };
@@ -118,6 +151,7 @@ function LoginForm() {
 
 	return (
 		<ThemeProvider theme={theme}>
+            
 			<form className="ml-6 w-5/6 mb-60 p-10 bg-stone-600 shadow-2xl rounded-2xl" onSubmit={handleSubmit}>
 				<div className="mb-6">
 					<label htmlFor="email" className="mb-2 block font-medium text-white text-xl">Email address</label>
@@ -139,6 +173,12 @@ function LoginForm() {
 				<button type="submit"
 				        className="w-full rounded-lg bg-blue-700 px-4 text-center text-xl font-bold text-white py-2 hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 sm:w-auto dark:hover:bg-blue-700 dark:focus:ring-blue-800">Submit
 				</button>
+
+                <button className="w-full rounded-lg bg-blue-700 px-4 text-center text-xl font-bold text-white py-2 hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 sm:w-auto dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+					style={{position: 'absolute', top: '0%', left: '32.5%'}}
+					onClick={()=>guestLogin()}>
+                    Continue as guest</button>
+                
 					<button type="button" onClick={handleOpen}
 							style={{
 								background: 'none',
@@ -155,9 +195,12 @@ function LoginForm() {
 						Forgot Password?
 					</button>
 				</div>
+                
 
 
 			</form>
+
+            
             <Dialog open={openDialog} onClose={handleClose} BackdropProps={{ style: { backgroundColor: 'transparent', boxShadow: 'none' } }}>
                 <DialogTitle>Reset Password</DialogTitle>
                 <DialogContent>

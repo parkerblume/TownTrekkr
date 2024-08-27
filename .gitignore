@@ -9,6 +9,7 @@ build/Release
 # dependencies
 /client/.pnp
 .pnp.js
+yarn.lock*
 
 # testing
 /coverage

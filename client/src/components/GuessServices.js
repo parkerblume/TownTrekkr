@@ -27,7 +27,7 @@ export const fetchImageByTown = async (townId) => {
 			const randomIndex = Math.floor(Math.random() * posts.length);
 			const randomPost = posts[randomIndex];
 
-			const imageResponse = await fetch(`${SERVER}api/posts/getimage`, {
+			const imageResponse = await fetch(`${SERVER}/api/posts/getimage`, {
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/json',

@@ -122,7 +122,7 @@ townSchema.statics.deleteTown = async function(town_id)
 
     for (let i = 0; i < numMembers; i++)
     {
-        town = await this.removeUser(town_id, town.townMembers[i].userId);
+        //town = await this.removeUser(town_id, town.townMembers[i].userId);
     }
 
     try
